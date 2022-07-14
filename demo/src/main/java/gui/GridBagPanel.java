@@ -15,8 +15,8 @@ import javax.swing.table.DefaultTableModel;
 
 public class GridBagPanel extends JPanel {
 
-    protected JTabbedPane tabbedPane;
-    protected JPanel panel;
+    public JTabbedPane tabbedPane;
+    public JPanel panel;
 
     public GridBagPanel() {
         panel = this;
@@ -29,9 +29,10 @@ public class GridBagPanel extends JPanel {
         this.tabbedPane = tabbedPane;
         panel = this;
         panel.setLayout(new GridBagLayout());
+        setBackground(Color.WHITE);
     }
 
-    protected void addGBLComponent(JComponent component, int x, int y) {
+    public void addGBLComponent(JComponent component, int x, int y) {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = x;
         gbc.gridy = y;
@@ -39,7 +40,7 @@ public class GridBagPanel extends JPanel {
         return;
     }
 
-    protected void addGBLComponent(JComponent component, int x, int y, int width, int height) {
+    public void addGBLComponent(JComponent component, int x, int y, int width, int height) {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = x;
         gbc.gridy = y;
@@ -49,7 +50,7 @@ public class GridBagPanel extends JPanel {
         return;
     }
 
-    protected void addGBLComponent(JComponent component, int x, int y, double weightx, double weighty) {
+    public void addGBLComponent(JComponent component, int x, int y, double weightx, double weighty) {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = x;
         gbc.gridy = y;
@@ -59,7 +60,7 @@ public class GridBagPanel extends JPanel {
         return;
     }
 
-    protected void addGBLComponent(JComponent component, int x, int y, double weightx, double weighty, String option) {
+    public void addGBLComponent(JComponent component, int x, int y, double weightx, double weighty, String option) {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = x;
         gbc.gridy = y;
@@ -88,7 +89,7 @@ public class GridBagPanel extends JPanel {
         return;
     }
 
-    protected void addGBLComponent(JComponent component, int x, int y, double weightx, double weighty, String option,
+    public void addGBLComponent(JComponent component, int x, int y, double weightx, double weighty, String option,
             int anchor) {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = x;
@@ -120,7 +121,7 @@ public class GridBagPanel extends JPanel {
         return;
     }
 
-    protected void addGBLComponent(JComponent component, int x, int y, int width, int height, double weightx,
+    public void addGBLComponent(JComponent component, int x, int y, int width, int height, double weightx,
             double weighty) {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = x;
@@ -133,7 +134,7 @@ public class GridBagPanel extends JPanel {
         return;
     }
 
-    protected void addGBLComponent(JComponent component, int x, int y, int width, int height, String option) {
+    public void addGBLComponent(JComponent component, int x, int y, int width, int height, String option) {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = x;
         gbc.gridy = y;
@@ -162,7 +163,7 @@ public class GridBagPanel extends JPanel {
         return;
     }
 
-    protected void addGBLComponent(JComponent component, int x, int y, int width, int height, double weightx,
+    public void addGBLComponent(JComponent component, int x, int y, int width, int height, double weightx,
             double weighty, String option) {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = x;
@@ -194,7 +195,7 @@ public class GridBagPanel extends JPanel {
         return;
     }
 
-    protected void addGBLComponent(JComponent component, int x, int y, int width, int height, double weightx,
+    public void addGBLComponent(JComponent component, int x, int y, int width, int height, double weightx,
             double weighty, String option, int anchor) {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = x;
@@ -237,7 +238,7 @@ public class GridBagPanel extends JPanel {
         }
     }
 
-    protected JLabel makeHeader(String text){
+    public JLabel makeHeader(String text){
         JLabel label = new JLabel(" "+text+" ");
         label.setBorder(BorderFactory.createLineBorder(Color.gray));
         // label.setPreferredSize(new Dimension(100,30));
@@ -245,7 +246,7 @@ public class GridBagPanel extends JPanel {
         return label;
     }
 
-    protected JLabel makeContent(String text){
+    public JLabel makeContent(String text){
         JLabel label = new JLabel(" "+text+" ");
         label.setBorder(BorderFactory.createLineBorder(Color.gray));
         label.setPreferredSize(new Dimension(300,30));
@@ -255,7 +256,7 @@ public class GridBagPanel extends JPanel {
         return label;
     }
     
-    protected JTable makeContentTable(){
+    public JTable makeContentTable(){
         JTable table = new JTable(new DefaultTableModel(new String[]{""},0));
         table.setTableHeader(null);
         table.setOpaque(true);

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.Insets;
+import java.awt.Image;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -79,12 +80,25 @@ public class MainFrame extends JFrame{
 
         tPane.setUI(ui);
 
-        tPane.addTab("Composition of Attack Scenario", new AttackScenario());
+        tPane.addTab("Attack Scenario", new AttackScenario(tPane));
+        // JLabel scLabel = new JLabel("Attack Scenario");
+        // try {
+        //     Image image = ImageIO.read(new File(this.getClass().getResource("").getPath(),"../../../img/scenario.png"));
+        //     image.getScaledInstance(20, 20, Image.SCALE_DEFAULT);
+        //     ImageIcon icon = new ImageIcon(image);
+            
+        //     scLabel.setIcon(icon);
+            
+        // } catch (IOException e) {
+        //     System.out.println("error");
+        //     //TODO: handle exception
+        // }
+        // tPane.setTabComponentAt(0, scLabel);
         
-        tPane.addTab("Elicitation of Security Requirements", new GridBagPanel());
+        tPane.addTab("Security Requirements", new GridBagPanel());
         tPane.addTab("Collection of Evidence", new GridBagPanel());
-        tPane.addTab("Assessment of Security Risks", new GridBagPanel());
-        tPane.addTab("Analysis of Security Risk", new GridBagPanel());
+        tPane.addTab("Risks Assessment", new GridBagPanel());
+        tPane.addTab("Risk Analysis", new GridBagPanel());
         tPane.validate();
         
         add(tPane);

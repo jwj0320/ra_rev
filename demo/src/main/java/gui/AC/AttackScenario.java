@@ -1,7 +1,10 @@
 package gui.AC;
 
 import java.awt.Dimension;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -17,8 +20,10 @@ public class AttackScenario extends GridBagPanel{
     private SelectArea selectArea;
     private ScenarioArea scenarioArea;
     private TargetArea targetArea;
+    private GridBagPanel self = this;
     
-    public AttackScenario(){
+    public AttackScenario(JTabbedPane tPane){
+        super(tPane);
         init();
 
         
@@ -35,6 +40,15 @@ public class AttackScenario extends GridBagPanel{
         addGBLComponent(selectArea, 1, 0);
         addGBLComponent(scenarioArea, 0, 1);
         addGBLComponent(targetArea, 1, 1);
+        
+        JButton button = new JButton("temp");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Progress progress = new Progress(self);
+            }
+        });
+        addGBLComponent(button, 1, 2);
     }
 }
 
