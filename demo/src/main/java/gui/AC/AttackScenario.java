@@ -3,7 +3,11 @@ package gui.AC;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.Color;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -12,14 +16,13 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
 
 import gui.GridBagPanel;
 
 public class AttackScenario extends GridBagPanel{
-    private InputArea inputArea;
-    private SelectArea selectArea;
-    private ScenarioArea scenarioArea;
-    private TargetArea targetArea;
+    private JLabel label;
+    private DetailArea DetailArea;
     private GridBagPanel self = this;
     
     public AttackScenario(JTabbedPane tPane){
@@ -31,90 +34,50 @@ public class AttackScenario extends GridBagPanel{
     }
 
     private void init(){
-        inputArea = new InputArea();
-        selectArea = new SelectArea();
-        scenarioArea = new ScenarioArea();
-        targetArea = new TargetArea();
+        label=new JLabel("Composition of Attack Scenario.");
+        addGBLComponent(label, 0, 0);
 
-        addGBLComponent(inputArea, 0, 0);
-        addGBLComponent(selectArea, 1, 0);
-        addGBLComponent(scenarioArea, 0, 1);
-        addGBLComponent(targetArea, 1, 1);
+        DetailArea = new DetailArea();
+
+        addGBLComponent(DetailArea, 0, 1,2,1);
         
-        JButton button = new JButton("temp");
+        JButton button = new JButton("next");
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Progress progress = new Progress(self);
             }
         });
-        addGBLComponent(button, 1, 2);
+        JLabel blankLabel1 = new JLabel();
+        blankLabel1.setPreferredSize(new Dimension(10,10));
+        addGBLComponent(blankLabel1, 0, 2);
+        addGBLComponent(button, 1, 3,0,0,"NONE",GridBagConstraints.LINE_END);
     }
 }
 
-class InputArea extends GridBagPanel{
-    public InputArea(){
-        JLabel label = new JLabel("Input");
-        addGBLComponent(label, 0, 0);
+class DetailArea extends GridBagPanel{
+    private JTable table;
+    private JScrollPane tableScPane;
+    private JButton button=new JButton("Make attack scenario");
 
-        JLabel[] headers = {
-            new JLabel("The attack has purpose such as",SwingConstants.LEFT),
-            new JLabel("This attack has tactics such as",SwingConstants.LEFT),
-            new JLabel("The attacker uses techniques such as",SwingConstants.LEFT),
-            new JLabel("The attacker uses software such as",SwingConstants.LEFT),
-            new JLabel("This attack targets organizations such as",SwingConstants.LEFT)
-        };
-        for (int i=0;i<headers.length;i++){
-            addGBLComponent(headers[i], 0, i+1);
-        }
-
-        JLabel[] contents = {
-            new JLabel("           ",SwingConstants.RIGHT),
-            new JLabel("           ",SwingConstants.RIGHT),
-            new JLabel("           ",SwingConstants.RIGHT),
-            new JLabel("           ",SwingConstants.RIGHT),
-            new JLabel("           ",SwingConstants.RIGHT)  
-        };
-        for (int i=0;i<headers.length;i++){
-            addGBLComponent(headers[i], 1, i+1);
-        }
-    }
-
-}
-
-class SelectArea extends GridBagPanel{
-    public SelectArea(){
-        JLabel label = new JLabel("SelectArea");
-        add(label);
-    }
-}
-
-class ScenarioArea extends GridBagPanel{
-    public ScenarioArea(){
-        JLabel label = new JLabel("Attack Scenario");
-        addGBLComponent(label, 0, 0);
-
-        JTextArea textArea = new JTextArea();
-        textArea.setPreferredSize(new Dimension(300,200));
-        textArea.setEditable(false);
+    public DetailArea(){
+        table = new JTable(new DefaultTableModel(new String[]{"Stage","Tactic","Technique"},0));
+        table.getColumnModel().getColumn(0).setPreferredWidth(50);
+        table.getColumnModel().getColumn(1).setPreferredWidth(300);
+        table.getColumnModel().getColumn(2).setPreferredWidth(700);
         
-        JScrollPane textAreaSc = new JScrollPane(textArea);
-        textAreaSc.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        addGBLComponent(textAreaSc, 0, 1);
-    }
-    
-}
+        tableScPane = new JScrollPane(table);
+        tableScPane.setPreferredSize(new Dimension(1100,500));
+        addGBLComponent(tableScPane, 0, 0);
+        JLabel blankLabel1 = new JLabel();
+        blankLabel1.setPreferredSize(new Dimension(10,10));
+        addGBLComponent(blankLabel1, 0, 1);
+        addGBLComponent(button, 0, 2,0,0,"BOTH",GridBagConstraints.LINE_END);
 
-class TargetArea extends GridBagPanel{
-    public TargetArea(){
-        JLabel label = new JLabel("Target");
-        addGBLComponent(label, 0, 0);
 
-        JTextArea textArea = new JTextArea();
-        textArea.setPreferredSize(new Dimension(300,200));
-        textArea.setEditable(false);
+        setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.decode("#005BAC")),"Attack Scenario"));
         
-        JScrollPane textAreaSc = new JScrollPane(textArea);
-        addGBLComponent(textAreaSc, 0, 1);
+        
     }
+
 }
