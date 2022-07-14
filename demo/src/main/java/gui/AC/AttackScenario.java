@@ -67,7 +67,7 @@ class DetailArea extends GridBagPanel{
         table.getColumnModel().getColumn(2).setPreferredWidth(700);
         
         tableScPane = new JScrollPane(table);
-        tableScPane.setPreferredSize(new Dimension(1100,500));
+        tableScPane.setPreferredSize(new Dimension(1050,500));
         addGBLComponent(tableScPane, 0, 0);
         JLabel blankLabel1 = new JLabel();
         blankLabel1.setPreferredSize(new Dimension(10,10));
