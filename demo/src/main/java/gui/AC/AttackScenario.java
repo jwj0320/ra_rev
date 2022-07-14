@@ -74,6 +74,13 @@ class DetailArea extends GridBagPanel{
         addGBLComponent(blankLabel1, 0, 1);
         addGBLComponent(button, 0, 2,0,0,"BOTH",GridBagConstraints.LINE_END);
 
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MakeScenario makeScenario = new MakeScenario();
+            }
+        });
+
 
         setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.decode("#005BAC")),"Attack Scenario"));
         
