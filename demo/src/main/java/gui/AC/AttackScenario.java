@@ -41,7 +41,7 @@ public class AttackScenario extends GridBagPanel{
 
         addGBLComponent(DetailArea, 0, 1,2,1);
         
-        JButton button = new JButton("next");
+        JButton button = new JButton("Next");
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

@@ -22,19 +22,19 @@ import ru.avicomp.ontapi.OntologyModel;
 public class OntologyFunc {
     OWLOntologyManager manager = OntManagers.createONT();
 	OWLDataFactory factory = manager.getOWLDataFactory();
-	File file = new File(this.getClass().getResource("").getPath(),"../../../../../data/CB_PDO_V7 (1).owl");
-	File file2 = new File(this.getClass().getResource("").getPath(),"../../../../../data/CB_PDO_V7.owl");
+	File file = new File(this.getClass().getResource("").getPath(),"../../../owl/CB_PDO_V7 (1).owl");
+	File file2 = new File(this.getClass().getResource("").getPath(),"../../../owl/CB_PDO_V7.owl");
 	
 	OWLOntology ontology;
 	OntologyModel o;
 
     public OntologyFunc(){
-        System.out.println("Load Ontology: " + LoadOntology2());
+        System.out.println("Load Ontology: " + LoadOntology());
     }
 
     public boolean LoadOntology() {
 		try {
-			ontology = manager.loadOntologyFromOntologyDocument(file);
+			ontology = manager.loadOntologyFromOntologyDocument(file2); // file
 			o = (OntologyModel)ontology;
 			return true;	
 		}

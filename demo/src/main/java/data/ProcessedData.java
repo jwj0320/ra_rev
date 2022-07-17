@@ -2,13 +2,15 @@ package data;
 
 import java.util.ArrayList;
 
+import api.OntologyFunc;
+
 // import gui.tabbedContent.api.OntologyFunc;
 
 public class ProcessedData {
     public static ArrayList<Technique> techniqueList=new ArrayList<Technique>();
     public static ArrayList<Software> softwareList=new ArrayList<Software>();
     public static ArrayList<Threat> threatList = new ArrayList<Threat>();
-    // private static OntologyFunc ontologyFunc = new OntologyFunc();
+    public static OntologyFunc ontologyFunc = new OntologyFunc();
 
     public static boolean containsTechnique(String name){
         for (Technique t:techniqueList){

@@ -22,7 +22,9 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
+import api.OntologyFunc;
 import data.Group;
+import data.ProcessedData;
 import data.Software;
 import data.TabbedPaneInfo;
 import data.Technique;
@@ -31,8 +33,9 @@ import gui.AC.AttackScenario;
 
 
 public class MainFrame extends JFrame{
-
+    OntologyFunc ontologyFunc = ProcessedData.ontologyFunc;
     Container contentPane;
+
     public MainFrame(){
         super("Threat-driven Risk Assessment");
         File imageFile = new File(this.getClass().getResource("").getPath(),"../../../icon.png");
@@ -97,7 +100,7 @@ public class MainFrame extends JFrame{
         
         tPane.addTab("Security Requirements", new GridBagPanel());
         tPane.addTab("Collection of Evidence", new GridBagPanel());
-        tPane.addTab("Risks Assessment", new GridBagPanel());
+        tPane.addTab("Risk Assessment", new GridBagPanel());
         tPane.addTab("Risk Analysis", new GridBagPanel());
         tPane.validate();
         
