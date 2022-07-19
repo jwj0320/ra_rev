@@ -49,8 +49,7 @@ public class MakeScenario extends JDialog {
         setResizable(false);
         setLocationRelativeTo(null);
         
-        JComponent nextPane=new Org();
-        changePane(nextPane, (Class<JComponent>)nextPane.getClass());
+        changePane(new Org(), new Org());
         add(dialogPane);
 
         dialogPane.addGBLComponent(nextButton,1,1, 1, 1,0,2,"NONE",GridBagConstraints.LINE_END);
@@ -58,36 +57,25 @@ public class MakeScenario extends JDialog {
         setVisible(true);
     }
 
-    private void changePane(JComponent cur,Class<JComponent> nextClass) {
+    private void changePane(JComponent cur,JComponent next) {
         // if(dialogPane.getComponents().length!=0)
         //     dialogPane.remove(0);
         if(dialogPane.getComponents().length!=0)
             dialogPane.remove(cur);
         System.out.println(cur.toString());
-        try {
-            dialogPane.addGBLComponent(nextClass.getDeclaredConstructor().newInstance(),0,0,2,1,0,8);
-            dialogPane.revalidate();
-            dialogPane.repaint();
-            
-        } catch (Exception e) {
-            //TODO: handle exception
-        }
+        dialogPane.addGBLComponent(next,0,0,2,1,0,8);
+        dialogPane.revalidate();
+        dialogPane.repaint();
     }
 
-    private void changeButtonListener(JComponent cur,Class<JComponent> nextClass){
+    private void changeButtonListener(JComponent cur,JComponent next){
         for (ActionListener al:nextButton.getActionListeners()){
             nextButton.removeActionListener(al);
         }
         nextButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    changePane(cur,nextClass);
-                    
-                } catch (Exception exc) {
-                    //TODO: handle exception
-                }
-                
+                changePane(cur,next);
             }
         });
     }
@@ -150,12 +138,13 @@ public class MakeScenario extends JDialog {
             addGBLComponent(itsTableScPane, 3, 2);
             addGBLComponent(peTableScPane, 4, 2);
 
-            changeButtonListener(this, (Class<JComponent>)((JComponent)new Tactic()).getClass());
+            changeButtonListener(this, new Tactic());
         }
 
     }
 
     private class Tactic extends GridBagPanel {
+
         public Tactic() {
             
             setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.decode("#005BAC")),"Tactics"));
@@ -207,8 +196,7 @@ public class MakeScenario extends JDialog {
             addGBLComponent(button3, 3, 3,1,1,"BOTH");
             addGBLComponent(button4, 4, 3,1,1,"BOTH");
 
-            changeButtonListener(this, (Class<JComponent>)((JComponent)new Tech()).getClass());
-            
+            changeButtonListener(this, new Tech());
         }
     }
 
