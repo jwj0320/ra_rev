@@ -49,7 +49,8 @@ public class MakeScenario extends JDialog {
         setResizable(false);
         setLocationRelativeTo(null);
         
-        changePane(new Org());
+        JComponent nextPane=new Org();
+        changePane(nextPane, (Class<JComponent>)nextPane.getClass());
         add(dialogPane);
 
         dialogPane.addGBLComponent(nextButton,1,1, 1, 1,0,2,"NONE",GridBagConstraints.LINE_END);
@@ -57,22 +58,36 @@ public class MakeScenario extends JDialog {
         setVisible(true);
     }
 
-    private void changePane(JComponent comp) {
+    private void changePane(JComponent cur,Class<JComponent> nextClass) {
+        // if(dialogPane.getComponents().length!=0)
+        //     dialogPane.remove(0);
         if(dialogPane.getComponents().length!=0)
-            dialogPane.remove(0);
-        dialogPane.addGBLComponent(comp,0,0,2,1,0,8);
-        dialogPane.revalidate();
-        dialogPane.repaint();
+            dialogPane.remove(cur);
+        System.out.println(cur.toString());
+        try {
+            dialogPane.addGBLComponent(nextClass.getDeclaredConstructor().newInstance(),0,0,2,1,0,8);
+            dialogPane.revalidate();
+            dialogPane.repaint();
+            
+        } catch (Exception e) {
+            //TODO: handle exception
+        }
     }
 
-    private void changeButtonListener(JComponent comp){
+    private void changeButtonListener(JComponent cur,Class<JComponent> nextClass){
         for (ActionListener al:nextButton.getActionListeners()){
             nextButton.removeActionListener(al);
         }
         nextButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                changePane(comp);
+                try {
+                    changePane(cur,nextClass);
+                    
+                } catch (Exception exc) {
+                    //TODO: handle exception
+                }
+                
             }
         });
     }
@@ -135,31 +150,69 @@ public class MakeScenario extends JDialog {
             addGBLComponent(itsTableScPane, 3, 2);
             addGBLComponent(peTableScPane, 4, 2);
 
-            changeButtonListener(new Tactic());
+            changeButtonListener(this, (Class<JComponent>)((JComponent)new Tactic()).getClass());
         }
 
     }
 
     private class Tactic extends GridBagPanel {
-        private JButton button = new JButton("Next");
-
         public Tactic() {
-            JLabel label = new JLabel(this.getClass().getName());
-            addGBLComponent(label, 0, 0);
-            addGBLComponent(button, 0, 1);
-            button.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    changePane(new Tech());
-                }
-            });
+            
+            setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.decode("#005BAC")),"Tactics"));
 
+            GridBagPanel labelPanel = new GridBagPanel();
+            
+            JLabel infoLabel = new JLabel();
+            infoLabel.setText("Select tatics.");
+
+            JLabel blankLabel = new JLabel();
+            blankLabel.setPreferredSize(new Dimension(10,10));
+
+            labelPanel.addGBLComponent(infoLabel, 0, 0);
+            labelPanel.addGBLComponent(blankLabel, 0, 1);
+            
+            addGBLComponent(labelPanel, 0, 0,5,1,0,0,"NONE",GridBagConstraints.LINE_START);
+            
+        
+
+            JTable bpTable=new JTable(new DefaultTableModel(new String[]{"Stage 1"},0));
+            JScrollPane bpTableScPane= new JScrollPane(bpTable);
+            bpTableScPane.setPreferredSize(new Dimension(190,300));
+
+            JTable humanTable=new JTable(new DefaultTableModel(new String[]{"Stage 2"},0));
+            JScrollPane humanTableScPane= new JScrollPane(humanTable);
+            humanTableScPane.setPreferredSize(new Dimension(190,300));
+
+            JTable itsTable=new JTable(new DefaultTableModel(new String[]{"Stage 3"},0));
+            JScrollPane itsTableScPane= new JScrollPane(itsTable);
+            itsTableScPane.setPreferredSize(new Dimension(190,300));
+
+            JTable peTable=new JTable(new DefaultTableModel(new String[]{"Stage 4"},0));
+            JScrollPane peTableScPane= new JScrollPane(peTable);
+            peTableScPane.setPreferredSize(new Dimension(190,300));
+
+            
+            addGBLComponent(bpTableScPane, 0, 2,2,1);
+            addGBLComponent(humanTableScPane, 2, 2);
+            addGBLComponent(itsTableScPane, 3, 2);
+            addGBLComponent(peTableScPane, 4, 2);
+
+            JButton button1=new JButton("Add");
+            JButton button2=new JButton("Add");
+            JButton button3=new JButton("Add");
+            JButton button4=new JButton("Add");
+
+            addGBLComponent(button1, 0, 3,2,1,"BOTH");
+            addGBLComponent(button2, 2, 3,1,1,"BOTH");
+            addGBLComponent(button3, 3, 3,1,1,"BOTH");
+            addGBLComponent(button4, 4, 3,1,1,"BOTH");
+
+            changeButtonListener(this, (Class<JComponent>)((JComponent)new Tech()).getClass());
+            
         }
     }
 
     private class Tech extends GridBagPanel {
-        private JButton button = new JButton("Next");
-        private OntologyFunc ontologyFunc = ProcessedData.ontologyFunc;
 
         public Tech() {
             // JLabel label = new JLabel(this.getClass().getName());
