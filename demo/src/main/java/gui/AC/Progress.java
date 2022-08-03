@@ -2,6 +2,8 @@ package gui.AC;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Vector;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.Color;
@@ -17,7 +19,10 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingWorker;
+import javax.swing.table.DefaultTableModel;
 
+import data.ProcessedData;
+import data.Threat;
 import gui.GridBagPanel;
 
 public class Progress extends JDialog{
@@ -28,7 +33,7 @@ public class Progress extends JDialog{
     private JButton cancelButton = new JButton("Cancel");
     private JDialog self = this;
 
-    public Progress(GridBagPanel upper){
+    public Progress(AttackScenario upper){
         setTitle("In progress...");
         File imageFile = new File(this.getClass().getResource("").getPath(),"../../../../icon.png");
         try {
@@ -81,6 +86,26 @@ public class Progress extends JDialog{
         confirmButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                ArrayList<Threat> threatList=new ArrayList<Threat>();
+                ProcessedData.setThreatList(threatList);
+                Vector vector = ((DefaultTableModel)(upper.getDetailArea().getTable().getModel())).getDataVector();
+                Threat threat;
+                Object[] rowData;
+                int index=1;
+                for (Object row:vector){
+                    rowData=(Object[])(((Vector)row).toArray());
+                    threat = new Threat(index++);
+                    threat.setStep(Integer.parseInt((String)rowData[0]));
+                    threat.setTactic((String)rowData[1]);
+                    threat.setTechnique((String)rowData[2]);
+                    threat.setMitigationList(new ArrayList<String>());
+                    threat.setMitigationList(ProcessedData.ontologyFunc.LoadMitigationFromTech(threat.getTechnique()));
+                    
+                    threatList.add(threat);
+                }
+
+
+
                 upper.tabbedPane.setSelectedIndex(upper.tabbedPane.getSelectedIndex()+1);
                 self.dispose();
             }

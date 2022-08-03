@@ -3,17 +3,79 @@ package data;
 import java.util.ArrayList;
 
 public class Threat {
-    private static int number=1;
     private String name;
-    private ArrayList<String> tacticList;
-    private Technique technique;
-    private ArrayList<Software> softwareList = new ArrayList<Software>(); 
-    private Vulnerability vulnerability = new Vulnerability();
-    private Asset asset = new Asset();
-    private ArrayList<String> mitigationList = new ArrayList<String>();
+    private String tactic;
+    private String technique;
+    private int step;
     
-    public Threat(){
-        this.name = "Threat"+String.format("%02d",number++);
+    private ArrayList<Asset> assetList=new ArrayList<Asset>();
+    private SecReq secReq = new SecReq();
+    
+    private ArrayList<String> mitigationList = new ArrayList<String>();
+    private ArrayList<String> CAPEC;
+    private ArrayList<String> CWE;
+    private ArrayList<String> CVE;
+    
+    
+    public ArrayList<Asset> getAssetList() {
+        return assetList;
+    }
+
+
+    public void setAssetList(ArrayList<Asset> assetList) {
+        this.assetList = assetList;
+    }
+    
+    public SecReq getSecReq() {
+        return secReq;
+    }
+
+
+    public void setSecReq(SecReq secReq) {
+        this.secReq = secReq;
+    }
+
+    public int getStep() {
+        return step;
+    }
+
+
+    public void setStep(int step) {
+        this.step = step;
+    }
+    public ArrayList<String> getCAPEC() {
+        return CAPEC;
+    }
+
+
+    public void setCAPEC(ArrayList<String> cAPEC) {
+        CAPEC = cAPEC;
+    }
+
+
+    public ArrayList<String> getCVE() {
+        return CVE;
+    }
+
+
+    public void setCVE(ArrayList<String> cVE) {
+        CVE = cVE;
+    }
+
+
+    public ArrayList<String> getCWE() {
+        return CWE;
+    }
+
+
+    public void setCWE(ArrayList<String> cWE) {
+        CWE = cWE;
+    }
+
+
+    
+    public Threat(int index){
+        this.name = "Th"+String.format("%04d",index);
     }
 
     
@@ -28,52 +90,23 @@ public class Threat {
 
 
 
-    public ArrayList<String> getTacticList() {
-        return tacticList;
+    public String getTactic() {
+        return tactic;
     }
 
 
-    public void setTacticList(ArrayList<String> tacticList) {
-        this.tacticList = tacticList;
+    public void setTactic(String tactic) {
+        this.tactic = tactic;
     }
 
 
-    public Vulnerability getVulnerability() {
-        return vulnerability;
-    }
 
-
-    public void setVulnerability(Vulnerability vulnerability) {
-        this.vulnerability = vulnerability;
-    }
-
-
-    public Asset getAsset() {
-        return asset;
-    }
-
-
-    public void setAsset(Asset asset) {
-        this.asset = asset;
-    }
-
-
-    public ArrayList<Software> getSoftwareList() {
-        return softwareList;
-    }
-
-
-    public void setSoftwareList(ArrayList<Software> softwareList) {
-        this.softwareList = softwareList;
-    }
-
-
-    public Technique getTechnique() {
+    public String getTechnique() {
         return technique;
     }
 
 
-    public void setTechnique(Technique technique) {
+    public void setTechnique(String technique) {
         this.technique = technique;
     }
 

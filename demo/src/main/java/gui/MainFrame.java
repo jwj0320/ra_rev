@@ -23,12 +23,12 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
 import api.OntologyFunc;
-import data.Group;
 import data.ProcessedData;
-import data.Software;
-import data.TabbedPaneInfo;
-import data.Technique;
 import gui.AC.AttackScenario;
+import gui.CE.CollectionOfEvidence;
+import gui.ER.Evaluation;
+import gui.SR.SecurityRequirement;
+import gui.TA.ThreatAffectedAsset;
 
 
 
@@ -84,6 +84,7 @@ public class MainFrame extends JFrame{
         tPane.setUI(ui);
 
         tPane.addTab("Attack Scenario", new AttackScenario(tPane));
+
         // JLabel scLabel = new JLabel("Attack Scenario");
         // try {
         //     Image image = ImageIO.read(new File(this.getClass().getResource("").getPath(),"../../../img/scenario.png"));
@@ -98,9 +99,10 @@ public class MainFrame extends JFrame{
         // }
         // tPane.setTabComponentAt(0, scLabel);
         
-        tPane.addTab("Security Requirements", new GridBagPanel());
-        tPane.addTab("Collection of Evidence", new GridBagPanel());
-        tPane.addTab("Risk Assessment", new GridBagPanel());
+        tPane.addTab("Security Requirements", new SecurityRequirement(tPane));
+        tPane.addTab("Threat-affected Assets", new ThreatAffectedAsset(tPane));
+        tPane.addTab("Collection of Evidence", new CollectionOfEvidence(tPane));
+        tPane.addTab("Risk Assessment", new Evaluation(tPane));
         tPane.addTab("Risk Analysis", new GridBagPanel());
         tPane.validate();
         

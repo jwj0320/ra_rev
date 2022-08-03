@@ -7,27 +7,25 @@ import api.OntologyFunc;
 // import gui.tabbedContent.api.OntologyFunc;
 
 public class ProcessedData {
-    public static ArrayList<Technique> techniqueList=new ArrayList<Technique>();
-    public static ArrayList<Software> softwareList=new ArrayList<Software>();
-    public static ArrayList<Threat> threatList = new ArrayList<Threat>();
+    private static ArrayList<Threat> threatList = new ArrayList<Threat>();
+    private static ArrayList<Asset> assetList = new ArrayList<Asset>();
     public static OntologyFunc ontologyFunc = new OntologyFunc();
 
-    public static boolean containsTechnique(String name){
-        for (Technique t:techniqueList){
-            if (t.getName().equals(name)){
-                return true;
-            }
-        }
-        return false;
+    public static ArrayList<Asset> getAssetList() {
+        return assetList;
     }
 
-    public static boolean containsSoftware(String name){
-        for (Software s:softwareList){
-            if (s.getName().equals(name)){
-                return true;
-            }
-        }
-        return false;
+    public static void setAssetList(ArrayList<Asset> assetList) {
+        ProcessedData.assetList = assetList;
+    }
+
+
+    public static ArrayList<Threat> getThreatList(){
+        return threatList;
+    }
+
+    public static void setThreatList(ArrayList<Threat> newList){
+        threatList=newList;
     }
 
     public static Threat getThreat(String name){
@@ -38,6 +36,29 @@ public class ProcessedData {
         }
         return null;
     }
+
+    public static Asset getAsset(String name){
+        for (Asset a: assetList){
+            if(a.getName().equals(name)){
+                return a;
+            }
+        }
+        return null;
+    }
+
+    public static ArrayList<Asset> getThreatAffectedAssets(){
+        ArrayList<Asset> threatAffectedAssets=new ArrayList<Asset>();
+        for (Threat th:threatList){
+            for(Asset as: th.getAssetList()){
+                if (as.getThreatList().size()>0 && (threatAffectedAssets.contains(as)==false)){
+                    threatAffectedAssets.add(as);
+                }
+            }
+        }
+        return threatAffectedAssets;
+    }
+
+    
 
     // public static ArrayList<String> getTactics(Technique technique){
     //     ArrayList<String> matchedList = new ArrayList<String>();

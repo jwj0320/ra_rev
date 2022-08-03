@@ -15,6 +15,8 @@ import javax.swing.table.DefaultTableModel;
 
 public class GridBagPanel extends JPanel {
 
+    public static final Color AjouBlue = Color.decode("#005BAC");
+
     public JTabbedPane tabbedPane;
     public JPanel panel;
 
@@ -240,7 +242,10 @@ public class GridBagPanel extends JPanel {
 
     public JLabel makeHeader(String text){
         JLabel label = new JLabel(" "+text+" ");
-        label.setBorder(BorderFactory.createLineBorder(Color.gray));
+        label.setOpaque(true);
+        // label.setBorder(BorderFactory.createLineBorder(Color.gray));
+        label.setForeground(Color.white);
+        label.setBackground(AjouBlue);
         // label.setPreferredSize(new Dimension(100,30));
         
         return label;
@@ -249,7 +254,7 @@ public class GridBagPanel extends JPanel {
     public JLabel makeContent(String text){
         JLabel label = new JLabel(" "+text+" ");
         label.setBorder(BorderFactory.createLineBorder(Color.gray));
-        label.setPreferredSize(new Dimension(300,30));
+        label.setPreferredSize(new Dimension(300,20));
         label.setOpaque(true);
         label.setBackground(Color.white);
         

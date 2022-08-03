@@ -34,7 +34,7 @@ public class OntologyFunc {
 
     public boolean LoadOntology() {
 		try {
-			ontology = manager.loadOntologyFromOntologyDocument(file2); // file
+			ontology = manager.loadOntologyFromOntologyDocument(file); // file
 			o = (OntologyModel)ontology;
 			return true;	
 		}
@@ -183,7 +183,7 @@ public class OntologyFunc {
 				+ "SELECT ?b_l\n"
 				+ "WHERE { \n"
 				+ "  ?o rdfs:label \""+ org +"\".\n"
-				+ "  ?o PDO:has_business_processes ?b.\n"
+				+ "  ?o PDO:have_business_processes ?b.\n"
 				+ "  ?b rdfs:label ?b_l.\n"
 				+ "}"
 				+ "ORDER BY ASC(?b_l)";
@@ -492,6 +492,33 @@ public class OntologyFunc {
 		return listvector;
 	}
     
+	public ArrayList<String[]> LoadAllTactics() {
+		ArrayList<String[]> listvector = new ArrayList<String[]>();
+		String queryString = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
+				+ "PREFIX owl: <http://www.w3.org/2002/07/owl#>\n"
+				+ "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
+				+ "PREFIX PDO: <http://www.semanticweb.org/PDO#>\n"
+				+ "PREFIX CBSAO: <http://www.semanticweb.org/CBSAO#>\n"
+				+ "SELECT ?a_l\n"
+				+ "WHERE { \n"
+				+ "  ?a rdf:type PDO:Attack_Tactics.\n ?a rdfs:label ?a_l.\n"
+				+ "}"
+                + "ORDER BY ASC(?a_l)";
+		
+		
+		Query query = QueryFactory.create(queryString);
+		QueryExecution qe = QueryExecutionFactory.create(query, o.asGraphModel());
+		ResultSet res = qe.execSelect();
+		
+		while (res.hasNext()) {
+			QuerySolution qs = res.next();
+			String s1 = qs.get("a_l").toString();
+			
+			listvector.add(new String[]{s1});
+		}	
+		
+		return listvector;
+	}
 
     public ArrayList<String[]> LoadAllTech() {
 		ArrayList<String[]> listvector = new ArrayList<String[]>();

@@ -1911,6 +1911,7 @@
         <have_business_processes rdf:resource="http://www.semanticweb.org/PDO#BP2"/>
         <have_business_processes rdf:resource="http://www.semanticweb.org/PDO#BP3"/>
         <have_business_processes rdf:resource="http://www.semanticweb.org/PDO#BP4"/>
+        <rdfs:label>Ajou_Univ.</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -1958,6 +1959,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#BP1">
         <rdf:type rdf:resource="http://www.semanticweb.org/Business_Process"/>
         <performed_by_roles rdf:resource="http://www.semanticweb.org/PDO#Role_01"/>
+        <rdfs:label>BP1</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -1967,6 +1969,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#BP2">
         <rdf:type rdf:resource="http://www.semanticweb.org/Business_Process"/>
         <performed_by_roles rdf:resource="http://www.semanticweb.org/PDO#Role_02"/>
+        <rdfs:label>BP2</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -1976,6 +1979,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#BP3">
         <rdf:type rdf:resource="http://www.semanticweb.org/Business_Process"/>
         <performed_by_roles rdf:resource="http://www.semanticweb.org/PDO#Role_03"/>
+        <rdfs:label>BP3</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -1986,6 +1990,7 @@
         <rdf:type rdf:resource="http://www.semanticweb.org/Business_Process"/>
         <performed_by_roles rdf:resource="http://www.semanticweb.org/PDO#Role_04"/>
         <work_in_platforms rdf:resource="http://www.semanticweb.org/PDO#SaaS"/>
+        <rdfs:label>BP4</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -2118,6 +2123,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#Bluetooth_Device_01">
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Communication_Equipment"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Physical_and_Environment"/>
+        <rdfs:label>Bluetooth_Device_01</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -2140,6 +2146,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#CCTV_01">
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Surveillance_Equipment"/>
         <stored_in_dedicated_area rdf:resource="http://www.semanticweb.org/PDO#Server_Room_01"/>
+        <rdfs:label>CCTV_01</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -2148,6 +2155,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#CCTV_02">
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Surveillance_Equipment"/>
+        <rdfs:label>CCTV_02</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -2156,6 +2164,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#CCTV_03">
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Surveillance_Equipment"/>
+        <rdfs:label>CCTV_03</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -4098,6 +4107,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#DT_01">
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Data"/>
         <work_in_hardware rdf:resource="http://www.semanticweb.org/PDO#HW_06"/>
+        <rdfs:label>DT_01</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -4107,6 +4117,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#DT_02">
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Data"/>
         <work_in_hardware rdf:resource="http://www.semanticweb.org/PDO#HW_07"/>
+        <rdfs:label>DT_02</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -4116,6 +4127,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#DT_03">
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Data"/>
         <work_in_hardware rdf:resource="http://www.semanticweb.org/PDO#HW_08"/>
+        <rdfs:label>DT_03</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -4629,6 +4641,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#Fingerprint_Scanner_01">
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Physical_and_Environment"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Surveillance_Equipment"/>
+        <rdfs:label>Fingerprint_Scanner_01</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -4884,6 +4897,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#HW_01">
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Hardware"/>
         <stored_in_dedicated_area rdf:resource="http://www.semanticweb.org/PDO#Server_Room_01"/>
+        <rdfs:label>HW_01</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -4893,6 +4907,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#HW_02">
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Hardware"/>
         <stored_in_dedicated_area rdf:resource="http://www.semanticweb.org/PDO#Server_Room_01"/>
+        <rdfs:label>HW_02</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -4902,6 +4917,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#HW_03">
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Hardware"/>
         <stored_in_dedicated_area rdf:resource="http://www.semanticweb.org/PDO#Server_Room_01"/>
+        <rdfs:label>HW_03</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -4911,6 +4927,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#HW_04">
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Hardware"/>
         <stored_in_dedicated_area rdf:resource="http://www.semanticweb.org/PDO#Server_Room_01"/>
+        <rdfs:label>HW_04</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -4920,6 +4937,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#HW_05">
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Hardware"/>
         <stored_in_dedicated_area rdf:resource="http://www.semanticweb.org/PDO#Server_Room_01"/>
+        <rdfs:label>HW_05</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -4929,6 +4947,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#HW_06">
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Hardware"/>
         <stored_in_dedicated_area rdf:resource="http://www.semanticweb.org/PDO#Server_Room_01"/>
+        <rdfs:label>HW_06</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -4938,6 +4957,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#HW_07">
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Hardware"/>
         <stored_in_dedicated_area rdf:resource="http://www.semanticweb.org/PDO#Server_Room_01"/>
+        <rdfs:label>HW_07</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -4947,6 +4967,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#HW_08">
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Hardware"/>
         <stored_in_dedicated_area rdf:resource="http://www.semanticweb.org/PDO#Server_Room_01"/>
+        <rdfs:label>HW_08</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -4990,6 +5011,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#IaaS">
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Platforms"/>
+        <rdfs:label>IaaS</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -5113,6 +5135,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#Laptop_01">
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Mobile_Device"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Physical_and_Environment"/>
+        <rdfs:label>Laptop_01</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -5122,6 +5145,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#Laptop_02">
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Mobile_Device"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Physical_and_Environment"/>
+        <rdfs:label>Laptop_02</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -5131,6 +5155,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#Laptop_03">
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Mobile_Device"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Physical_and_Environment"/>
+        <rdfs:label>Laptop_03</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -5140,6 +5165,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#Laptop_04">
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Mobile_Device"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Physical_and_Environment"/>
+        <rdfs:label>Laptop_04</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -5149,6 +5175,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#Laptop_05">
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Mobile_Device"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Physical_and_Environment"/>
+        <rdfs:label>Laptop_05</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -5887,6 +5914,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#Person_01">
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Employees"/>
+        <rdfs:label>Person_01</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -5895,6 +5923,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#Person_02">
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Employees"/>
+        <rdfs:label>Person_02</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -5903,6 +5932,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#Person_03">
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Employees"/>
+        <rdfs:label>Person_03</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -5911,6 +5941,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#Person_04">
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Employees"/>
+        <rdfs:label>Person_04</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -5919,6 +5950,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#Person_05">
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Employees"/>
+        <rdfs:label>Person_05</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -5927,6 +5959,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#Person_06">
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Employees"/>
+        <rdfs:label>Person_06</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -5935,6 +5968,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#Person_07">
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Employees"/>
+        <rdfs:label>Person_07</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -5943,6 +5977,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#Person_08">
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Employees"/>
+        <rdfs:label>Person_08</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -5951,6 +5986,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#Person_09">
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Employees"/>
+        <rdfs:label>Person_09</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -5959,6 +5995,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#Person_10">
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Employees"/>
+        <rdfs:label>Person_10</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -6054,6 +6091,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#Retinal_Scanner_01">
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Physical_and_Environment"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Surveillance_Equipment"/>
+        <rdfs:label>Retinal_Scanner_01</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -6078,6 +6116,7 @@
         <utilize_software rdf:resource="http://www.semanticweb.org/PDO#SW_01"/>
         <utilize_software rdf:resource="http://www.semanticweb.org/PDO#SW_02"/>
         <utilize_software rdf:resource="http://www.semanticweb.org/PDO#SW_03"/>
+        <rdfs:label>Role_01</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -6092,6 +6131,7 @@
         <utilize_software rdf:resource="http://www.semanticweb.org/PDO#SW_03"/>
         <utilize_software rdf:resource="http://www.semanticweb.org/PDO#SW_04"/>
         <utilize_software rdf:resource="http://www.semanticweb.org/PDO#SW_05"/>
+        <rdfs:label>Role_02</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -6104,6 +6144,7 @@
         <include_person rdf:resource="http://www.semanticweb.org/PDO#Person_07"/>
         <utilize_software rdf:resource="http://www.semanticweb.org/PDO#SW_04"/>
         <utilize_software rdf:resource="http://www.semanticweb.org/PDO#SW_06"/>
+        <rdfs:label>Role_03</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -6115,6 +6156,7 @@
         <include_person rdf:resource="http://www.semanticweb.org/PDO#Person_04"/>
         <include_person rdf:resource="http://www.semanticweb.org/PDO#Person_06"/>
         <include_person rdf:resource="http://www.semanticweb.org/PDO#Person_08"/>
+        <rdfs:label>Role_04</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -6125,6 +6167,7 @@
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Communication_Equipment"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Physical_and_Environment"/>
         <stored_in_dedicated_area rdf:resource="http://www.semanticweb.org/PDO#Server_Room_01"/>
+        <rdfs:label>Router_01</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -6139,6 +6182,7 @@
         <accessed_by_mobile_device rdf:resource="http://www.semanticweb.org/PDO#Tablet_01"/>
         <work_in_hardware rdf:resource="http://www.semanticweb.org/PDO#HW_01"/>
         <work_in_platforms rdf:resource="http://www.semanticweb.org/PDO#Windows"/>
+        <rdfs:label>SW_01</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -6150,6 +6194,7 @@
         <access_data rdf:resource="http://www.semanticweb.org/PDO#DT_01"/>
         <work_in_hardware rdf:resource="http://www.semanticweb.org/PDO#HW_02"/>
         <work_in_platforms rdf:resource="http://www.semanticweb.org/PDO#Windows"/>
+        <rdfs:label>SW_02</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -6161,6 +6206,7 @@
         <access_data rdf:resource="http://www.semanticweb.org/PDO#DT_01"/>
         <work_in_hardware rdf:resource="http://www.semanticweb.org/PDO#HW_03"/>
         <work_in_platforms rdf:resource="http://www.semanticweb.org/PDO#Windows"/>
+        <rdfs:label>SW_03</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -6172,6 +6218,7 @@
         <access_data rdf:resource="http://www.semanticweb.org/PDO#DT_02"/>
         <work_in_hardware rdf:resource="http://www.semanticweb.org/PDO#HW_04"/>
         <work_in_platforms rdf:resource="http://www.semanticweb.org/PDO#Linux"/>
+        <rdfs:label>SW_04</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -6183,6 +6230,7 @@
         <access_data rdf:resource="http://www.semanticweb.org/PDO#DT_02"/>
         <work_in_hardware rdf:resource="http://www.semanticweb.org/PDO#HW_05"/>
         <work_in_platforms rdf:resource="http://www.semanticweb.org/PDO#Linux"/>
+        <rdfs:label>SW_05</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -6193,6 +6241,7 @@
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Software"/>
         <access_data rdf:resource="http://www.semanticweb.org/PDO#DT_03"/>
         <work_in_platforms rdf:resource="http://www.semanticweb.org/PDO#IaaS"/>
+        <rdfs:label>SW_06</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -6231,6 +6280,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#Server_Room_01">
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Dedicated_Area"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Physical_and_Environment"/>
+        <rdfs:label>Server_Room_01</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -6240,6 +6290,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#Server_Room_02">
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Dedicated_Area"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Physical_and_Environment"/>
+        <rdfs:label>Server_Room_02</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -6249,6 +6300,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#Server_Room_03">
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Dedicated_Area"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Physical_and_Environment"/>
+        <rdfs:label>Server_Room_03</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -6288,6 +6340,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#Smartphone_01">
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Mobile_Device"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Physical_and_Environment"/>
+        <rdfs:label>Smartphone_01</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -6297,6 +6350,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#Smartphone_02">
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Mobile_Device"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Physical_and_Environment"/>
+        <rdfs:label>Smartphone_02</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -6306,6 +6360,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#Smartphone_03">
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Mobile_Device"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Physical_and_Environment"/>
+        <rdfs:label>Smartphone_03</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -6376,6 +6431,7 @@
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Communication_Equipment"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Physical_and_Environment"/>
         <stored_in_dedicated_area rdf:resource="http://www.semanticweb.org/PDO#Server_Room_01"/>
+        <rdfs:label>Switch_01</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -6455,6 +6511,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#Tablet_01">
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Mobile_Device"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Physical_and_Environment"/>
+        <rdfs:label>Tablet_01</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -6464,6 +6521,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#Tablet_02">
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Mobile_Device"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Physical_and_Environment"/>
+        <rdfs:label>Tablet_02</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -6473,6 +6531,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#Tablet_03">
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Mobile_Device"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Physical_and_Environment"/>
+        <rdfs:label>Tablet_03</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -6638,6 +6697,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/PDO#Wi-Fi_Device_01">
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Communication_Equipment"/>
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Physical_and_Environment"/>
+        <rdfs:label>Wi-Fi_Device_01</rdfs:label>
     </owl:NamedIndividual>
     
 
