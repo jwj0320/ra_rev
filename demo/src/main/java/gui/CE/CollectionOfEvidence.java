@@ -2,6 +2,7 @@ package gui.CE;
 
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
 import java.awt.Dimension;
@@ -12,6 +13,7 @@ import java.awt.Insets;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -25,11 +27,13 @@ import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import org.jdesktop.swingx.prompt.PromptSupport;
 
+import api.MakeCSV;
 import data.Asset;
 import data.Evidence;
 import data.ProcessedData;
@@ -60,7 +64,45 @@ public class CollectionOfEvidence extends GridBagPanel {
         JLabel blankLabel1 = new JLabel();
         blankLabel1.setPreferredSize(new Dimension(10, 10));
         addGBLComponent(blankLabel1, 0, 2);
-        addGBLComponent(button, 1, 3, 0, 0, "NONE", GridBagConstraints.LINE_END);
+        addGBLComponent(button, 2, 3, 0, 0, "NONE", GridBagConstraints.LINE_END);
+
+        JButton downLoadButton=new JButton("Download");
+        addGBLComponent(downLoadButton, 1, 3,0,0,"NONE",GridBagConstraints.LINE_END);
+        downLoadButton.addActionListener(new ActionListener(){
+            JFileChooser chooser=new JFileChooser();
+        
+            public void actionPerformed(ActionEvent e){
+                FileNameExtensionFilter filter=new FileNameExtensionFilter(
+                    ".csv", "csv");
+                chooser.setFileFilter(filter);
+        
+                int ret=chooser.showSaveDialog(null);
+                if(ret==JFileChooser.APPROVE_OPTION){
+                    String filePath=chooser.getSelectedFile().getPath();
+                    if (filePath.lastIndexOf(".")==-1&&
+                        !filePath.substring(filePath.lastIndexOf(".")+1).equalsIgnoreCase("csv")){
+                        filePath=filePath+".csv";
+                    }
+                    String[] header=new String[]{"Asset ID", "Security Requirement ID", "Evidence"};
+                    ArrayList<String[]> data=new ArrayList<String[]>();
+                    Vector vector=((DefaultTableModel)detailArea.getAssetTable().getModel()).getDataVector();
+                    String threatString=null;
+                    SecReq secReq=null;
+                    for(Asset as: ProcessedData.getThreatAffectedAssets()){
+                        for(Threat th:as.getThreatList()){
+                            threatString=th.getName();
+                            data.add(new String[]{as.getName(), threatString+"-SRDT",th.getSecReq().getDT(),threatString+"-SRDT"+"-EV"});
+                            data.add(new String[]{as.getName(), threatString+"-SRRP",th.getSecReq().getRP(),threatString+"-SRDT"+"-EV"});
+                            data.add(new String[]{as.getName(), threatString+"-SRPD",th.getSecReq().getPD(),threatString+"-SRDT"+"-EV"});
+                            data.add(new String[]{as.getName(), threatString+"-SRPV",th.getSecReq().getPV(),threatString+"-SRDT"+"-EV"});
+
+                        }
+                    }
+                    
+                    MakeCSV.toCSV(filePath, header, data);
+                }
+            }
+        });
 
         addAncestorListener(new AncestorListener() {
             @Override
@@ -125,7 +167,7 @@ public class CollectionOfEvidence extends GridBagPanel {
 
             addGBLComponent(srInfo, 3, 1,1,1);
             AssetInfo assetInfo = new AssetInfo();
-            addGBLComponent(assetInfo, 0, 1,2,1,0,0);
+            addGBLComponent(assetInfo, 0, 1,2,1,0,0,"NONE",GridBagConstraints.PAGE_START);
 
             assetTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
@@ -247,15 +289,52 @@ public class CollectionOfEvidence extends GridBagPanel {
         }
     }
     private class AssetInfo extends GridBagPanel{
-        private JLabel label = new JLabel("Asset INFO");
+         // private JLabel label = new JLabel("Asset INFO");
 
-        public AssetInfo(){
-            setPreferredSize(new Dimension(280,280));
-            label.setBackground(AjouBlue);
-            label.setForeground(Color.white);
-            label.setOpaque(true);
-            label.setPreferredSize(new Dimension(280,280));
-            addGBLComponent(label, 0, 0,0,0,0,0,"BOTH");
+         public AssetInfo(){
+            // setPreferredSize(new Dimension(300,300));
+            // label.setBackground(AjouBlue);
+            // label.setForeground(Color.white);
+            // label.setOpaque(true);
+            // label.setPreferredSize(new Dimension(280,280));
+            // addGBLComponent(label, 0, 0,0,0,0,0,"BOTH");
+
+            setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(AjouBlue),"Asset Info"));
+            JLabel IDHeader=makeHeader("Asset ID");
+            JLabel nameHeader=makeHeader("Name");
+            JLabel descHeader=makeHeader("Description");
+            JLabel typeHeader=makeHeader("Type");
+            JLabel raHeader=makeHeader("Related Assets");
+            
+            System.out.println(raHeader.getPreferredSize());
+
+            addGBLComponent(IDHeader, 0, 0,1,1,"BOTH");
+            addGBLComponent(nameHeader, 0, 1,1,1,"BOTH");
+            addGBLComponent(typeHeader,0, 2,1,1,"BOTH");
+            addGBLComponent(descHeader, 0, 3,1,1,"BOTH");
+            addGBLComponent(raHeader, 0, 4,1,1,"BOTH");
+
+            JLabel IDContent=makeContent("");
+            JLabel nameContent=makeContent("");
+            JLabel descContent=makeContent("");
+            JLabel typeContent=makeContent("");
+            JLabel raContent=makeContent("");
+
+            System.out.println(raHeader.getPreferredSize());
+            IDContent.setPreferredSize(new Dimension(180,18));
+            nameContent.setPreferredSize(new Dimension(180,18));
+            descContent.setPreferredSize(new Dimension(180,190));
+            typeContent.setPreferredSize(new Dimension(180,18));
+            raContent.setPreferredSize(new Dimension(180,18));
+            
+            addGBLComponent(IDContent, 1, 0);
+            addGBLComponent(nameContent, 1, 1);
+            addGBLComponent(typeContent,1, 2);
+            addGBLComponent(descContent, 1, 3);
+            addGBLComponent(raContent, 1, 4);
+
+            
+
         }
     }
 

@@ -2,6 +2,7 @@ package gui.SR;
 
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
 import java.awt.Dimension;
@@ -12,6 +13,7 @@ import java.awt.Insets;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -24,11 +26,15 @@ import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.jena.sparql.function.library.leviathan.sec;
 import org.jdesktop.swingx.prompt.PromptSupport;
 
+import api.MakeCSV;
 import data.ProcessedData;
 import data.SecReq;
 import data.Threat;
@@ -94,7 +100,44 @@ public class SecurityRequirement extends GridBagPanel {
         JLabel blankLabel1 = new JLabel();
         blankLabel1.setPreferredSize(new Dimension(10, 10));
         addGBLComponent(blankLabel1, 0, 2);
-        addGBLComponent(button, 1, 3, 0, 0, "NONE", GridBagConstraints.LINE_END);
+        addGBLComponent(button, 2, 3, 0, 0, "NONE", GridBagConstraints.LINE_END);
+
+        JButton downLoadButton=new JButton("Download");
+        addGBLComponent(downLoadButton, 1, 3,0,0,"NONE",GridBagConstraints.LINE_END);
+        downLoadButton.addActionListener(new ActionListener(){
+            JFileChooser chooser=new JFileChooser();
+        
+            public void actionPerformed(ActionEvent e){
+                FileNameExtensionFilter filter=new FileNameExtensionFilter(
+                    ".csv", "csv");
+                chooser.setFileFilter(filter);
+        
+                int ret=chooser.showSaveDialog(null);
+                if(ret==JFileChooser.APPROVE_OPTION){
+                    String filePath=chooser.getSelectedFile().getPath();
+                    if (filePath.lastIndexOf(".")==-1&&
+                        !filePath.substring(filePath.lastIndexOf(".")+1).equalsIgnoreCase("csv")){
+                        filePath=filePath+".csv";
+                    }
+                    String[] header=new String[]{"Threat ID", "Security Requirement ID", "SR Type", "SR Content"};
+                    ArrayList<String[]> data=new ArrayList<String[]>();
+                    Vector vector=((DefaultTableModel)detailArea.getThreatTable().getModel()).getDataVector();
+                    String threatString=null;
+                    SecReq secReq=null;
+                    for(Object o:vector){
+                        threatString=(String)(((Vector)o).toArray(new String[0]))[0];
+                        secReq=ProcessedData.getThreat(threatString).getSecReq();
+
+                        data.add(new String[]{threatString, threatString+"-SRDT","DT",secReq.getDT()});
+                        data.add(new String[]{threatString, threatString+"-SRRP","RP",secReq.getRP()});
+                        data.add(new String[]{threatString, threatString+"-SRPD","PD",secReq.getPD()});
+                        data.add(new String[]{threatString, threatString+"-SRPV","PV",secReq.getPV()});
+                        
+                    }
+                    MakeCSV.toCSV(filePath, header, data);
+                }
+            }
+        });
     }
 
     private class DetailArea extends GridBagPanel {
