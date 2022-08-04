@@ -131,7 +131,7 @@ public class Progress extends JDialog{
                 setProgressValue("Starting to investigate the attack scenario.");
                 setProgressValue("Acquiring Atack components.");
                 setProgressValue("Identifying risk components.");
-                setProgressValue("Retrieving threat-affected assets.");
+                setProgressValue("Analyzing assets.");
                 setProgressValue("Completing to analyze the attack scenario.");
                 return null;
             }
