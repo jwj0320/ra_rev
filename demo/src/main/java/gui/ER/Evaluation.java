@@ -20,6 +20,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
@@ -37,7 +38,11 @@ import data.Threat;
 import gui.GridBagPanel;
 
 public class Evaluation extends GridBagPanel{
-    private JTable setTable =new JTable(new DefaultTableModel(new String[]{"Asset", "SR", "Evidence", "Evaluation", "Score"},0));
+    private JTable setTable =new JTable(new DefaultTableModel(new String[]{"Asset", "SR", "Evidence", "Evaluation"},0));
+    public JTable getSetTable() {
+        return setTable;
+    }
+
     private JLabel label;
     private DetailArea detailArea;
     public Evaluation(JTabbedPane tPane){
@@ -78,28 +83,24 @@ public class Evaluation extends GridBagPanel{
                             asset.getName(),
                             String.format("%s-SRDT",th.getName()),
                             th.getSecReq().getEvidence("SRDT").getName(),
-                            "X",
                             ""
                         });
                         model.addRow(new String[]{
                             asset.getName(),
                             String.format("%s-SRRP",th.getName()),
                             th.getSecReq().getEvidence("SRRP").getName(),
-                            "X",
                             ""
                         });
                         model.addRow(new String[]{
                             asset.getName(),
                             String.format("%s-SRPD",th.getName()),
                             th.getSecReq().getEvidence("SRPD").getName(),
-                            "X",
                             ""
                         });
                         model.addRow(new String[]{
                             asset.getName(),
                             String.format("%s-SRPV",th.getName()),
                             th.getSecReq().getEvidence("SRPV").getName(),
-                            "X",
                             ""
                         });
                     }
@@ -130,7 +131,7 @@ public class Evaluation extends GridBagPanel{
             setTabScPane.setPreferredSize(new Dimension(900,450));
             addGBLComponent(setTabScPane, 0, 1,2,1,0,0,"BOTH");
 
-            editButton.setEnabled(false);
+            // editButton.setEnabled(false);
             addGBLComponent(editButton, 1, 0,1,1,0,0,"NONE",GridBagConstraints.LINE_END);
 
             setTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -145,24 +146,71 @@ public class Evaluation extends GridBagPanel{
             editButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    // String assetName=(String)setTable.getValueAt(setTable.getSelectedRow(), 0);
-                    // String srName=(String)setTable.getValueAt(setTable.getSelectedRow(), 1);
-                    // String evName=(String)setTable.getValueAt(setTable.getSelectedRow(), 2);
+                    String assetName=(String)setTable.getValueAt(setTable.getSelectedRow(), 0);
+                    String srName=(String)setTable.getValueAt(setTable.getSelectedRow(), 1);
+                    String evName=(String)setTable.getValueAt(setTable.getSelectedRow(), 2);
 
-                    // JDialog dialog = new JDialog();
-                    // dialog.setPreferredSize(new Dimension(800,600));
+                    JDialog dialog = new JDialog();
+                    dialog.setSize(new Dimension(800,600));
+                    dialog.setResizable(false);
+                    dialog.setLocationRelativeTo(null);
                     
-                    // GridBagPanel pane = new GridBagPanel();
-                    // dialog.add(pane);
+                    GridBagPanel pane = new GridBagPanel();
+                    dialog.add(pane);
 
                     
 
                     // ////////////////////////
-                    // JLabel assetHeader=makeHeader("Asset");
-                    // JTextArea assetText=new JTextArea();
-                    // pane.addGBLComponent(assetHeader, 0, 0);
+                    JLabel assetHeader=makeHeader("Asset");
+                    JTextArea assetText=new JTextArea();
+                    JScrollPane assetTextSc= new JScrollPane(assetText);
+                    assetTextSc.setPreferredSize(new Dimension(250,300));
+                    pane.addGBLComponent(assetHeader, 0, 0,1,1,"HORIZONTAL");
+                    pane.addGBLComponent(assetTextSc, 0, 1);
+
+                    JLabel srHeader=makeHeader("Security Requirement");
+                    JTextArea srText=new JTextArea();
+                    JScrollPane srTextSc= new JScrollPane(srText);
+                    srTextSc.setPreferredSize(new Dimension(250,300));
+                    pane.addGBLComponent(srHeader, 1, 0,1,1,"HORIZONTAL");
+                    pane.addGBLComponent(srTextSc, 1, 1);
+
+                    JLabel evHeader=makeHeader("Evidence");
+                    JTextArea evText=new JTextArea();
+                    JScrollPane evTextSc= new JScrollPane(evText);
+                    evTextSc.setPreferredSize(new Dimension(250,300));
+                    pane.addGBLComponent(evHeader, 2, 0,2,1,"HORIZONTAL");
+                    pane.addGBLComponent(evTextSc, 2, 1,2,1);
+
+                    JLabel blankLabel = new JLabel();
+                    blankLabel.setPreferredSize(new Dimension(10,10));
+                    pane.addGBLComponent(blankLabel, 3, 2);
+
+                    JLabel scoreHeader=makeHeader("Score");
+                    JTextField scoreText=new JTextField();
+
+                    scoreHeader.setPreferredSize(new Dimension(50,18));
+                    scoreText.setPreferredSize(new Dimension(50,32));
+                    pane.addGBLComponent(scoreHeader, 3, 3,1,1,0,0,"NONE",GridBagConstraints.LINE_END);
+                    pane.addGBLComponent(scoreText, 3, 4,1,1,0,0,"NONE",GridBagConstraints.LINE_END);
+
+                    JLabel blankLabel1 = new JLabel();
+                    blankLabel1.setPreferredSize(new Dimension(10,10));
+                    pane.addGBLComponent(blankLabel1, 3, 5);
+
+                    JButton applyButton = new JButton("Apply");
+                    pane.addGBLComponent(applyButton, 3, 6,1,1,0,0,"NONE",GridBagConstraints.LINE_END);
+
+                    applyButton.addActionListener(new ActionListener(){
+                    
+                        public void actionPerformed(ActionEvent e){
+                            ((DefaultTableModel)(setTable.getModel())).setValueAt(scoreText.getText(), setTable.getSelectedRow(), 3);
+                            dialog.dispose();
+                        }
+                    });
 
 
+                    dialog.setVisible(true);
 
                 }
             });
