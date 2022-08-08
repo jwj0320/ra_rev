@@ -6,16 +6,16 @@ public class SecReq {
     public static final int PD=2;
     public static final int PV=3;
 
-    private Evidence evidence=new Evidence();
     private int type=-1;
     private String id="";
     private String text="";
+    private Threat threat;
     
-    public Evidence getEvidence() {
-        return evidence;
+    public Threat getThreat() {
+        return threat;
     }
-    public void setEvidence(Evidence evidence) {
-        this.evidence = evidence;
+    public void setThreat(Threat threat) {
+        this.threat = threat;
     }
     public String getType() {
         switch (type) {

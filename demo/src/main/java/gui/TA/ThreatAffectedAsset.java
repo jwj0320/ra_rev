@@ -34,6 +34,7 @@ import org.jdesktop.swingx.prompt.PromptSupport;
 
 import api.MakeCSV;
 import data.Asset;
+import data.Evidence;
 import data.ProcessedData;
 import data.SecReq;
 import data.Threat;
@@ -330,20 +331,32 @@ public class ThreatAffectedAsset extends GridBagPanel {
                 saveButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        String selectedThreat=(String)threatTable.getValueAt(threatTable.getSelectedRow(), 0);
+                        String threatId=(String)threatTable.getValueAt(threatTable.getSelectedRow(), 0);
+                        Threat selectedThreat = ProcessedData.getThreat(threatId);
                         Asset selectedAsset=null;
                         Vector vector = ((DefaultTableModel)(srArea.getSrTable().getModel())).getDataVector();
                         Object[] data;
                         ArrayList<Asset> assetList=new ArrayList<Asset>();
+                        Evidence evidence=null;
                         for (Object obj:vector){
                             data=((Vector)obj).toArray();
-                            if(((Boolean)data[2])==true){
-                                selectedAsset=ProcessedData.getAsset((String)data[1]);
+                            selectedAsset=ProcessedData.getAsset((String)data[1]);
+                            if(((Boolean)data[2])==true &&
+                            !selectedAsset.getThreatList().contains(selectedThreat)){
+                                selectedAsset.getThreatList().add(selectedThreat);
+                                
+                                for(SecReq sr: selectedThreat.getSrList()){
+                                    evidence=new Evidence(((String)data[1])+"-"+sr.getId()+"-EV");
+                                    System.out.println(evidence.getId());
+                                    evidence.setSr(sr);
+                                    selectedAsset.getEvidenceList().add(evidence);
+
+                                }
+                                
                                 assetList.add(selectedAsset);
-                                selectedAsset.getThreatList().add(ProcessedData.getThreat(selectedThreat));
                             }
                         }
-                        ProcessedData.getThreat(selectedThreat).setAssetList(assetList);
+                        selectedThreat.setAssetList(assetList);
                     }
                 });
 

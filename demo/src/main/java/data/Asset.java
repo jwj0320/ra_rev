@@ -11,6 +11,26 @@ public class Asset {
     private int type;
     private String name;
     private ArrayList<Threat> threatList=new ArrayList<Threat>();
+    
+    private ArrayList<Evidence> evidenceList=new ArrayList<Evidence>();
+    
+
+    public ArrayList<Evidence> getEvidenceList() {
+        return evidenceList;
+    }
+
+    public void setEvidenceList(ArrayList<Evidence> evidenceList) {
+        this.evidenceList = evidenceList;
+    }
+
+    public Evidence getEvidence(String id){
+        for (Evidence ev:evidenceList){
+            if(ev.getId().equals(id)){
+                return ev;
+            }
+        }
+        return null;
+    }
 
     public ArrayList<Threat> getThreatList() {
         return threatList;

@@ -55,18 +55,18 @@ public class Analysis extends GridBagPanel {
             @Override
             public void ancestorAdded(AncestorEvent event) {
                 // TODO Auto-generated method stub
-                RadarChart radarChart = new RadarChart();
-                ArrayList<ChartData> tacticDataList=new ArrayList<ChartData>();
+                // RadarChart radarChart = new RadarChart();
+                // ArrayList<ChartData> tacticDataList=new ArrayList<ChartData>();
 
-                for(Threat th:ProcessedData.getThreatList()){
-                    tacticDataList.add(new ChartData(th.getStep()+"", th.getTactic(), th.getScore()));
-                }
-                CategoryDataset dataset=radarChart.makeDataset(tacticDataList);
-                JFreeChart tacticChart=radarChart.createChart(dataset);
-                ChartPanel tacticChartPanel=new ChartPanel(tacticChart);
-                tacticChartPanel.setPreferredSize(new Dimension(300,300));
+                // for(Threat th:ProcessedData.getThreatList()){
+                //     tacticDataList.add(new ChartData(th.getStep()+"", th.getTactic(), th.getScore()));
+                // }
+                // CategoryDataset dataset=radarChart.makeDataset(tacticDataList);
+                // JFreeChart tacticChart=radarChart.createChart(dataset);
+                // ChartPanel tacticChartPanel=new ChartPanel(tacticChart);
+                // tacticChartPanel.setPreferredSize(new Dimension(300,300));
 
-                detailArea.getTacticPart().addGBLComponent(tacticChartPanel, 0, 0);
+                // detailArea.getTacticPart().addGBLComponent(tacticChartPanel, 0, 0);
 
                 
                 

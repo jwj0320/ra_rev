@@ -85,15 +85,13 @@ public class CollectionOfEvidence extends GridBagPanel {
                     }
                     String[] header=new String[]{"Asset ID", "Security Requirement ID", "Evidence"};
                     ArrayList<String[]> data=new ArrayList<String[]>();
-                    Vector vector=((DefaultTableModel)detailArea.getAssetTable().getModel()).getDataVector();
                     String threatString=null;
+                    SecReq sr=null;
                     for(Asset as: ProcessedData.getThreatAffectedAssets()){
-                        for(Threat th:as.getThreatList()){
-                            threatString=th.getName();
-                            for(SecReq sr:th.getSrList()){
-                                data.add(new String[]{as.getName(), threatString+"-SRDT",sr.getText(),sr.getEvidence().getId()});
+                        for(Evidence ev:as.getEvidenceList()){
+                            sr=ev.getSr();
+                            data.add(new String[]{as.getName(), threatString+"-SRDT",sr.getText(),ev.getId()});
 
-                            }
                         }
                     }
                     
@@ -201,9 +199,15 @@ public class CollectionOfEvidence extends GridBagPanel {
                     String srText=ProcessedData.getSr(srName).getText();
                     srInfo.getSrHeader().setText(srName);
                     srInfo.getSrText().setText(srText);
-                    Evidence evidence = ProcessedData.getSr(srName).getEvidence();
+                    DefaultTableModel srTableModel=(DefaultTableModel) srTable.getModel();
+                    String assetName = (String)assetTable.getValueAt(assetTable.getSelectedRow(), 0);
+                    Asset asset = ProcessedData.getAsset(assetName);
+                    
+                    Evidence evidence = asset.getEvidence(
+                        String.format("%s-%s-EV",assetName,srName));
+                    System.out.println(evidence);
                     assetInput.getAssetArea().getEvHeader().setText(
-                        String.format("%s-EV",srName)
+                        evidence.getId()
                     );
                     assetInput.getAssetArea().getInputArea().setText(evidence.getContent());
                 }
@@ -236,8 +240,7 @@ public class CollectionOfEvidence extends GridBagPanel {
                     public void actionPerformed(ActionEvent e) {
                         String evidenceId=assetArea.getEvHeader().getText();
                         String[] splited=evidenceId.split("-");
-                        Evidence evidence=ProcessedData.getSr(splited[0]+"-"+splited[1]).getEvidence();
-                        evidence.setId(evidenceId);
+                        Evidence evidence=ProcessedData.getAsset(splited[0]).getEvidence(evidenceId);
                         evidence.setContent(assetArea.getInputArea().getText());
                     }
                 });

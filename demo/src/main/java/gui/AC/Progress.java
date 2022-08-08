@@ -103,15 +103,19 @@ public class Progress extends JDialog{
                     threat.setMitigationList(new ArrayList<String>());
                     threat.setMitigationList(ProcessedData.ontologyFunc.LoadMitigationFromTech(threat.getTechnique()));
                     sr=new SecReq(SecReq.DT,threat.getName()+"-SRDT","");
+                    sr.setThreat(threat);
                     threat.getSrList().add(sr);
                     ProcessedData.getSrList().add(sr);
                     sr=new SecReq(SecReq.PD,threat.getName()+"-SRPD","");
+                    sr.setThreat(threat);
                     threat.getSrList().add(sr);
                     ProcessedData.getSrList().add(sr);
                     sr=new SecReq(SecReq.PV,threat.getName()+"-SRPV","");
+                    sr.setThreat(threat);
                     threat.getSrList().add(sr);
                     ProcessedData.getSrList().add(sr);
                     sr=new SecReq(SecReq.RP,threat.getName()+"-SRRP","");
+                    sr.setThreat(threat);
                     threat.getSrList().add(sr);
                     ProcessedData.getSrList().add(sr);
 

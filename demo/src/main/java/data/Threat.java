@@ -7,17 +7,6 @@ public class Threat {
     private String tactic;
     private String technique;
     private int step;
-    private double score;
-    
-    public double getScore() {
-        return score;
-    }
-
-
-    public void setScore(double score) {
-        this.score = score;
-    }
-
 
     private ArrayList<Asset> assetList=new ArrayList<Asset>();
     private ArrayList<SecReq> srList = new ArrayList<SecReq>();

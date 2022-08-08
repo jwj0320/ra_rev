@@ -32,6 +32,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import data.Asset;
+import data.Evidence;
 import data.ProcessedData;
 import data.SecReq;
 import data.Threat;
@@ -77,16 +78,15 @@ public class Evaluation extends GridBagPanel{
                 // TODO Auto-generated method stub
                 ArrayList<Asset> assetList=ProcessedData.getThreatAffectedAssets();
                 DefaultTableModel model=(DefaultTableModel) setTable.getModel();
+                model.setRowCount(0);
                 for (Asset asset:assetList){
-                    for (Threat th:asset.getThreatList()){
-                        for(SecReq sr:th.getSrList()){
-                            model.addRow(new String[]{
-                                asset.getName(),
-                                sr.getId(),
-                                sr.getEvidence().getId(),
-                                ""
-                            });
-                        }
+                    for(Evidence ev:asset.getEvidenceList()){
+                        model.addRow(new String[]{
+                            asset.getName(),
+                            ev.getSr().getId(),
+                            ev.getId(),
+                            ev.isEvaluated() ? ""+ev.getScore() : ""
+                        });
                     }
                 }
             }
@@ -97,15 +97,17 @@ public class Evaluation extends GridBagPanel{
                 DefaultTableModel model=(DefaultTableModel) setTable.getModel();
                 Vector vector=model.getDataVector();
                 Object[] data;
-                String threatId=null;
+                String assetId=null;
+                String evId=null;
                 double score=0.0;
-                for(Object o:vector){
-                    data=((Vector)o).toArray();
-                    threatId=((String)data[1]).split("-")[0];
-                    score=Double.parseDouble((String)data[3]);
-                    ProcessedData.getThreat(threatId).setScore(score);
+                // for(Object o:vector){
+                //     data=((Vector)o).toArray();
+                //     assetId=(String)data[0];
+                //     evId=(String)data[2];
+                //     score=Double.parseDouble((String)data[3]);
+                //     ProcessedData.getAsset(assetId).getEvidence(evId).setScore(score);
 
-                }
+                // }
             }
 
             @Override
@@ -180,7 +182,7 @@ public class Evaluation extends GridBagPanel{
                     pane.addGBLComponent(evHeader, 2, 0,2,1,"HORIZONTAL");
                     pane.addGBLComponent(evTextSc, 2, 1,2,1);
 
-                    evText.setText(ProcessedData.getSr(srName).getEvidence().getContent());
+                    evText.setText(ProcessedData.getAsset(assetName).getEvidence(evName).getContent());
                     evText.setEditable(false);
 
                     JLabel blankLabel = new JLabel();
@@ -205,7 +207,11 @@ public class Evaluation extends GridBagPanel{
                     applyButton.addActionListener(new ActionListener(){
                     
                         public void actionPerformed(ActionEvent e){
-                            ((DefaultTableModel)(setTable.getModel())).setValueAt(scoreText.getText(), setTable.getSelectedRow(), 3);
+                            DefaultTableModel model = (DefaultTableModel)(setTable.getModel());
+                            double score=Double.parseDouble(scoreText.getText());
+                            ProcessedData.getAsset(assetName).getEvidence(evName).setScore(score);
+                            model.setValueAt(scoreText.getText(), setTable.getSelectedRow(), 3);
+                            
                             dialog.dispose();
                         }
                     });
