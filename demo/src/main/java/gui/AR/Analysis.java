@@ -34,7 +34,9 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.category.CategoryDataset;
 
+import data.Asset;
 import data.ChartData;
+import data.Evidence;
 import data.ProcessedData;
 import data.Threat;
 import data.RadarChart;
@@ -55,18 +57,27 @@ public class Analysis extends GridBagPanel {
             @Override
             public void ancestorAdded(AncestorEvent event) {
                 // TODO Auto-generated method stub
-                // RadarChart radarChart = new RadarChart();
-                // ArrayList<ChartData> tacticDataList=new ArrayList<ChartData>();
+                RadarChart radarChart = new RadarChart();
+                ArrayList<ChartData> tacticDataList=new ArrayList<ChartData>();
 
                 // for(Threat th:ProcessedData.getThreatList()){
                 //     tacticDataList.add(new ChartData(th.getStep()+"", th.getTactic(), th.getScore()));
                 // }
-                // CategoryDataset dataset=radarChart.makeDataset(tacticDataList);
-                // JFreeChart tacticChart=radarChart.createChart(dataset);
-                // ChartPanel tacticChartPanel=new ChartPanel(tacticChart);
-                // tacticChartPanel.setPreferredSize(new Dimension(300,300));
+                for(Asset as:ProcessedData.getAssetList()){
+                    for(Evidence ev:as.getEvidenceList()){
+                        tacticDataList.add(new ChartData(
+                            ev.getSr().getThreat().getStep()+"",
+                            ev.getSr().getThreat().getTactic() ,
+                            ev.getScore()));
+                    }
+                }
 
-                // detailArea.getTacticPart().addGBLComponent(tacticChartPanel, 0, 0);
+                CategoryDataset dataset=radarChart.makeDataset(tacticDataList);
+                JFreeChart tacticChart=radarChart.createChart(dataset);
+                ChartPanel tacticChartPanel=new ChartPanel(tacticChart);
+                tacticChartPanel.setPreferredSize(new Dimension(250,250));
+
+                detailArea.getTacticPart().addGBLComponent(tacticChartPanel, 0, 0);
 
                 
                 
@@ -123,7 +134,7 @@ public class Analysis extends GridBagPanel {
         }
         private class TacticPart extends GridBagPanel{
             public TacticPart(){
-                setPreferredSize(new Dimension(200,200));
+                setPreferredSize(new Dimension(300,300));
                 
             }
         }
