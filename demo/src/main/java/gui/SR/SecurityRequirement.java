@@ -62,6 +62,8 @@ public class SecurityRequirement extends GridBagPanel {
                 for(Threat th:ProcessedData.getThreatList()){
                     threatTableModel.addRow(new String[]{th.getName()});
                 }
+                DefaultTableModel model = (DefaultTableModel)detailArea.getSrInput().getSrArea().getSrTable().getModel();
+                    model.setRowCount(0);
             }
 
             @Override
@@ -123,15 +125,15 @@ public class SecurityRequirement extends GridBagPanel {
                     ArrayList<String[]> data=new ArrayList<String[]>();
                     Vector vector=((DefaultTableModel)detailArea.getThreatTable().getModel()).getDataVector();
                     String threatString=null;
-                    SecReq secReq=null;
+                    Threat threat=null;
+                    ArrayList<SecReq> srList=null;
                     for(Object o:vector){
                         threatString=(String)(((Vector)o).toArray(new String[0]))[0];
-                        secReq=ProcessedData.getThreat(threatString).getSecReq();
-
-                        data.add(new String[]{threatString, threatString+"-SRDT","DT",secReq.getDT()});
-                        data.add(new String[]{threatString, threatString+"-SRRP","RP",secReq.getRP()});
-                        data.add(new String[]{threatString, threatString+"-SRPD","PD",secReq.getPD()});
-                        data.add(new String[]{threatString, threatString+"-SRPV","PV",secReq.getPV()});
+                        threat=ProcessedData.getThreat(threatString);
+                        srList=threat.getSrList();
+                        for(SecReq sr:srList){
+                            data.add(new String[]{threatString, sr.getId(),sr.getText()});
+                        }
                         
                     }
                     MakeCSV.toCSV(filePath, header, data);
@@ -148,6 +150,12 @@ public class SecurityRequirement extends GridBagPanel {
 
 
         private JScrollPane threatTabScPane;
+        private SRInput srInput = new SRInput();
+
+        public SRInput getSrInput() {
+            return srInput;
+        }
+
 
         public DetailArea() {
             setPreferredSize(new Dimension(1060,580));
@@ -161,7 +169,7 @@ public class SecurityRequirement extends GridBagPanel {
             addGBLComponent(threatInfo, 0, 1,2,1);
 
             
-            SRInput srInput = new SRInput();
+            
             addGBLComponent(srInput, 1, 0,3,1);
             
             threatTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -183,23 +191,9 @@ public class SecurityRequirement extends GridBagPanel {
                         public void valueChanged(ListSelectionEvent e) {
                             String threatName = (String)threatTable.getValueAt(threatTable.getSelectedRow(),0);
                             int index = srInput.getSrArea().getSrTable().getSelectedRow();
-                            SecReq secReq =ProcessedData.getThreat(threatName).getSecReq();
-                            switch (index) {
-                                case 0:
-                                    srInput.getSrArea().getInputArea().setText(secReq.getDT());
-                                    break;
-                                case 1:
-                                    srInput.getSrArea().getInputArea().setText(secReq.getRP());
-                                    break;
-                                case 2:
-                                    srInput.getSrArea().getInputArea().setText(secReq.getPD());
-                                    break;
-                                case 3:
-                                    srInput.getSrArea().getInputArea().setText(secReq.getPV());
-                                    break;
-                                default:
-                                    break;
-                            }
+                            SecReq sr =ProcessedData.getSr((String)srInput.getSrArea().getSrTable().getValueAt(index, 0));
+                            srInput.getSrArea().getInputArea().setText(sr.getText());
+  
                             
                         }
                     });
@@ -293,27 +287,10 @@ public class SecurityRequirement extends GridBagPanel {
                 saveButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        String threatName = (String)threatTable.getValueAt(threatTable.getSelectedRow(), 0);
-                        int index = srArea.getSrTable().getSelectedRow();
+                        String id = (String)srArea.getSrTable().getValueAt(srArea.getSrTable().getSelectedRow(), 0);
                         String text=srArea.getInputArea().getText();
-                        SecReq secReq = ProcessedData.getThreat(threatName).getSecReq();
-                        
-                        switch (index) {
-                            case 0:
-                                secReq.setDT(text);
-                                break;
-                            case 1:
-                                secReq.setRP(text);
-                                break;
-                            case 2:
-                                secReq.setPD(text);
-                                break;
-                            case 3:
-                                secReq.setPV(text);
-                                break;
-                            default:
-                                break;
-                        }
+                        SecReq secReq = ProcessedData.getSr(id);
+                        secReq.setText(text);
                     }
                 });
 

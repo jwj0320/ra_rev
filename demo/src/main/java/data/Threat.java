@@ -7,9 +7,22 @@ public class Threat {
     private String tactic;
     private String technique;
     private int step;
+    private double score;
     
+    public double getScore() {
+        return score;
+    }
+
+
+    public void setScore(double score) {
+        this.score = score;
+    }
+
+
     private ArrayList<Asset> assetList=new ArrayList<Asset>();
-    private SecReq secReq = new SecReq();
+    private ArrayList<SecReq> srList = new ArrayList<SecReq>();
+    
+    
     
     private ArrayList<String> mitigationList = new ArrayList<String>();
     private ArrayList<String> CAPEC;
@@ -17,6 +30,14 @@ public class Threat {
     private ArrayList<String> CVE;
     
     
+    public ArrayList<SecReq> getSrList() {
+        return srList;
+    }
+
+
+    public void setSrList(ArrayList<SecReq> srList) {
+        this.srList = srList;
+    }
     public ArrayList<Asset> getAssetList() {
         return assetList;
     }
@@ -25,15 +46,7 @@ public class Threat {
     public void setAssetList(ArrayList<Asset> assetList) {
         this.assetList = assetList;
     }
-    
-    public SecReq getSecReq() {
-        return secReq;
-    }
 
-
-    public void setSecReq(SecReq secReq) {
-        this.secReq = secReq;
-    }
 
     public int getStep() {
         return step;

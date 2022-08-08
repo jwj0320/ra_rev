@@ -30,6 +30,10 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.category.CategoryDataset;
+
 import data.ChartData;
 import data.ProcessedData;
 import data.Threat;
@@ -54,22 +58,17 @@ public class Analysis extends GridBagPanel {
                 RadarChart radarChart = new RadarChart();
                 ArrayList<ChartData> tacticDataList=new ArrayList<ChartData>();
 
-                // 데이터를 제대로 가져오자
-                // Vector vector=((DefaultTableModel)((Evaluation)(tabbedPane.getComponentAt(
-                //     tabbedPane.getSelectedIndex()-1))).getSetTable().getModel()).getDataVector();
-                // String[] dataSet=null;
-                // for(Object o:vector){
-                //     dataSet=((String[])((Vector)o).toArray());
-                //     tacticDataList.add(new ChartData(dataSet[0],))
-                // }
-                // detailArea.getTacticPart().addGBLComponent(component, x, y);
+                for(Threat th:ProcessedData.getThreatList()){
+                    tacticDataList.add(new ChartData(th.getStep()+"", th.getTactic(), th.getScore()));
+                }
+                CategoryDataset dataset=radarChart.makeDataset(tacticDataList);
+                JFreeChart tacticChart=radarChart.createChart(dataset);
+                ChartPanel tacticChartPanel=new ChartPanel(tacticChart);
+                tacticChartPanel.setPreferredSize(new Dimension(300,300));
+
+                detailArea.getTacticPart().addGBLComponent(tacticChartPanel, 0, 0);
 
                 
-                // for (Threat th:ProcessedData.getThreatList()){
-                //     for(ChartData cd:tacticDataList){
-                //         if(cd.get)
-                //     }
-                // }
                 
             }
             

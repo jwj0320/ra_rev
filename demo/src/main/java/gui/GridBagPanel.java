@@ -1,6 +1,8 @@
 package gui;
 
 import java.awt.GridBagLayout;
+import java.util.ArrayList;
+import java.util.Vector;
 import java.awt.GridBagConstraints;
 import java.awt.Dimension;
 import java.awt.Color;
@@ -269,4 +271,15 @@ public class GridBagPanel extends JPanel {
         return table;
     }
 
+    public ArrayList<Object[]> getDataFromTable(JTable table){
+        Vector tableVector=((DefaultTableModel)(table.getModel())).getDataVector();
+        ArrayList<Object[]> data=new ArrayList<Object[]>();
+        for(Object row:tableVector){
+            data.add(((Vector)row).toArray());
+        }
+
+        return data;
+    }
+
+    
 }

@@ -22,6 +22,7 @@ import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
 
 import data.ProcessedData;
+import data.SecReq;
 import data.Threat;
 import gui.GridBagPanel;
 
@@ -92,6 +93,7 @@ public class Progress extends JDialog{
                 Threat threat;
                 Object[] rowData;
                 int index=1;
+                SecReq sr;
                 for (Object row:vector){
                     rowData=(Object[])(((Vector)row).toArray());
                     threat = new Threat(index++);
@@ -100,6 +102,19 @@ public class Progress extends JDialog{
                     threat.setTechnique((String)rowData[2]);
                     threat.setMitigationList(new ArrayList<String>());
                     threat.setMitigationList(ProcessedData.ontologyFunc.LoadMitigationFromTech(threat.getTechnique()));
+                    sr=new SecReq(SecReq.DT,threat.getName()+"-SRDT","");
+                    threat.getSrList().add(sr);
+                    ProcessedData.getSrList().add(sr);
+                    sr=new SecReq(SecReq.PD,threat.getName()+"-SRPD","");
+                    threat.getSrList().add(sr);
+                    ProcessedData.getSrList().add(sr);
+                    sr=new SecReq(SecReq.PV,threat.getName()+"-SRPV","");
+                    threat.getSrList().add(sr);
+                    ProcessedData.getSrList().add(sr);
+                    sr=new SecReq(SecReq.RP,threat.getName()+"-SRRP","");
+                    threat.getSrList().add(sr);
+                    ProcessedData.getSrList().add(sr);
+
                     
                     threatList.add(threat);
                 }

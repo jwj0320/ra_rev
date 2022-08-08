@@ -79,30 +79,14 @@ public class Evaluation extends GridBagPanel{
                 DefaultTableModel model=(DefaultTableModel) setTable.getModel();
                 for (Asset asset:assetList){
                     for (Threat th:asset.getThreatList()){
-                        model.addRow(new String[]{
-                            asset.getName(),
-                            String.format("%s-SRDT",th.getName()),
-                            th.getSecReq().getEvidence("SRDT").getName(),
-                            ""
-                        });
-                        model.addRow(new String[]{
-                            asset.getName(),
-                            String.format("%s-SRRP",th.getName()),
-                            th.getSecReq().getEvidence("SRRP").getName(),
-                            ""
-                        });
-                        model.addRow(new String[]{
-                            asset.getName(),
-                            String.format("%s-SRPD",th.getName()),
-                            th.getSecReq().getEvidence("SRPD").getName(),
-                            ""
-                        });
-                        model.addRow(new String[]{
-                            asset.getName(),
-                            String.format("%s-SRPV",th.getName()),
-                            th.getSecReq().getEvidence("SRPV").getName(),
-                            ""
-                        });
+                        for(SecReq sr:th.getSrList()){
+                            model.addRow(new String[]{
+                                asset.getName(),
+                                sr.getId(),
+                                sr.getEvidence().getId(),
+                                ""
+                            });
+                        }
                     }
                 }
             }
@@ -110,7 +94,18 @@ public class Evaluation extends GridBagPanel{
             @Override
             public void ancestorRemoved(AncestorEvent event) {
                 // TODO Auto-generated method stub
+                DefaultTableModel model=(DefaultTableModel) setTable.getModel();
+                Vector vector=model.getDataVector();
+                Object[] data;
+                String threatId=null;
+                double score=0.0;
+                for(Object o:vector){
+                    data=((Vector)o).toArray();
+                    threatId=((String)data[1]).split("-")[0];
+                    score=Double.parseDouble((String)data[3]);
+                    ProcessedData.getThreat(threatId).setScore(score);
 
+                }
             }
 
             @Override
@@ -175,12 +170,18 @@ public class Evaluation extends GridBagPanel{
                     pane.addGBLComponent(srHeader, 1, 0,1,1,"HORIZONTAL");
                     pane.addGBLComponent(srTextSc, 1, 1);
 
+                    srText.setText(ProcessedData.getSr(srName).getText());
+                    srText.setEditable(false);
+
                     JLabel evHeader=makeHeader("Evidence");
                     JTextArea evText=new JTextArea();
                     JScrollPane evTextSc= new JScrollPane(evText);
                     evTextSc.setPreferredSize(new Dimension(250,300));
                     pane.addGBLComponent(evHeader, 2, 0,2,1,"HORIZONTAL");
                     pane.addGBLComponent(evTextSc, 2, 1,2,1);
+
+                    evText.setText(ProcessedData.getSr(srName).getEvidence().getContent());
+                    evText.setEditable(false);
 
                     JLabel blankLabel = new JLabel();
                     blankLabel.setPreferredSize(new Dimension(10,10));
@@ -215,6 +216,7 @@ public class Evaluation extends GridBagPanel{
                 }
             });
             
+
         }
 
 

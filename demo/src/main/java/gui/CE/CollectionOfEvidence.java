@@ -87,15 +87,13 @@ public class CollectionOfEvidence extends GridBagPanel {
                     ArrayList<String[]> data=new ArrayList<String[]>();
                     Vector vector=((DefaultTableModel)detailArea.getAssetTable().getModel()).getDataVector();
                     String threatString=null;
-                    SecReq secReq=null;
                     for(Asset as: ProcessedData.getThreatAffectedAssets()){
                         for(Threat th:as.getThreatList()){
                             threatString=th.getName();
-                            data.add(new String[]{as.getName(), threatString+"-SRDT",th.getSecReq().getDT(),threatString+"-SRDT"+"-EV"});
-                            data.add(new String[]{as.getName(), threatString+"-SRRP",th.getSecReq().getRP(),threatString+"-SRDT"+"-EV"});
-                            data.add(new String[]{as.getName(), threatString+"-SRPD",th.getSecReq().getPD(),threatString+"-SRDT"+"-EV"});
-                            data.add(new String[]{as.getName(), threatString+"-SRPV",th.getSecReq().getPV(),threatString+"-SRDT"+"-EV"});
+                            for(SecReq sr:th.getSrList()){
+                                data.add(new String[]{as.getName(), threatString+"-SRDT",sr.getText(),sr.getEvidence().getId()});
 
+                            }
                         }
                     }
                     
@@ -200,13 +198,10 @@ public class CollectionOfEvidence extends GridBagPanel {
                 public void valueChanged(ListSelectionEvent e) {
                     String srName = (String)srTable.getValueAt(srTable.getSelectedRow(), 0);
                     String[] splited= srName.split("-");
-                    String threatName=splited[0];
-                    String code=splited[1];
-                    Threat threat=ProcessedData.getThreat(threatName);
-                    String srText=threat.getSecReq().getSR(code);
+                    String srText=ProcessedData.getSr(srName).getText();
                     srInfo.getSrHeader().setText(srName);
                     srInfo.getSrText().setText(srText);
-                    Evidence evidence = threat.getSecReq().getEvidence(code);
+                    Evidence evidence = ProcessedData.getSr(srName).getEvidence();
                     assetInput.getAssetArea().getEvHeader().setText(
                         String.format("%s-EV",srName)
                     );
@@ -239,10 +234,10 @@ public class CollectionOfEvidence extends GridBagPanel {
                 saveButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        String evidenceName=assetArea.getEvHeader().getText();
-                        String[] splited=evidenceName.split("-");
-                        Evidence evidence=ProcessedData.getThreat(splited[0]).getSecReq().getEvidence(splited[1]);
-                        evidence.setName(evidenceName);
+                        String evidenceId=assetArea.getEvHeader().getText();
+                        String[] splited=evidenceId.split("-");
+                        Evidence evidence=ProcessedData.getSr(splited[0]+"-"+splited[1]).getEvidence();
+                        evidence.setId(evidenceId);
                         evidence.setContent(assetArea.getInputArea().getText());
                     }
                 });

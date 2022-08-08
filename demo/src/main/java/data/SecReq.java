@@ -1,67 +1,59 @@
 package data;
 
 public class SecReq {
-    private String DT="";
-    private String RP="";
-    private String PD="";
-    private String PV="";
-    private Evidence dtEvidence=new Evidence();
-    private Evidence rpEvidence=new Evidence();
-    private Evidence pdEvidence=new Evidence();
-    private Evidence pvEvidence=new Evidence();
+    public static final int DT=0;
+    public static final int RP=1;
+    public static final int PD=2;
+    public static final int PV=3;
 
-    public Evidence getEvidence(String code){
-        switch (code) {
-            case "SRDT":
-                return dtEvidence;
-            case "SRRP":
-                return rpEvidence;
-            case "SRPD":
-                return pdEvidence;
-            case "SRPV":
-                return pvEvidence;
-            default:
-                return null;
-        }
-    }
+    private Evidence evidence=new Evidence();
+    private int type=-1;
+    private String id="";
+    private String text="";
     
-    public String getDT() {
-        return DT;
+    public Evidence getEvidence() {
+        return evidence;
     }
-    public void setDT(String dT) {
-        DT = dT;
+    public void setEvidence(Evidence evidence) {
+        this.evidence = evidence;
     }
-    public String getRP() {
-        return RP;
-    }
-    public void setRP(String rP) {
-        RP = rP;
-    }
-    public String getPD() {
-        return PD;
-    }
-    public void setPD(String pR) {
-        PD = pR;
-    }
-    public String getPV() {
-        return PV;
-    }
-    public void setPV(String pV) {
-        PV = pV;
-    }
-    public String getSR(String code){
-        switch (code) {
-            case "SRDT":
-                return DT;
-            case "SRRP":
-                return RP;
-            case "SRPD":
-                return PD;
-            case "SRPV":
-                return PV;
+    public String getType() {
+        switch (type) {
+            case DT:
+                return "DT";
+            case RP:
+                return "RP";
+            case PD:
+                return "PD";
+            case PV:
+                return "PV";
+            
             default:
-                return null;
+                return "";
         }
     }
+    public SecReq(){
+
+    }
+
+    public SecReq(int type, String id, String text){
+        this.type=type;
+        this.id=id;
+        this.text=text;
+    }
+
+    public String getId() {
+        return id;
+    }
+    public void setId(String id) {
+        this.id = id;
+    }
+    public String getText() {
+        return text;
+    }
+    public void setText(String text) {
+        this.text = text;
+    }
+
     
 }

@@ -125,7 +125,7 @@ public class ThreatAffectedAsset extends GridBagPanel {
                     SecReq secReq=null;
                     for(Object o:vector){
                         threatString=(String)(((Vector)o).toArray(new String[0]))[0];
-                        secReq=ProcessedData.getThreat(threatString).getSecReq();
+                        // secReq=ProcessedData.getThreat(threatString).getSecReq();
 
                         for(Asset as:ProcessedData.getThreatAffectedAssets()){
                             data.add(new String[]{as.getName(),"",threatString,""+as.getThreatList().size()});

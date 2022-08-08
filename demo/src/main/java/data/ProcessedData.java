@@ -9,7 +9,46 @@ import api.OntologyFunc;
 public class ProcessedData {
     private static ArrayList<Threat> threatList = new ArrayList<Threat>();
     private static ArrayList<Asset> assetList = new ArrayList<Asset>();
+    private static ArrayList<SecReq> srList=new ArrayList<SecReq>();
+    
+    private static Step step1=new Step();
+    private static Step step2=new Step();
+    private static Step step3=new Step();
+    private static Step step4=new Step();
+    
     public static OntologyFunc ontologyFunc = new OntologyFunc();
+
+    public static SecReq getSr(String id){
+        for(SecReq sr:srList){
+            if(sr.getId().equals(id)){
+                return sr;
+            }
+        }
+        return null;
+    }
+
+    public static ArrayList<SecReq> getSrList() {
+        return srList;
+    }
+
+    public static void setSrList(ArrayList<SecReq> srList) {
+        ProcessedData.srList = srList;
+    }
+    public static Step getStep(int num){
+        switch (num) {
+            case 1:
+                return step1;
+            case 2:
+                return step2;
+            case 3:
+                return step3;
+            case 4:
+                return step4;
+        
+            default:
+                return null;
+        }
+    }
 
     public static ArrayList<Asset> getAssetList() {
         return assetList;

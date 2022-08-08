@@ -1,15 +1,15 @@
 package data;
 
 public class Evidence {
-    private String name="";
+    private String id="";
     private String content="";
 
-    public String getName() {
-        return name;
+    public String getId() {
+        return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(String id) {
+        this.id = id;
     }
 
 
@@ -25,10 +25,10 @@ public class Evidence {
         
     }
 
-    public Evidence(String name){
-        this.name=name;
+    public Evidence(String id){
+        this.id=id;
     }
-    public Evidence(String name, String content){
-        this.name=name;
+    public Evidence(String id, String content){
+        this.id=id;
     }
 }
