@@ -1,4 +1,4 @@
-package data;
+package api;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,20 +23,6 @@ public class RadarChart{
     public RadarChart() {
 
     }
-    public RadarChart(String title) {
-        // CategoryDataset dataset = createDataset();
-        ArrayList<ChartData> rawDataList=new ArrayList<ChartData>();
-        rawDataList.add(new ChartData("太郎타로","優しさ부드러움",9.0));
-        rawDataList.add(new ChartData("太郎타로","強さ힘",4.0));
-        rawDataList.add(new ChartData("太郎타로","賢さ영리",3.0));
-        rawDataList.add(new ChartData("太郎타로","ユーモア유머",1.0));
-        rawDataList.add(new ChartData("太郎타로","かっこよさ멋있음",5.0));
-        CategoryDataset dataset = makeDataset(rawDataList);
-        JFreeChart chart = createChart(dataset);
-        ChartPanel chartPanel = new ChartPanel(chart);
-        chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
-        
-    }
 
     public static CategoryDataset makeDataset(Collection<ChartData> rawDataList){
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
@@ -48,13 +34,13 @@ public class RadarChart{
 
     
 
-    public static JFreeChart createChart(CategoryDataset dataset) {
+    public static JFreeChart createChart(String title, CategoryDataset dataset) {
         SpiderWebPlot plot = new SpiderWebPlot(dataset);
         plot.setStartAngle(3);
         plot.setInteriorGap(0.40);
         plot.setToolTipGenerator(new StandardCategoryToolTipGenerator());
-        JFreeChart chart = new JFreeChart("人気者比較인기인비교",
-        TextTitle.DEFAULT_FONT, plot, false);
+        JFreeChart chart = new JFreeChart(title,
+            TextTitle.DEFAULT_FONT, plot, false);
         LegendTitle legend = new LegendTitle(plot);
         legend.setPosition(RectangleEdge.BOTTOM);
         chart.addSubtitle(legend);  

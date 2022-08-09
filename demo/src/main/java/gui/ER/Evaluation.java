@@ -2,6 +2,10 @@ package gui.ER;
 
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
@@ -39,7 +43,14 @@ import data.Threat;
 import gui.GridBagPanel;
 
 public class Evaluation extends GridBagPanel{
-    private JTable setTable =new JTable(new DefaultTableModel(new String[]{"Asset", "SR", "Evidence", "Evaluation"},0));
+    private JTable setTable =new JTable(
+        new DefaultTableModel(
+            new String[]{"Asset", "SR", "Evidence", "Evaluation"},0
+        ){
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            };
+    });
     public JTable getSetTable() {
         return setTable;
     }
@@ -140,6 +151,15 @@ public class Evaluation extends GridBagPanel{
                 }
             });
 
+            setTable.addMouseListener(new MouseAdapter(){
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if(e.getClickCount()==2){
+                        editButton.doClick();
+                    }
+                }
+            });
+
             editButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -164,6 +184,9 @@ public class Evaluation extends GridBagPanel{
                     assetTextSc.setPreferredSize(new Dimension(250,300));
                     pane.addGBLComponent(assetHeader, 0, 0,1,1,"HORIZONTAL");
                     pane.addGBLComponent(assetTextSc, 0, 1);
+
+                    // assetText.setText(ProcessedData.getSr(srName).getText());
+                    assetText.setEditable(false);
 
                     JLabel srHeader=makeHeader("Security Requirement");
                     JTextArea srText=new JTextArea();
@@ -196,7 +219,7 @@ public class Evaluation extends GridBagPanel{
                     scoreText.setPreferredSize(new Dimension(50,32));
                     pane.addGBLComponent(scoreHeader, 3, 3,1,1,0,0,"NONE",GridBagConstraints.LINE_END);
                     pane.addGBLComponent(scoreText, 3, 4,1,1,0,0,"NONE",GridBagConstraints.LINE_END);
-
+                    
                     JLabel blankLabel1 = new JLabel();
                     blankLabel1.setPreferredSize(new Dimension(10,10));
                     pane.addGBLComponent(blankLabel1, 3, 5);
@@ -205,7 +228,6 @@ public class Evaluation extends GridBagPanel{
                     pane.addGBLComponent(applyButton, 3, 6,1,1,0,0,"NONE",GridBagConstraints.LINE_END);
 
                     applyButton.addActionListener(new ActionListener(){
-                    
                         public void actionPerformed(ActionEvent e){
                             DefaultTableModel model = (DefaultTableModel)(setTable.getModel());
                             double score=Double.parseDouble(scoreText.getText());
@@ -216,6 +238,25 @@ public class Evaluation extends GridBagPanel{
                         }
                     });
 
+                    scoreText.addKeyListener(new KeyListener(){
+                        @Override
+                        public void keyPressed(KeyEvent e) {
+                            // TODO Auto-generated method stub
+                            applyButton.doClick();
+                        }
+                        @Override
+                        public void keyReleased(KeyEvent e) {
+                            // TODO Auto-generated method stub
+                            
+                        }
+                        @Override
+                        public void keyTyped(KeyEvent e) {
+                            // TODO Auto-generated method stub
+                            
+                        }
+                    });
+
+                    
 
                     dialog.setVisible(true);
 

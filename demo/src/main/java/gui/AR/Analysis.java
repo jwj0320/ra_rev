@@ -34,12 +34,12 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.category.CategoryDataset;
 
+import api.ChartData;
+import api.RadarChart;
 import data.Asset;
-import data.ChartData;
 import data.Evidence;
 import data.ProcessedData;
 import data.Threat;
-import data.RadarChart;
 import gui.GridBagPanel;
 import gui.ER.Evaluation;
 
@@ -73,7 +73,7 @@ public class Analysis extends GridBagPanel {
                 }
 
                 CategoryDataset dataset=radarChart.makeDataset(tacticDataList);
-                JFreeChart tacticChart=radarChart.createChart(dataset);
+                JFreeChart tacticChart=radarChart.createChart("Tactic",dataset);
                 ChartPanel tacticChartPanel=new ChartPanel(tacticChart);
                 tacticChartPanel.setPreferredSize(new Dimension(250,250));
 

@@ -274,8 +274,6 @@ public class TechCard extends GridBagPanel {
 
             });
 
-            setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
             JScrollPane scrollPane = new JScrollPane(tacticTable);
             scrollPane.setPreferredSize(new Dimension(150, 180));
             ;
@@ -286,10 +284,8 @@ public class TechCard extends GridBagPanel {
             tacticTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
                 @Override
                 public void valueChanged(ListSelectionEvent e) {
-                    if (tacticTable.getSelectedRow() != -1)
-                        confirmButton.setEnabled(true);
-                    else
-                        confirmButton.setEnabled(false);
+                    tacticTable.setValueAt(true, tacticTable.getSelectedRow(), 0);
+                    confirmButton.setEnabled(true);
                 }
             });
 

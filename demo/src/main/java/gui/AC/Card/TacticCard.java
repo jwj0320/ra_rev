@@ -48,6 +48,7 @@ import gui.AC.MakeScenario;
 public class TacticCard extends GridBagPanel {
     private JPanel cardPanel;
     private OntologyFunc ontologyFunc=ProcessedData.ontologyFunc;
+    private TacticCard self=this;
 
     public TacticCard(MakeScenario upperDialog) {
 
@@ -97,9 +98,12 @@ public class TacticCard extends GridBagPanel {
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                System.out.println(self.getBorder());
                 TacticSelection tacticSelection=new TacticSelection(step1Table);
                 tacticSelection.setVisible(true);
                 revalidate();
+                System.out.println("tacticCard");
+                System.out.println(self.getBorder());
             }
         });
         button2.addActionListener(new ActionListener() {
@@ -107,7 +111,6 @@ public class TacticCard extends GridBagPanel {
             public void actionPerformed(ActionEvent e) {
                 TacticSelection tacticSelection=new TacticSelection(step2Table);
                 tacticSelection.setVisible(true);
-                revalidate();
             }
         });
         button3.addActionListener(new ActionListener() {
@@ -115,7 +118,6 @@ public class TacticCard extends GridBagPanel {
             public void actionPerformed(ActionEvent e) {
                 TacticSelection tacticSelection=new TacticSelection(step3Table);
                 tacticSelection.setVisible(true);
-                revalidate();
             }
         });
         button4.addActionListener(new ActionListener() {
@@ -123,7 +125,6 @@ public class TacticCard extends GridBagPanel {
             public void actionPerformed(ActionEvent e) {
                 TacticSelection tacticSelection=new TacticSelection(step4Table);
                 tacticSelection.setVisible(true);
-                revalidate();
             }
         });
 
@@ -284,7 +285,6 @@ public class TacticCard extends GridBagPanel {
 
             });
 
-            setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
             JScrollPane scrollPane = new JScrollPane(tacticTable);
             scrollPane.setPreferredSize(new Dimension(150, 180));
@@ -296,10 +296,9 @@ public class TacticCard extends GridBagPanel {
             tacticTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
                 @Override
                 public void valueChanged(ListSelectionEvent e) {
-                    if (tacticTable.getSelectedRow() != -1)
-                        confirmButton.setEnabled(true);
-                    else
-                        confirmButton.setEnabled(false);
+                    tacticTable.setValueAt(true, tacticTable.getSelectedRow(), 0);
+                    confirmButton.setEnabled(true);
+
                 }
             });
 

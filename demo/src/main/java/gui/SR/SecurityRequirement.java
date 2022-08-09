@@ -20,6 +20,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.event.AncestorEvent;
@@ -62,8 +63,10 @@ public class SecurityRequirement extends GridBagPanel {
                 for(Threat th:ProcessedData.getThreatList()){
                     threatTableModel.addRow(new String[]{th.getName()});
                 }
+                detailArea.getThreatTable().setRowSelectionInterval(0, 0);
+                // 리스너가 왜 하나만 작동할까????
                 DefaultTableModel model = (DefaultTableModel)detailArea.getSrInput().getSrArea().getSrTable().getModel();
-                    model.setRowCount(0);
+                model.setRowCount(0);
             }
 
             @Override
@@ -161,6 +164,7 @@ public class SecurityRequirement extends GridBagPanel {
             setPreferredSize(new Dimension(1060,580));
 
             threatTable=new JTable(new DefaultTableModel(new String[]{"Threat ID"},0));
+            threatTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             threatTabScPane=new JScrollPane(threatTable);
             threatTabScPane.setPreferredSize(new Dimension(150,160));
             addGBLComponent(threatTabScPane, 0, 0,1,1,0,0,"BOTH");
@@ -186,17 +190,17 @@ public class SecurityRequirement extends GridBagPanel {
                     model.addRow(new String[]{selectedValue+"-SRPD"});
                     model.addRow(new String[]{selectedValue+"-SRPV"});
 
-                    srInput.getSrArea().getSrTable().getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-                        @Override
-                        public void valueChanged(ListSelectionEvent e) {
-                            String threatName = (String)threatTable.getValueAt(threatTable.getSelectedRow(),0);
-                            int index = srInput.getSrArea().getSrTable().getSelectedRow();
-                            SecReq sr =ProcessedData.getSr((String)srInput.getSrArea().getSrTable().getValueAt(index, 0));
-                            srInput.getSrArea().getInputArea().setText(sr.getText());
-  
-                            
-                        }
-                    });
+                }
+            });
+            srInput.getSrArea().getSrTable().getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+                @Override
+                public void valueChanged(ListSelectionEvent e) {
+                    String threatName = (String)threatTable.getValueAt(threatTable.getSelectedRow(),0);
+                    int index = srInput.getSrArea().getSrTable().getSelectedRow();
+                    SecReq sr =ProcessedData.getSr((String)srInput.getSrArea().getSrTable().getValueAt(index, 0));
+                    srInput.getSrArea().getInputArea().setText(sr.getText());
+
+                    
                 }
             });
             
@@ -344,7 +348,7 @@ public class SecurityRequirement extends GridBagPanel {
                         }
                     });
                     srTable.setFocusable(false);
-
+                    srTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
                     srTabSc=new JScrollPane(srTable);
                     srTabSc.setPreferredSize(new Dimension(200,200));
