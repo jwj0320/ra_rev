@@ -6,6 +6,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
@@ -238,11 +240,21 @@ public class Evaluation extends GridBagPanel{
                         }
                     });
 
+                    dialog.addWindowListener(new WindowAdapter(){
+                        @Override
+                        public void windowOpened(WindowEvent e) {
+                            // TODO Auto-generated method stub
+                            scoreText.requestFocus();
+                        }
+                    });
+
                     scoreText.addKeyListener(new KeyListener(){
                         @Override
                         public void keyPressed(KeyEvent e) {
                             // TODO Auto-generated method stub
-                            applyButton.doClick();
+                            if(e.getKeyCode()==KeyEvent.VK_ENTER){
+                                applyButton.doClick();
+                            }
                         }
                         @Override
                         public void keyReleased(KeyEvent e) {

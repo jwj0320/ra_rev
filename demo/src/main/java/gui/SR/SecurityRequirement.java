@@ -175,7 +175,6 @@ public class SecurityRequirement extends GridBagPanel {
             
             
             addGBLComponent(srInput, 1, 0,3,1);
-            
             threatTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
                 @Override
                 public void valueChanged(ListSelectionEvent e) {
@@ -203,6 +202,7 @@ public class SecurityRequirement extends GridBagPanel {
                     
                 }
             });
+            System.out.println("sr: "+srInput.getPreferredSize());
             
         }
 

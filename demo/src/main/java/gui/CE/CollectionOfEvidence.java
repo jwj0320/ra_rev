@@ -53,7 +53,7 @@ public class CollectionOfEvidence extends GridBagPanel {
         addGBLComponent(label, 0, 0);
         detailArea = new DetailArea();
 
-        addGBLComponent(detailArea, 0, 1, 2, 1);
+        addGBLComponent(detailArea, 0, 1, 3, 1);
         JButton button = new JButton("Next");
         button.addActionListener(new ActionListener() {
             @Override
@@ -62,7 +62,7 @@ public class CollectionOfEvidence extends GridBagPanel {
             }
         });
         JLabel blankLabel1 = new JLabel();
-        blankLabel1.setPreferredSize(new Dimension(10, 10));
+        blankLabel1.setPreferredSize(new Dimension(900, 10));
         addGBLComponent(blankLabel1, 0, 2);
         addGBLComponent(button, 2, 3, 0, 0, "NONE", GridBagConstraints.LINE_END);
 
@@ -149,21 +149,29 @@ public class CollectionOfEvidence extends GridBagPanel {
             setPreferredSize(new Dimension(1060,580));
             assetTable=new JTable(new DefaultTableModel(new String[]{"Asset"},0));
             assetTabScPane=new JScrollPane(assetTable);
-            assetTabScPane.setPreferredSize(new Dimension(150,160));
+            assetTabScPane.setPreferredSize(new Dimension(150,273));
             addGBLComponent(assetTabScPane, 0, 0,1,1,0,0,"BOTH");
 
             srTable=new JTable(new DefaultTableModel(new String[]{"SR ID"},0));
             srTabScPane=new JScrollPane(srTable);
-            srTabScPane.setPreferredSize(new Dimension(150,160));
+            srTabScPane.setPreferredSize(new Dimension(150,273));
             addGBLComponent(srTabScPane, 1, 0,1,1,0,0,"BOTH");
             
+            JLabel blankLabel2=new JLabel();
+            blankLabel2.setPreferredSize(new Dimension(50,10));
+            addGBLComponent(blankLabel2, 2, 0);
 
             AssetInput assetInput = new AssetInput();
-            addGBLComponent(assetInput, 2, 0,2,1);
+            addGBLComponent(assetInput, 3, 0,2,2);
 
-            addGBLComponent(srInfo, 3, 1,1,1);
+            // addGBLComponent(srInfo, 3, 1,1,1);
+            JTabbedPane infoTabbedPane = new JTabbedPane();
             AssetInfo assetInfo = new AssetInfo();
-            addGBLComponent(assetInfo, 0, 1,2,1,0,0,"NONE",GridBagConstraints.PAGE_START);
+
+            infoTabbedPane.addTab("Asset", assetInfo);
+            infoTabbedPane.addTab("SR", srInfo);
+            infoTabbedPane.setPreferredSize(new Dimension(300,300));
+            addGBLComponent(infoTabbedPane, 0, 1,2,1,0,0,"NONE",GridBagConstraints.PAGE_START);
 
             assetTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
@@ -252,7 +260,7 @@ public class CollectionOfEvidence extends GridBagPanel {
             }
 
             private class AssetArea extends GridBagPanel{
-                private JLabel evHeader = makeHeader("");
+                private JLabel evHeader = makeHeader("Evidence");
                 public JLabel getEvHeader() {
                     return evHeader;
                 }
@@ -274,13 +282,13 @@ public class CollectionOfEvidence extends GridBagPanel {
                 public AssetArea(){
                     setBorder(BorderFactory.createLineBorder(AjouBlue));
 
-                    evHeader.setPreferredSize(new Dimension(150,10));
+                    evHeader.setPreferredSize(new Dimension(10,18));
                     addGBLComponent(evHeader, 0, 0,1,1,0,0,"BOTH");
                     
                     inputArea=new JTextArea();
                     PromptSupport.setPrompt("Evidence details..", inputArea);
-                    inputArea.setPreferredSize(new Dimension(450,200));
-                    addGBLComponent(inputArea, 1, 0);
+                    inputArea.setPreferredSize(new Dimension(450,450));
+                    addGBLComponent(inputArea, 0, 1);
                     
                 }
             }
@@ -319,11 +327,11 @@ public class CollectionOfEvidence extends GridBagPanel {
             JLabel raContent=makeContent("");
 
             System.out.println(raHeader.getPreferredSize());
-            IDContent.setPreferredSize(new Dimension(180,18));
-            nameContent.setPreferredSize(new Dimension(180,18));
-            descContent.setPreferredSize(new Dimension(180,190));
-            typeContent.setPreferredSize(new Dimension(180,18));
-            raContent.setPreferredSize(new Dimension(180,18));
+            IDContent.setPreferredSize(new Dimension(150,18));
+            nameContent.setPreferredSize(new Dimension(150,18));
+            descContent.setPreferredSize(new Dimension(150,150));
+            typeContent.setPreferredSize(new Dimension(150,18));
+            raContent.setPreferredSize(new Dimension(150,18));
             
             addGBLComponent(IDContent, 1, 0);
             addGBLComponent(nameContent, 1, 1);

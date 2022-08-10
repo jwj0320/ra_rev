@@ -59,6 +59,8 @@ public class Analysis extends GridBagPanel {
                 // TODO Auto-generated method stub
                 RadarChart radarChart = new RadarChart();
                 ArrayList<ChartData> tacticDataList=new ArrayList<ChartData>();
+                ArrayList<ChartData> srDataList=new ArrayList<ChartData>();
+
 
                 // for(Threat th:ProcessedData.getThreatList()){
                 //     tacticDataList.add(new ChartData(th.getStep()+"", th.getTactic(), th.getScore()));
@@ -68,17 +70,38 @@ public class Analysis extends GridBagPanel {
                         tacticDataList.add(new ChartData(
                             ev.getSr().getThreat().getStep()+"",
                             ev.getSr().getThreat().getTactic() ,
-                            ev.getScore()));
+                            ev.getScore()
+                        ));
+                        srDataList.add(new ChartData(
+                            as.getName(),
+                            ev.getSr().getType(),
+                            ev.getScore()
+                        ));
                     }
                 }
 
-                CategoryDataset dataset=radarChart.makeDataset(tacticDataList);
-                JFreeChart tacticChart=radarChart.createChart("Tactic",dataset);
+                CategoryDataset tacticDataset=radarChart.makeDataset(tacticDataList);
+                JFreeChart tacticChart=radarChart.createChart("Tactic",tacticDataset);
                 ChartPanel tacticChartPanel=new ChartPanel(tacticChart);
                 tacticChartPanel.setPreferredSize(new Dimension(250,250));
-
+                
                 detailArea.getTacticPart().addGBLComponent(tacticChartPanel, 0, 0);
 
+
+                CategoryDataset srDataset=radarChart.makeDataset(srDataList);
+                JFreeChart srChart=radarChart.createChart("Security Requirement",srDataset);
+                ChartPanel srChartPanel=new ChartPanel(srChart);
+                srChartPanel.setPreferredSize(new Dimension(250,250));
+
+                detailArea.getSrPart().addGBLComponent(srChartPanel, 0, 0);
+
+                
+                
+                
+                
+                
+                
+                revalidate();
                 
                 
             }
@@ -124,18 +147,33 @@ public class Analysis extends GridBagPanel {
     }
     private class DetailArea extends GridBagPanel {
         private TacticPart tacticPart=new TacticPart();
+        private SRPart srPart=new SRPart();
+        public SRPart getSrPart() {
+            return srPart;
+        }
+        public void setSrPart(SRPart srPart) {
+            this.srPart = srPart;
+        }
         public TacticPart getTacticPart() {
             return tacticPart;
         }
         public DetailArea(){
             setPreferredSize(new Dimension(1060,580));
             addGBLComponent(tacticPart, 0, 0);
+            addGBLComponent(srPart, 1, 0);
 
         }
         private class TacticPart extends GridBagPanel{
             public TacticPart(){
                 setPreferredSize(new Dimension(300,300));
                 
+            }
+        }
+        private class SRPart extends GridBagPanel{
+            public SRPart(){
+                setPreferredSize(new Dimension(300,300));
+
+
             }
         }
     }
