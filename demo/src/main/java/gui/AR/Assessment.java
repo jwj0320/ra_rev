@@ -43,12 +43,12 @@ import data.Threat;
 import gui.GridBagPanel;
 import gui.ER.Evaluation;
 
-public class Analysis extends GridBagPanel {
+public class Assessment extends GridBagPanel {
     private JLabel label;
     private DetailArea detailArea;
     private GridBagPanel self = this;
         
-    public Analysis(JTabbedPane tPane){
+    public Assessment(JTabbedPane tPane){
         super(tPane);
         init();
         

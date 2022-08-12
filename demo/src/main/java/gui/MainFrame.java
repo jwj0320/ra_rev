@@ -25,7 +25,7 @@ import javax.swing.UIManager;
 import api.OntologyFunc;
 import data.ProcessedData;
 import gui.AC.AttackScenario;
-import gui.AR.Analysis;
+import gui.AR.Assessment;
 import gui.CE.CollectionOfEvidence;
 import gui.ER.Evaluation;
 import gui.SR.SecurityRequirement;
@@ -103,8 +103,8 @@ public class MainFrame extends JFrame{
         tPane.addTab("Security Requirements", new SecurityRequirement(tPane));
         tPane.addTab("Threat-affected Assets", new ThreatAffectedAsset(tPane));
         tPane.addTab("Collection of Evidence", new CollectionOfEvidence(tPane));
-        tPane.addTab("Risk Assessment", new Evaluation(tPane));
-        tPane.addTab("Risk Analysis", new Analysis(tPane));
+        tPane.addTab("Risk Evaluation", new Evaluation(tPane));
+        tPane.addTab("Risk Assessment", new Assessment(tPane));
         tPane.validate();
         
         add(tPane);
