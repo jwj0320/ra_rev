@@ -7,6 +7,8 @@ import api.OntologyFunc;
 // import gui.tabbedContent.api.OntologyFunc;
 
 public class ProcessedData {
+    private static String organization="";
+    
     private static ArrayList<Threat> threatList = new ArrayList<Threat>();
     private static ArrayList<Asset> assetList = new ArrayList<Asset>();
     private static ArrayList<SecReq> srList=new ArrayList<SecReq>();
@@ -17,7 +19,14 @@ public class ProcessedData {
     private static Step step4=new Step();
     
     public static OntologyFunc ontologyFunc = new OntologyFunc();
+    
+    public static String getOrganization() {
+        return organization;
+    }
 
+    public static void setOrganization(String organization) {
+        ProcessedData.organization = organization;
+    }
     public static SecReq getSr(String id){
         for(SecReq sr:srList){
             if(sr.getId().equals(id)){

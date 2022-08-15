@@ -37,6 +37,10 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
+import api.JSONFunc;
 import data.Asset;
 import data.Evidence;
 import data.ProcessedData;
@@ -107,12 +111,12 @@ public class Evaluation extends GridBagPanel{
             @Override
             public void ancestorRemoved(AncestorEvent event) {
                 // TODO Auto-generated method stub
-                DefaultTableModel model=(DefaultTableModel) setTable.getModel();
-                Vector vector=model.getDataVector();
-                Object[] data;
-                String assetId=null;
-                String evId=null;
-                double score=0.0;
+                // DefaultTableModel model=(DefaultTableModel) setTable.getModel();
+                // Vector vector=model.getDataVector();
+                // Object[] data;
+                // String assetId=null;
+                // String evId=null;
+                // double score=0.0;
                 // for(Object o:vector){
                 //     data=((Vector)o).toArray();
                 //     assetId=(String)data[0];
@@ -134,6 +138,7 @@ public class Evaluation extends GridBagPanel{
     private class DetailArea extends GridBagPanel {
         private JScrollPane setTabScPane = new JScrollPane(setTable);
         private JButton editButton=new JButton("Edit");
+        private JButton saveButton = new JButton("Save");
 
         public DetailArea() {
             setPreferredSize(new Dimension(1060,580));
@@ -143,6 +148,7 @@ public class Evaluation extends GridBagPanel{
 
             // editButton.setEnabled(false);
             addGBLComponent(editButton, 1, 0,1,1,0,0,"NONE",GridBagConstraints.LINE_END);
+            addGBLComponent(saveButton, 1, 2,1,1,0,0,"NONE",GridBagConstraints.LINE_END);
 
             setTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             setTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -159,6 +165,94 @@ public class Evaluation extends GridBagPanel{
                     if(e.getClickCount()==2){
                         editButton.doClick();
                     }
+                }
+            });
+
+            saveButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String filePath=""; // 필요, threat 처리 고민
+                    saveToJSON(filePath);
+                }
+
+                private void saveToJSON(String filePath){
+                    JSONFunc jsonFunc=new JSONFunc();
+                    JSONObject jsonObject=(JSONObject)jsonFunc.getJSONAware();
+                    JSONArray assetArray = getAssetJSONArray();
+                    
+                    String orgName=ProcessedData.getOrganization();
+
+                    jsonObject.put("organization",orgName);
+                    jsonObject.put("asset",assetArray);
+
+                }
+
+                private JSONArray getAssetJSONArray(){
+                    JSONArray assetArray = new JSONArray();
+                    JSONObject assetObject;
+                    ArrayList<Asset> assetList=ProcessedData.getThreatAffectedAssets();
+
+                    for(Asset asset:assetList){
+                        assetObject=assetToJSON(asset);
+                    }
+                    return assetArray;
+                }
+
+                private JSONObject assetToJSON(Asset asset){
+                    JSONObject assetObject=new JSONObject();
+                    String name= asset.getName();
+                    int type=asset.getType();
+                    String typeName=asset.getTypeName();
+                    ArrayList<Evidence> evidenceList= asset.getEvidenceList();
+                    ArrayList<Threat> threatList= asset.getThreatList();
+                    JSONArray evidenceArray=new JSONArray();
+
+                    assetObject.put("name",name);
+                    assetObject.put("type",type);
+                    assetObject.put("typeName",typeName);
+
+                    for(Evidence ev:evidenceList){
+                        evidenceArray.add(evidenceToJSON(ev));
+                    }
+                    assetObject.put("evidence",evidenceArray);
+
+                    // assetObject.put("name",name);
+                    
+
+                    return assetObject;
+                }
+
+                private JSONObject evidenceToJSON(Evidence evidence){
+                    JSONObject evidenceObject = new JSONObject();
+
+                    String id= evidence.getId();
+                    String content= evidence.getContent();
+                    double score= evidence.getScore();
+                    SecReq sr= evidence.getSr();
+                    JSONObject srObject=srToJSON(sr);
+
+                    evidenceObject.put("id",id);
+                    evidenceObject.put("content",content);
+                    evidenceObject.put("score",score);
+                    evidenceObject.put("sr",srObject);
+                    
+
+                    return evidenceObject;
+                }
+
+                private JSONObject srToJSON(SecReq sr){
+                    JSONObject srObject=new JSONObject();
+                    String id=sr.getId();
+                    String text=sr.getText();
+                    String type=sr.getType();
+                    sr.getThreat(); //
+
+                    srObject.put("id",id);
+                    srObject.put("text", text);
+                    srObject.put("type",type);
+                    //
+                    
+                    return srObject;
                 }
             });
 
@@ -234,6 +328,7 @@ public class Evaluation extends GridBagPanel{
                             DefaultTableModel model = (DefaultTableModel)(setTable.getModel());
                             double score=Double.parseDouble(scoreText.getText());
                             ProcessedData.getAsset(assetName).getEvidence(evName).setScore(score);
+                            ProcessedData.getAsset(assetName).getEvidence(evName).setEvaluated(true);
                             model.setValueAt(scoreText.getText(), setTable.getSelectedRow(), 3);
                             
                             dialog.dispose();

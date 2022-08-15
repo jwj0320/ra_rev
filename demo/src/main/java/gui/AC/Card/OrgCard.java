@@ -242,6 +242,7 @@ public class OrgCard extends GridBagPanel {
                     name=((String)((Vector)obj).toArray()[1]);
                     assetList.add(new Asset(type, name));
                 }
+                ProcessedData.setOrganization(orgComboBox.getSelectedItem().toString());
                 ProcessedData.setAssetList(assetList);
                 
                 
