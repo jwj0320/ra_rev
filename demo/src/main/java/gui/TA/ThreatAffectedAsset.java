@@ -32,7 +32,7 @@ import javax.swing.table.DefaultTableModel;
 
 import org.jdesktop.swingx.prompt.PromptSupport;
 
-import api.MakeCSV;
+import api.CSVFunc;
 import data.Asset;
 import data.Evidence;
 import data.ProcessedData;
@@ -134,7 +134,7 @@ public class ThreatAffectedAsset extends GridBagPanel {
                         }
                         
                     }
-                    MakeCSV.toCSV(filePath, header, data);
+                    CSVFunc.saveToFile(filePath, header, data);
                 }
             }
         });

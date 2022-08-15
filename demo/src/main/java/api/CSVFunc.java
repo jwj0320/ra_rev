@@ -6,7 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class MakeCSV {
+public class CSVFunc {
 
     // public static void writeDataToCsv(String filePath) throws IOException {
     //     CSVWriter writer = new CSVWriter(new FileWriter(filePath));
@@ -22,7 +22,7 @@ public class MakeCSV {
     //     writer.close();
     // }
 
-    public static void toCSV(String filePath,String[] header, Iterable<String[]> data){
+    public static void saveToFile(String filePath,String[] header, Iterable<String[]> data){
 
         try {
             CSVWriter writer = new CSVWriter(new FileWriter(filePath));

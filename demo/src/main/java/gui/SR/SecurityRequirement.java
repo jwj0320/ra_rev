@@ -35,7 +35,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.jena.sparql.function.library.leviathan.sec;
 import org.jdesktop.swingx.prompt.PromptSupport;
 
-import api.MakeCSV;
+import api.CSVFunc;
 import data.ProcessedData;
 import data.SecReq;
 import data.Threat;
@@ -139,7 +139,7 @@ public class SecurityRequirement extends GridBagPanel {
                         }
                         
                     }
-                    MakeCSV.toCSV(filePath, header, data);
+                    CSVFunc.saveToFile(filePath, header, data);
                 }
             }
         });
