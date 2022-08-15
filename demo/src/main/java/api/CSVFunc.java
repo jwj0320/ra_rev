@@ -19,11 +19,11 @@ public class CSVFunc {
     }
 
     public void saveToFile(String filePath){
-
         try {
             CSVWriter writer = new CSVWriter(new FileWriter(filePath));
             writer.writeNext(header);
             writer.writeAll(content);
+            writer.flush();
             writer.close();
             
         } catch (Exception e) {
@@ -33,7 +33,6 @@ public class CSVFunc {
     }
 
     public void loadFromeFile(String filePath){
-
         try {
             CSVReader reader = new CSVReader(new FileReader(filePath));
             header=reader.readNext(); 
