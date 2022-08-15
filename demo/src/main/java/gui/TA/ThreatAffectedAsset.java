@@ -134,7 +134,8 @@ public class ThreatAffectedAsset extends GridBagPanel {
                         }
                         
                     }
-                    CSVFunc.saveToFile(filePath, header, data);
+                    CSVFunc csv=new CSVFunc(header, data);
+                    csv.saveToFile(filePath);
                 }
             }
         });

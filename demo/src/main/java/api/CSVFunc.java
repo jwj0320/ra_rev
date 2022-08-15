@@ -6,28 +6,24 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 public class CSVFunc {
+    private String[] header;
+    private Iterable<String[]> content;
 
-    // public static void writeDataToCsv(String filePath) throws IOException {
-    //     CSVWriter writer = new CSVWriter(new FileWriter(filePath));
-    //     String[] entries = "EW#City#State".split("#");  // 1
-    //     writer.writeNext(entries);  // 2
+    public CSVFunc(String[] header, Iterable<String[]> content){
+        this.header=header;
+        this.content=content;
+    }
 
-    //     String[] entries1 = {"W", "Youngstown", "OH"};  // 3
-    //     writer.writeNext(entries1);
-
-    //     String[] entries2 = {"W", "Williamson", "WV"};
-    //     writer.writeNext(entries2);
-
-    //     writer.close();
-    // }
-
-    public static void saveToFile(String filePath,String[] header, Iterable<String[]> data){
+    public void saveToFile(String filePath){
 
         try {
             CSVWriter writer = new CSVWriter(new FileWriter(filePath));
             writer.writeNext(header);
-            writer.writeAll(data);
+            writer.writeAll(content);
             writer.close();
             
         } catch (Exception e) {
@@ -36,9 +32,32 @@ public class CSVFunc {
         
     }
 
-    // public static void main(String args[]) throws IOException {
-    //     writeDataToCsv("./sample.csv");
-    // }
+    public void loadFromeFile(String filePath){
+
+        try {
+            CSVReader reader = new CSVReader(new FileReader(filePath));
+            header=reader.readNext(); 
+            content=reader.readAll(); 
+            reader.close();
+            
+        } catch (Exception e) {
+            //TODO: handle exception
+        }
+        
+    }
+
+    public JSONArray toJSONArray(){
+        JSONArray jsonArray = new JSONArray();
+        JSONObject subObject;
+        for(String[] row:content){
+            for(int i=0;i<header.length;i++){
+                subObject=new JSONObject();
+                subObject.put(header[i],row[i]);
+                jsonArray.add(subObject);
+            }
+        }
+        return jsonArray;
+    }
 }
 
 
