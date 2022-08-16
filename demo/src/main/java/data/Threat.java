@@ -3,7 +3,7 @@ package data;
 import java.util.ArrayList;
 
 public class Threat {
-    private String name;
+    private String id;
     private String tactic;
     private String technique;
     private int step;
@@ -14,9 +14,9 @@ public class Threat {
     
     
     private ArrayList<String> mitigationList = new ArrayList<String>();
-    private ArrayList<String> CAPEC;
-    private ArrayList<String> CWE;
-    private ArrayList<String> CVE;
+    private ArrayList<String> CAPEC = new ArrayList<String>();;
+    private ArrayList<String> CWE = new ArrayList<String>();;
+    private ArrayList<String> CVE = new ArrayList<String>();;
     
     
     public ArrayList<SecReq> getSrList() {
@@ -77,7 +77,7 @@ public class Threat {
 
     
     public Threat(int index){
-        this.name = "Th"+String.format("%04d",index);
+        this.id = "Th"+String.format("%04d",index);
     }
 
     
@@ -112,13 +112,13 @@ public class Threat {
         this.technique = technique;
     }
 
-    public String getName() {
-        return name;
+    public String getId() {
+        return id;
     }
 
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(String name) {
+        this.id = name;
     }
 
 

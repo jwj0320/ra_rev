@@ -61,7 +61,7 @@ public class SecurityRequirement extends GridBagPanel {
                 
                 threatTableModel.setRowCount(0);
                 for(Threat th:ProcessedData.getThreatList()){
-                    threatTableModel.addRow(new String[]{th.getName()});
+                    threatTableModel.addRow(new String[]{th.getId()});
                 }
                 detailArea.getThreatTable().setRowSelectionInterval(0, 0);
                 // 리스너가 왜 하나만 작동할까????

@@ -184,16 +184,16 @@ public class CollectionOfEvidence extends GridBagPanel {
                     srTableModel.setRowCount(0);
                     for (Threat th: asset.getThreatList()){
                         srTableModel.addRow(new String[]{
-                            String.format("%s-SRDT",th.getName())
+                            String.format("%s-SRDT",th.getId())
                         });
                         srTableModel.addRow(new String[]{
-                            String.format("%s-SRRP",th.getName())
+                            String.format("%s-SRRP",th.getId())
                         });
                         srTableModel.addRow(new String[]{
-                            String.format("%s-SRPD",th.getName())
+                            String.format("%s-SRPD",th.getId())
                         });
                         srTableModel.addRow(new String[]{
-                            String.format("%s-SRPV",th.getName())
+                            String.format("%s-SRPV",th.getId())
                         });
                     }
                 }

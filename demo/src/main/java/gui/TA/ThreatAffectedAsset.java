@@ -60,7 +60,7 @@ public class ThreatAffectedAsset extends GridBagPanel {
                 
                 threatTableModel.setRowCount(0);
                 for(Threat th:ProcessedData.getThreatList()){
-                    threatTableModel.addRow(new String[]{th.getName()});
+                    threatTableModel.addRow(new String[]{th.getId()});
                 }
             }
 

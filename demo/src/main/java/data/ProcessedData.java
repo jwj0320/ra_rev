@@ -78,7 +78,7 @@ public class ProcessedData {
 
     public static Threat getThreat(String name){
         for (Threat t: threatList){
-            if(t.getName().equals(name)){
+            if(t.getId().equals(name)){
                 return t;
             }
         }

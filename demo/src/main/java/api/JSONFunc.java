@@ -9,6 +9,8 @@ import org.json.simple.JSONAware;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public class JSONFunc {
     private JSONAware jsonAware=new JSONObject();
     
@@ -41,7 +43,11 @@ public class JSONFunc {
         try {
             File file = new File(filePath);
             FileWriter writer = new FileWriter(file);
-            writer.write(jsonAware.toJSONString());
+            ObjectMapper mapper = new ObjectMapper();
+            Object json=mapper.readValue(jsonAware.toJSONString(), Object.class);
+            String jsonString=mapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
+            // writer.write(jsonAware.toJSONString());
+            writer.write(jsonString);
             writer.flush();
             writer.close();
 

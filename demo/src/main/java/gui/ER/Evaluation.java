@@ -20,6 +20,7 @@ import java.awt.Insets;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -34,6 +35,7 @@ import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -171,8 +173,21 @@ public class Evaluation extends GridBagPanel{
             saveButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    String filePath=""; // 필요, threat 처리 고민
-                    saveToJSON(filePath);
+                    JFileChooser chooser=new JFileChooser();
+                    FileNameExtensionFilter filter=new FileNameExtensionFilter(".json", "json");
+                    chooser.setFileFilter(filter);
+
+                    int ret=chooser.showSaveDialog(null);
+                    if(ret==JFileChooser.APPROVE_OPTION){
+                        String filePath=chooser.getSelectedFile().getPath();
+                        if (filePath.lastIndexOf(".")==-1&&
+                        !filePath.substring(filePath.lastIndexOf(".")+1).equalsIgnoreCase("json")){
+                        filePath=filePath+".json";
+                        }
+                        saveToJSON(filePath);
+
+                    }
+
                 }
 
                 private void saveToJSON(String filePath){
@@ -185,15 +200,16 @@ public class Evaluation extends GridBagPanel{
                     jsonObject.put("organization",orgName);
                     jsonObject.put("asset",assetArray);
 
+                    jsonFunc.saveToFile(filePath);
+
                 }
 
                 private JSONArray getAssetJSONArray(){
                     JSONArray assetArray = new JSONArray();
-                    JSONObject assetObject;
                     ArrayList<Asset> assetList=ProcessedData.getThreatAffectedAssets();
 
                     for(Asset asset:assetList){
-                        assetObject=assetToJSON(asset);
+                        assetArray.add(assetToJSON(asset));
                     }
                     return assetArray;
                 }
@@ -204,7 +220,7 @@ public class Evaluation extends GridBagPanel{
                     int type=asset.getType();
                     String typeName=asset.getTypeName();
                     ArrayList<Evidence> evidenceList= asset.getEvidenceList();
-                    ArrayList<Threat> threatList= asset.getThreatList();
+                    // ArrayList<Threat> threatList= asset.getThreatList();
                     JSONArray evidenceArray=new JSONArray();
 
                     assetObject.put("name",name);
@@ -245,14 +261,49 @@ public class Evaluation extends GridBagPanel{
                     String id=sr.getId();
                     String text=sr.getText();
                     String type=sr.getType();
-                    sr.getThreat(); //
+                    Threat threat=sr.getThreat(); 
+                    JSONObject threatObject=threatToJSON(threat);
 
                     srObject.put("id",id);
                     srObject.put("text", text);
                     srObject.put("type",type);
-                    //
+                    srObject.put("threat",threatObject);
+                    
                     
                     return srObject;
+                }
+
+                private JSONObject threatToJSON(Threat threat){
+                    JSONObject threatObject = new JSONObject();
+                    String id=threat.getId();
+                    int step=threat.getStep();
+                    String tactic=threat.getTactic();
+                    String technique=threat.getTechnique();
+                    ArrayList<String> CAPECList=threat.getCAPEC();
+                    ArrayList<String> CVEList=threat.getCVE();
+                    ArrayList<String> CWEList=threat.getCWE();
+                    ArrayList<String> mitiList=threat.getMitigationList();
+
+                    JSONArray CAPECArray = new JSONArray();
+                    JSONArray CVEArray = new JSONArray();
+                    JSONArray CWEArray = new JSONArray();
+                    JSONArray mitiArray = new JSONArray();
+
+                    CAPECArray.addAll(CAPECList);
+                    CVEArray.addAll(CVEList);
+                    CWEArray.addAll(CWEList);
+                    mitiArray.addAll(mitiList);
+
+                    threatObject.put("id",id);
+                    threatObject.put("step",step);
+                    threatObject.put("tactic",tactic);
+                    threatObject.put("technique",technique);
+                    threatObject.put("CAPEC",CAPECArray);
+                    threatObject.put("CVE",CVEArray);
+                    threatObject.put("CWE",CWEArray);
+                    threatObject.put("mitigation",mitiArray);
+
+                    return threatObject;
                 }
             });
 
