@@ -90,14 +90,14 @@ public class TechCard extends GridBagPanel {
 
         JScrollPane tacticTabSc = new JScrollPane(tacticTable);
 
-        tacticTabSc.setPreferredSize(new Dimension(120, 470));
+        tacticTabSc.setPreferredSize(new Dimension(220, 470));
         addGBLComponent(tacticTabSc, 0, 1, 1,1);
 
         GridBagPanel detailPane = new GridBagPanel();
         JLabel label2 = makeHeader("Selected Techniques");
         JTable techTable = makeContentTable();
         JScrollPane techSc = new JScrollPane(techTable);
-        techSc.setPreferredSize(new Dimension(270, 340));
+        techSc.setPreferredSize(new Dimension(400, 420));
         
         JButton addButton = new JButton("Add ..");
         detailPane.addGBLComponent(addButton, 0, 2,0,0,"BOTH");
@@ -188,6 +188,19 @@ public class TechCard extends GridBagPanel {
       
 
     }
+    // public static void main(String[] args){
+    //     TechCard techCard=new TechCard(null, 1);
+    //     JDialog dialog = new JDialog();
+    //     dialog.setSize(800,600);
+    //     GridBagPanel panel=new GridBagPanel();
+    //     dialog.add(panel);
+    //     panel.addGBLComponent(techCard, 0, 0,2,1,0,0);
+        
+    //     JButton button = new JButton("Next");
+    //     panel.addGBLComponent(button, 1,1,1,1,0,2,"NONE",GridBagConstraints.LINE_END);
+    //     dialog.setVisible(true);
+        
+    // }
 
     private class TechSelection extends JDialog {
         private JTable tacticTable = new JTable(new DefaultTableModel(new String[] { "V", "Tactics" }, 0){

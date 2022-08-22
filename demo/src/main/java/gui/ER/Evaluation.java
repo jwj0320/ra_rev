@@ -140,7 +140,7 @@ public class Evaluation extends GridBagPanel{
     private class DetailArea extends GridBagPanel {
         private JScrollPane setTabScPane = new JScrollPane(setTable);
         private JButton editButton=new JButton("Edit");
-        private JButton saveButton = new JButton("Save");
+        // private JButton saveButton = new JButton("Save");
 
         public DetailArea() {
             setPreferredSize(new Dimension(1060,580));
@@ -150,7 +150,7 @@ public class Evaluation extends GridBagPanel{
 
             // editButton.setEnabled(false);
             addGBLComponent(editButton, 1, 0,1,1,0,0,"NONE",GridBagConstraints.LINE_END);
-            addGBLComponent(saveButton, 1, 2,1,1,0,0,"NONE",GridBagConstraints.LINE_END);
+            // addGBLComponent(saveButton, 1, 2,1,1,0,0,"NONE",GridBagConstraints.LINE_END);
 
             setTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             setTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -170,142 +170,28 @@ public class Evaluation extends GridBagPanel{
                 }
             });
 
-            saveButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    JFileChooser chooser=new JFileChooser();
-                    FileNameExtensionFilter filter=new FileNameExtensionFilter(".json", "json");
-                    chooser.setFileFilter(filter);
+            // saveButton.addActionListener(new ActionListener() {
+            //     @Override
+            //     public void actionPerformed(ActionEvent e) {
+            //         JFileChooser chooser=new JFileChooser();
+            //         FileNameExtensionFilter filter=new FileNameExtensionFilter(".json", "json");
+            //         chooser.setFileFilter(filter);
 
-                    int ret=chooser.showSaveDialog(null);
-                    if(ret==JFileChooser.APPROVE_OPTION){
-                        String filePath=chooser.getSelectedFile().getPath();
-                        if (filePath.lastIndexOf(".")==-1&&
-                        !filePath.substring(filePath.lastIndexOf(".")+1).equalsIgnoreCase("json")){
-                        filePath=filePath+".json";
-                        }
-                        saveToJSON(filePath);
+            //         int ret=chooser.showSaveDialog(null);
+            //         if(ret==JFileChooser.APPROVE_OPTION){
+            //             String filePath=chooser.getSelectedFile().getPath();
+            //             if (filePath.lastIndexOf(".")==-1&&
+            //             !filePath.substring(filePath.lastIndexOf(".")+1).equalsIgnoreCase("json")){
+            //             filePath=filePath+".json";
+            //             }
+            //             ProcessedData.saveDataToJSON(filePath);
 
-                    }
+            //         }
 
-                }
+            //     }
 
-                private void saveToJSON(String filePath){
-                    JSONFunc jsonFunc=new JSONFunc();
-                    JSONObject jsonObject=(JSONObject)jsonFunc.getJSONAware();
-                    JSONArray assetArray = getAssetJSONArray();
-                    
-                    String orgName=ProcessedData.getOrganization();
-
-                    jsonObject.put("organization",orgName);
-                    jsonObject.put("asset",assetArray);
-
-                    jsonFunc.saveToFile(filePath);
-
-                }
-
-                private JSONArray getAssetJSONArray(){
-                    JSONArray assetArray = new JSONArray();
-                    ArrayList<Asset> assetList=ProcessedData.getThreatAffectedAssets();
-
-                    for(Asset asset:assetList){
-                        assetArray.add(assetToJSON(asset));
-                    }
-                    return assetArray;
-                }
-
-                private JSONObject assetToJSON(Asset asset){
-                    JSONObject assetObject=new JSONObject();
-                    String name= asset.getName();
-                    int type=asset.getType();
-                    String typeName=asset.getTypeName();
-                    ArrayList<Evidence> evidenceList= asset.getEvidenceList();
-                    // ArrayList<Threat> threatList= asset.getThreatList();
-                    JSONArray evidenceArray=new JSONArray();
-
-                    assetObject.put("name",name);
-                    assetObject.put("type",type);
-                    assetObject.put("typeName",typeName);
-
-                    for(Evidence ev:evidenceList){
-                        evidenceArray.add(evidenceToJSON(ev));
-                    }
-                    assetObject.put("evidence",evidenceArray);
-
-                    // assetObject.put("name",name);
-                    
-
-                    return assetObject;
-                }
-
-                private JSONObject evidenceToJSON(Evidence evidence){
-                    JSONObject evidenceObject = new JSONObject();
-
-                    String id= evidence.getId();
-                    String content= evidence.getContent();
-                    double score= evidence.getScore();
-                    SecReq sr= evidence.getSr();
-                    JSONObject srObject=srToJSON(sr);
-
-                    evidenceObject.put("id",id);
-                    evidenceObject.put("content",content);
-                    evidenceObject.put("score",score);
-                    evidenceObject.put("sr",srObject);
-                    
-
-                    return evidenceObject;
-                }
-
-                private JSONObject srToJSON(SecReq sr){
-                    JSONObject srObject=new JSONObject();
-                    String id=sr.getId();
-                    String text=sr.getText();
-                    String type=sr.getType();
-                    Threat threat=sr.getThreat(); 
-                    JSONObject threatObject=threatToJSON(threat);
-
-                    srObject.put("id",id);
-                    srObject.put("text", text);
-                    srObject.put("type",type);
-                    srObject.put("threat",threatObject);
-                    
-                    
-                    return srObject;
-                }
-
-                private JSONObject threatToJSON(Threat threat){
-                    JSONObject threatObject = new JSONObject();
-                    String id=threat.getId();
-                    int step=threat.getStep();
-                    String tactic=threat.getTactic();
-                    String technique=threat.getTechnique();
-                    ArrayList<String> CAPECList=threat.getCAPEC();
-                    ArrayList<String> CVEList=threat.getCVE();
-                    ArrayList<String> CWEList=threat.getCWE();
-                    ArrayList<String> mitiList=threat.getMitigationList();
-
-                    JSONArray CAPECArray = new JSONArray();
-                    JSONArray CVEArray = new JSONArray();
-                    JSONArray CWEArray = new JSONArray();
-                    JSONArray mitiArray = new JSONArray();
-
-                    CAPECArray.addAll(CAPECList);
-                    CVEArray.addAll(CVEList);
-                    CWEArray.addAll(CWEList);
-                    mitiArray.addAll(mitiList);
-
-                    threatObject.put("id",id);
-                    threatObject.put("step",step);
-                    threatObject.put("tactic",tactic);
-                    threatObject.put("technique",technique);
-                    threatObject.put("CAPEC",CAPECArray);
-                    threatObject.put("CVE",CVEArray);
-                    threatObject.put("CWE",CWEArray);
-                    threatObject.put("mitigation",mitiArray);
-
-                    return threatObject;
-                }
-            });
+                
+            // });
 
             editButton.addActionListener(new ActionListener() {
                 @Override

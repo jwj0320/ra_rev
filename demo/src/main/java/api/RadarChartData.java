@@ -1,6 +1,6 @@
 package api;
 
-public class ChartData{
+public class RadarChartData{
 
     private String category;
     private String type;
@@ -12,10 +12,10 @@ public class ChartData{
     public void setType(String type) {
         this.type = type;
     }
-    public ChartData(){
+    public RadarChartData(){
 
     }
-    public ChartData(String type, String category, double value){
+    public RadarChartData(String type, String category, double value){
         this.type=type;
         this.category=category;
         this.value=value;

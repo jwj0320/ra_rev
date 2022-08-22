@@ -30,11 +30,13 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.general.DefaultPieDataset;
 
-import api.ChartData;
+import api.RadarChartData;
 import api.RadarChart;
 import data.Asset;
 import data.Evidence;
@@ -58,8 +60,8 @@ public class Assessment extends GridBagPanel {
             public void ancestorAdded(AncestorEvent event) {
                 // TODO Auto-generated method stub
                 RadarChart radarChart = new RadarChart();
-                ArrayList<ChartData> tacticDataList=new ArrayList<ChartData>();
-                ArrayList<ChartData> srDataList=new ArrayList<ChartData>();
+                ArrayList<RadarChartData> tacticDataList=new ArrayList<RadarChartData>();
+                ArrayList<RadarChartData> srDataList=new ArrayList<RadarChartData>();
 
 
                 // for(Threat th:ProcessedData.getThreatList()){
@@ -67,12 +69,12 @@ public class Assessment extends GridBagPanel {
                 // }
                 for(Asset as:ProcessedData.getAssetList()){
                     for(Evidence ev:as.getEvidenceList()){
-                        tacticDataList.add(new ChartData(
+                        tacticDataList.add(new RadarChartData(
                             ev.getSr().getThreat().getStep()+"",
                             ev.getSr().getThreat().getTactic() ,
                             ev.getScore()
                         ));
-                        srDataList.add(new ChartData(
+                        srDataList.add(new RadarChartData(
                             as.getName(),
                             ev.getSr().getType(),
                             ev.getScore()
@@ -96,9 +98,11 @@ public class Assessment extends GridBagPanel {
                 detailArea.getSrPart().addGBLComponent(srChartPanel, 0, 0);
 
                 
+                DefaultPieDataset assetDataset= new DefaultPieDataset();
                 
+                for(Asset as:ProcessedData.getAssetList()){
                 
-                
+                }
                 
                 
                 revalidate();

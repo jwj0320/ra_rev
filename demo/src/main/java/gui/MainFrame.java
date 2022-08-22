@@ -14,13 +14,20 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import api.OntologyFunc;
 import data.ProcessedData;
@@ -105,6 +112,7 @@ public class MainFrame extends JFrame{
         tPane.addTab("Collection of Evidence", new CollectionOfEvidence(tPane));
         tPane.addTab("Risk Evaluation", new Evaluation(tPane));
         tPane.addTab("Risk Assessment", new Assessment(tPane));
+        
         tPane.validate();
         
         add(tPane);
@@ -122,6 +130,49 @@ public class MainFrame extends JFrame{
         // tPane.addTab("Attack Component", atkPanel);
 
         // orgPanel.disableOtherTabs();
+
+
+        JMenuBar menuBar = new JMenuBar();
+        JMenu fileMenu = new JMenu("File");
+        JMenuItem newWindowItem=new JMenuItem("Open New window");
+        JMenuItem saveDataItem= new JMenuItem("Save data");
+        JMenuItem loadDataItem=new JMenuItem("Load data");
+
+        newWindowItem.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new MainFrame();
+                // 하나 종료할 때 같이 종료되는 현상
+            }
+        });
+
+        saveDataItem.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser chooser=new JFileChooser();
+                FileNameExtensionFilter filter=new FileNameExtensionFilter(".json", "json");
+                chooser.setFileFilter(filter);
+
+                int ret=chooser.showSaveDialog(null);
+                if(ret==JFileChooser.APPROVE_OPTION){
+                    String filePath=chooser.getSelectedFile().getPath();
+                    if (filePath.lastIndexOf(".")==-1&&
+                    !filePath.substring(filePath.lastIndexOf(".")+1).equalsIgnoreCase("json")){
+                    filePath=filePath+".json";
+                    }
+                    ProcessedData.saveDataToJSON(filePath);
+
+                }
+            }
+        });
+
+        fileMenu.add(newWindowItem);
+        fileMenu.add(saveDataItem);
+        fileMenu.add(loadDataItem);
+
+        menuBar.add(fileMenu);
+
+        setJMenuBar(menuBar);
 
         setVisible(true);
     }

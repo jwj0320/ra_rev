@@ -146,10 +146,23 @@ public class OrgCard extends GridBagPanel {
         // }
         // });
 
-        addGBLComponent(bpTableScPane, 0, 2, 2, 1);
-        addGBLComponent(humanTableScPane, 2, 2);
-        addGBLComponent(itsTableScPane, 3, 2);
-        addGBLComponent(peTableScPane, 4, 2);
+        JTabbedPane tabbedPane = new JTabbedPane();
+        addGBLComponent(tabbedPane, 0, 2,5,1);
+
+        GridBagPanel assetPanel = new GridBagPanel();
+        
+        assetPanel.addGBLComponent(bpTableScPane, 0, 2, 2, 1);
+        assetPanel.addGBLComponent(humanTableScPane, 2, 2);
+        assetPanel.addGBLComponent(itsTableScPane, 3, 2);
+        assetPanel.addGBLComponent(peTableScPane, 4, 2);
+
+        tabbedPane.addTab("Asset", assetPanel);
+        tabbedPane.addTab("0", new GridBagPanel());
+
+        // addGBLComponent(bpTableScPane, 0, 2, 2, 1);
+        // addGBLComponent(humanTableScPane, 2, 2);
+        // addGBLComponent(itsTableScPane, 3, 2);
+        // addGBLComponent(peTableScPane, 4, 2);
 
         orgComboBox.addActionListener(new ActionListener() {
             @Override

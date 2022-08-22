@@ -24,9 +24,9 @@ public class RadarChart{
 
     }
 
-    public static CategoryDataset makeDataset(Collection<ChartData> rawDataList){
+    public static CategoryDataset makeDataset(Collection<RadarChartData> rawDataList){
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        for(ChartData rawData:rawDataList){
+        for(RadarChartData rawData:rawDataList){
             dataset.addValue(rawData.getValue(), rawData.getType(), rawData.getCategory());
         }
         return dataset;
