@@ -92,11 +92,10 @@ public class Progress extends JDialog{
                 Vector vector = ((DefaultTableModel)(upper.getDetailArea().getTable().getModel())).getDataVector();
                 Threat threat;
                 Object[] rowData;
-                int index=1;
                 SecReq sr;
                 for (Object row:vector){
                     rowData=(Object[])(((Vector)row).toArray());
-                    threat = new Threat(index++);
+                    threat = new Threat();
                     threat.setStep(Integer.parseInt((String)rowData[0]));
                     threat.setTactic((String)rowData[1]);
                     threat.setTechnique((String)rowData[2]);

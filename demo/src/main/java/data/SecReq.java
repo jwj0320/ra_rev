@@ -32,12 +32,38 @@ public class SecReq {
                 return "";
         }
     }
+
+    public void setType(String type){
+        switch (type){
+            case "DT":
+                this.type=DT;
+                return;
+            case "RP":
+                this.type=RP;
+                return;
+            case "PD":
+                this.type=PD;
+                return;
+            case "PV":
+                this.type=PV;
+                return;
+            
+            default:
+                return;
+        }
+    }
+
     public SecReq(){
 
     }
 
     public SecReq(int type, String id, String text){
         this.type=type;
+        this.id=id;
+        this.text=text;
+    }
+
+    public SecReq(String id, String text){
         this.id=id;
         this.text=text;
     }

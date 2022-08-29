@@ -166,6 +166,26 @@ public class MainFrame extends JFrame{
             }
         });
 
+        loadDataItem.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser chooser=new JFileChooser();
+                FileNameExtensionFilter filter=new FileNameExtensionFilter(".json", "json");
+                chooser.setFileFilter(filter);
+
+                int ret=chooser.showOpenDialog(null);
+                if(ret==JFileChooser.APPROVE_OPTION){
+                    String filePath=chooser.getSelectedFile().getPath();
+                    if (filePath.lastIndexOf(".")==-1&&
+                    !filePath.substring(filePath.lastIndexOf(".")+1).equalsIgnoreCase("json")){
+                    filePath=filePath+".json";
+                    }
+                    ProcessedData.loadDataFromJSON(filePath);
+
+                }
+            }
+        });
+
         fileMenu.add(newWindowItem);
         fileMenu.add(saveDataItem);
         fileMenu.add(loadDataItem);

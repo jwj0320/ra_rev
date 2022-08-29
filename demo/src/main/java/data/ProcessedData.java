@@ -118,11 +118,13 @@ public class ProcessedData {
         JSONFunc jsonFunc=new JSONFunc();
         JSONObject jsonObject=(JSONObject)jsonFunc.getJSONAware();
         JSONArray assetArray = getJSONArrayFromAsset();
+        JSONArray threatArray = getJSONArrayFromThreat();
         
         String orgName=ProcessedData.getOrganization();
 
         jsonObject.put("organization",orgName);
         jsonObject.put("asset",assetArray);
+        jsonObject.put("threat",threatArray);
 
         jsonFunc.saveToFile(filePath);
 
@@ -136,6 +138,17 @@ public class ProcessedData {
             assetArray.add(assetToJSON(asset));
         }
         return assetArray;
+    }
+
+    private static JSONArray getJSONArrayFromThreat(){
+        JSONArray threatArray = new JSONArray();
+        ArrayList<Threat> threatList=ProcessedData.getThreatList();
+
+        for(Threat th:threatList){
+            threatArray.add(threatToJSON(th));
+        }
+
+        return threatArray;
     }
 
     private static JSONObject assetToJSON(Asset asset){
@@ -240,7 +253,7 @@ public class ProcessedData {
         ArrayList<Asset> assetList= getAssetListFromJSONArray(assetArray);
 
         ProcessedData.setOrganization(orgName);
-        // 조직 선택 후 할 수 있는 행동 추가
+        ProcessedData.setAssetListFromOrg(orgName);
         ProcessedData.setThreatAffectedAssets(assetList);
         
     }
@@ -253,18 +266,132 @@ public class ProcessedData {
         // }
 
         for(Object obj:assetArray){
-            JSONToAsset((JSONObject)obj);
+            assetList.add(JSONToAsset((JSONObject)obj));
         }
 
-        return assetArray;
+        return assetList;
     }
 
-    private static void JSONToAsset(JSONObject assetObject){
-        String name= (String)assetObject.get("name");
-        int type=(int)assetObject.get("type");
-        String typeName=(String)assetObject.get("typeName");
+    private static void setAssetListFromOrg(String orgName){
+        ArrayList<String> bps = ontologyFunc.LoadBPFromOrg(orgName);
+        ArrayList<Asset> itsList=new ArrayList<Asset>();
+        for (String bp : bps) {
+            ArrayList<String> roles = ontologyFunc.LoadRoleFromBP(bp);
+            for (String role : roles) {
+                ArrayList<String> softwares = ontologyFunc.LoadSWFromRole(role);
+                for (String software : softwares) {
+                    if (itsList.contains(software)) {
+                        continue;
+                    }
+                    itsList.add(new Asset("Software",software));
+                    ArrayList<String> datas = ontologyFunc.LoadDataFromSW(software);
+                    for (String data : datas) {
+                        if (itsList.contains(data)) {
+                            continue;
+                        }
+                        itsList.add(new Asset("Data",data));
+                    }
+                    ArrayList<String> platforms = ontologyFunc.LoadPlatformFromSW(software);
+                    for (String platform : platforms) {
+                        if (itsList.contains(platform)) {
+                            continue;
+                        }
+                        itsList.add(new Asset( "Platform", platform ));
+                    }
+                    ArrayList<String> hardwares = ontologyFunc.LoadHardwareFromSW(software);
+                    for (String hardware : hardwares) {
+                        if (itsList.contains(hardware)) {
+                            continue;
+                        }
+                        itsList.add(new Asset( "Hardware", hardware ));
+                    }
+                }
+            }
+        }
+        ProcessedData.setAssetList(itsList);
+    }
 
+    private static Asset JSONToAsset(JSONObject assetObject){
+        String name= (String)assetObject.get("name");
+        // int type=(int)assetObject.get("type");
+        String typeName=(String)assetObject.get("typeName");
+        Asset asset = new Asset(typeName,name);
+        JSONArray evidenceArray=(JSONArray)assetObject.get("evidence");
+        Evidence evidence=null;
+        for(Object obj:evidenceArray){
+            evidence=JSONToEvidence((JSONObject)obj);
+            asset.getEvidenceList().add(evidence);
+        }
+
+        return asset;
+    }
+
+    private static Evidence JSONToEvidence(JSONObject evidenceObject){
+        String id=(String)evidenceObject.get("id");
+        String content=(String)evidenceObject.get("content");
+        double score=(double)evidenceObject.get("score");
+        Evidence evidence = new Evidence(id, content);
+        evidence.setScore(score);
+
+        JSONObject srObject = (JSONObject)evidenceObject.get("sr");
+        SecReq sr=JSONToSR((JSONObject)srObject);
+        evidence.setSr(sr);
+
+
+        return evidence;
         
+    }
+
+    private static SecReq JSONToSR(JSONObject srObject){
+        String id=(String)srObject.get("id");
+        String text=(String)srObject.get("text");
+        String type=(String)srObject.get("type");
+        SecReq sr=new SecReq(id,text);
+        sr.setType(type);
+
+        JSONObject threatObject=(JSONObject)srObject.get("threat");
+        Threat threat=JSONToThreat(threatObject);
+        sr.setThreat(threat);
+
+
+        return sr;
+    }
+
+    private static Threat JSONToThreat(JSONObject threatObject){
+        String id=(String)threatObject.get("id");
+        String technique = (String)threatObject.get("technique");
+        String tactic = (String)threatObject.get("tactic");
+        Threat threat = new Threat();
+        threat.setId(id);
+        threat.setTechnique(technique);
+        threat.setTactic(tactic);
+
+        JSONArray CAPECArray=(JSONArray)threatObject.get("CAPEC");
+        ArrayList<String> CAPECList=threat.getCAPEC();
+        for(Object obj:CAPECArray){
+            CAPECList.add((String)obj);
+        }
+
+        JSONArray CWEArray=(JSONArray)threatObject.get("CWE");
+        ArrayList<String> CWEList=threat.getCWE();
+        for(Object obj:CWEArray){
+            CWEList.add((String)obj);
+        }
+
+        JSONArray CVEArray=(JSONArray)threatObject.get("CVE");
+        ArrayList<String> CVEList=threat.getCVE();
+        for(Object obj:CVEArray){
+            CVEList.add((String)obj);
+        }
+
+        JSONArray mitigationArray=(JSONArray)threatObject.get("mitigation");
+        ArrayList<String> mitigationList=threat.getMitigationList();
+        for(Object obj:mitigationArray){
+            mitigationList.add((String)obj);
+        }// Threat 중복 문제
+
+        return threat;
+
     }
     
 
