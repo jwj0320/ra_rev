@@ -337,7 +337,7 @@ public class ThreatAffectedAsset extends GridBagPanel {
                         Asset selectedAsset=null;
                         Vector vector = ((DefaultTableModel)(srArea.getSrTable().getModel())).getDataVector();
                         Object[] data;
-                        ArrayList<Asset> assetList=new ArrayList<Asset>();
+                        ArrayList<Asset> assetList=selectedThreat.getAssetList();
                         Evidence evidence=null;
                         for (Object obj:vector){
                             data=((Vector)obj).toArray();
@@ -357,7 +357,27 @@ public class ThreatAffectedAsset extends GridBagPanel {
                                 assetList.add(selectedAsset);
                             }
                         }
-                        selectedThreat.setAssetList(assetList);
+                        // selectedThreat.setAssetList(assetList); ArrayList<Asset> assetList=new ArrayList<Asset>();
+                        // Evidence evidence=null;
+                        // for (Object obj:vector){
+                        //     data=((Vector)obj).toArray();
+                        //     selectedAsset=ProcessedData.getAsset((String)data[1]);
+                        //     if(((Boolean)data[2])==true &&
+                        //     !selectedAsset.getThreatList().contains(selectedThreat)){
+                        //         selectedAsset.getThreatList().add(selectedThreat);
+                                
+                        //         for(SecReq sr: selectedThreat.getSrList()){
+                        //             evidence=new Evidence(((String)data[1])+"-"+sr.getId()+"-EV");
+                        //             System.out.println(evidence.getId());
+                        //             evidence.setSr(sr);
+                        //             selectedAsset.getEvidenceList().add(evidence);
+
+                        //         }
+                                
+                        //         assetList.add(selectedAsset);
+                        //     }
+                        // }
+                        // selectedThreat.setAssetList(assetList);
                     }
                 });
 

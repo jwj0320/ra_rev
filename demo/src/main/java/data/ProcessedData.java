@@ -110,9 +110,13 @@ public class ProcessedData {
         return threatAffectedAssets;
     }
 
-    public static void setThreatAffectedAssets(ArrayList<Asset> threatAffectedAssets){
-        //
-    }
+    // public static void setThreatAffectedAssets(ArrayList<Asset> threatAffectedAssets){
+    //     for(Asset as:threatAffectedAssets){
+    //         for(Threat th:as.getThreatList()){
+                
+    //         }
+    //     }
+    // }
 
     public static void saveDataToJSON(String filePath){
         JSONFunc jsonFunc=new JSONFunc();
@@ -157,12 +161,18 @@ public class ProcessedData {
         int type=asset.getType();
         String typeName=asset.getTypeName();
         ArrayList<Evidence> evidenceList= asset.getEvidenceList();
-        // ArrayList<Threat> threatList= asset.getThreatList();
+        ArrayList<Threat> threatList= asset.getThreatList();
+        JSONArray threatArray=new JSONArray();
         JSONArray evidenceArray=new JSONArray();
 
         assetObject.put("name",name);
         assetObject.put("type",type);
         assetObject.put("typeName",typeName);
+
+        for(Threat th:threatList){
+            threatArray.add(threatToJSON(th));
+        }
+        assetObject.put("threat",threatArray);
 
         for(Evidence ev:evidenceList){
             evidenceArray.add(evidenceToJSON(ev));
@@ -180,12 +190,14 @@ public class ProcessedData {
 
         String id= evidence.getId();
         String content= evidence.getContent();
+        boolean isEvaluated=evidence.isEvaluated();
         double score= evidence.getScore();
         SecReq sr= evidence.getSr();
         JSONObject srObject=srToJSON(sr);
 
         evidenceObject.put("id",id);
         evidenceObject.put("content",content);
+        evidenceObject.put("isEvaluated",isEvaluated);
         evidenceObject.put("score",score);
         evidenceObject.put("sr",srObject);
         
@@ -250,26 +262,55 @@ public class ProcessedData {
         
         String orgName=(String)jsonObject.get("organization");
         JSONArray assetArray=(JSONArray)jsonObject.get("asset");
-        ArrayList<Asset> assetList= getAssetListFromJSONArray(assetArray);
+        // ArrayList<Asset> assetList= setAssetListFromJSONArray(assetArray);
+
+        JSONArray threatArray = (JSONArray)jsonObject.get("threat");
+        ArrayList<Threat> threatList= getThreatListFromJSONArray(threatArray);
 
         ProcessedData.setOrganization(orgName);
         ProcessedData.setAssetListFromOrg(orgName);
-        ProcessedData.setThreatAffectedAssets(assetList);
+        ProcessedData.setThreatList(threatList);
+        ProcessedData.setAssetListFromJSONArray(assetArray);
+        // ProcessedData.setThreatAffectedAssets(assetList);
         
     }
 
-    private static ArrayList<Asset> getAssetListFromJSONArray(JSONArray assetArray){
-        ArrayList<Asset> assetList=ProcessedData.getThreatAffectedAssets();
-
-        // for(Asset asset:assetList){
-        //     assetArray.add(assetToJSON(asset));
-        // }
-
+    private static void setAssetListFromJSONArray(JSONArray assetArray){
+        Asset asset=null;
+        JSONObject assetObject=null;
         for(Object obj:assetArray){
-            assetList.add(JSONToAsset((JSONObject)obj));
+            assetObject=(JSONObject)obj;
+            asset=ProcessedData.getAsset((String)assetObject.get("name"));
+            JSONToAsset(asset, assetObject);
+            
         }
 
-        return assetList;
+        return;
+    }
+
+    // private static ArrayList<Asset> getAssetListFromJSONArray(JSONArray assetArray){
+    //     // ArrayList<Asset> assetList=ProcessedData.getThreatAffectedAssets();
+    //     ArrayList<Asset> assetList=new ArrayList<Asset>();
+
+    //     // for(Asset asset:assetList){
+    //     //     assetArray.add(assetToJSON(asset));
+    //     // }
+
+    //     for(Object obj:assetArray){
+    //         assetList.add(JSONToAsset((JSONObject)obj));
+    //     }
+
+    //     return assetList;
+    // }
+
+    private static ArrayList<Threat> getThreatListFromJSONArray(JSONArray threatArray){
+        ArrayList<Threat> threatList=new ArrayList<Threat>();
+        
+        for(Object obj:threatArray){
+            threatList.add(JSONToThreat((JSONObject)obj));
+        }
+
+        return threatList;
     }
 
     private static void setAssetListFromOrg(String orgName){
@@ -311,11 +352,20 @@ public class ProcessedData {
         ProcessedData.setAssetList(itsList);
     }
 
-    private static Asset JSONToAsset(JSONObject assetObject){
-        String name= (String)assetObject.get("name");
+    private static void JSONToAsset(Asset asset,JSONObject assetObject){
+        // String name= (String)assetObject.get("name");
         // int type=(int)assetObject.get("type");
-        String typeName=(String)assetObject.get("typeName");
-        Asset asset = new Asset(typeName,name);
+        // String typeName=(String)assetObject.get("typeName");
+        // Asset asset = new Asset(typeName,name);
+        JSONArray threatArray=(JSONArray)assetObject.get("threat");
+        Threat threat=null;
+        for(Object obj:threatArray){
+            threat=ProcessedData.getThreat((String)((JSONObject)obj).get("id"));
+            threat.getAssetList().add(asset);
+            asset.getThreatList().add(threat);
+        }
+
+
         JSONArray evidenceArray=(JSONArray)assetObject.get("evidence");
         Evidence evidence=null;
         for(Object obj:evidenceArray){
@@ -323,14 +373,40 @@ public class ProcessedData {
             asset.getEvidenceList().add(evidence);
         }
 
-        return asset;
+        return;
     }
+
+    // private static Asset JSONToAsset(JSONObject assetObject){
+    //     String name= (String)assetObject.get("name");
+    //     // int type=(int)assetObject.get("type");
+    //     String typeName=(String)assetObject.get("typeName");
+    //     Asset asset = new Asset(typeName,name);
+    //     JSONArray threatArray=(JSONArray)assetObject.get("threat");
+    //     Threat threat=null;
+    //     for(Object obj:threatArray){
+    //         threat=ProcessedData.getThreat((String)((JSONObject)obj).get("id"));
+    //         threat.getAssetList().add(asset);
+    //         asset.getThreatList().add(threat);
+    //     }
+
+
+    //     JSONArray evidenceArray=(JSONArray)assetObject.get("evidence");
+    //     Evidence evidence=null;
+    //     for(Object obj:evidenceArray){
+    //         evidence=JSONToEvidence((JSONObject)obj);
+    //         asset.getEvidenceList().add(evidence);
+    //     }
+
+    //     return asset;
+    // }
 
     private static Evidence JSONToEvidence(JSONObject evidenceObject){
         String id=(String)evidenceObject.get("id");
         String content=(String)evidenceObject.get("content");
+        boolean isEvaluated=(boolean)evidenceObject.get("isEvaluated");
         double score=(double)evidenceObject.get("score");
         Evidence evidence = new Evidence(id, content);
+        evidence.setEvaluated(isEvaluated);
         evidence.setScore(score);
 
         JSONObject srObject = (JSONObject)evidenceObject.get("sr");
@@ -350,7 +426,11 @@ public class ProcessedData {
         sr.setType(type);
 
         JSONObject threatObject=(JSONObject)srObject.get("threat");
-        Threat threat=JSONToThreat(threatObject);
+        // Threat threat=JSONToThreat(threatObject); // threat을 미리 저장한 후에 나중에 찾자
+        // sr.setThreat(threat);
+
+        String threatId=(String)threatObject.get("id");
+        Threat threat=ProcessedData.getThreat(threatId);
         sr.setThreat(threat);
 
 
