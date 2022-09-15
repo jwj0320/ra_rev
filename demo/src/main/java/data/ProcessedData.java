@@ -258,6 +258,8 @@ public class ProcessedData {
     }
 
     public static void loadDataFromJSON(String filePath){
+        initializeVar();
+
         JSONFunc jsonFunc=new JSONFunc();
         jsonFunc.loadFromFile(filePath);
         JSONObject jsonObject=(JSONObject)jsonFunc.getJSONAware();
@@ -441,10 +443,12 @@ public class ProcessedData {
 
     private static Threat JSONToThreat(JSONObject threatObject){
         String id=(String)threatObject.get("id");
+        long step=(long)threatObject.get("step");
         String technique = (String)threatObject.get("technique");
         String tactic = (String)threatObject.get("tactic");
         Threat threat = new Threat();
         threat.setId(id);
+        threat.setStep((int)step);
         threat.setTechnique(technique);
         threat.setTactic(tactic);
 
@@ -496,4 +500,16 @@ public class ProcessedData {
     //     }
     //     return matchedList;
     // }
+
+    public static void initializeVar(){
+        organization="";
+        threatList = new ArrayList<Threat>();
+        assetList = new ArrayList<Asset>();
+        srList=new ArrayList<SecReq>();
+        step1=new Step();
+        step2=new Step();
+        step3=new Step();
+        step4=new Step();
+
+    }
 }

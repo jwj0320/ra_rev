@@ -108,6 +108,10 @@ public class Evaluation extends GridBagPanel{
                         });
                     }
                 }
+                System.out.println("eval added");
+                System.out.println(assetList.size());
+                System.out.println(ProcessedData.getThreatList().size());
+                System.out.println(ProcessedData.getAssetList().size());
             }
 
             @Override

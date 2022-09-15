@@ -2,6 +2,8 @@ package gui.AC;
 
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Vector;
 import java.awt.event.ActionEvent;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -20,6 +22,9 @@ import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 import javax.swing.table.DefaultTableModel;
 
+import data.ProcessedData;
+import data.SecReq;
+import data.Threat;
 import gui.GridBagPanel;
 
 public class AttackScenario extends GridBagPanel{
@@ -35,14 +40,59 @@ public class AttackScenario extends GridBagPanel{
         addAncestorListener(new AncestorListener() {
             @Override
             public void ancestorAdded(AncestorEvent event) {
+
                 // TODO Auto-generated method stub
                 System.out.println("as added");
+
+                for(Threat th:ProcessedData.getThreatList()){
+                    ((DefaultTableModel)detailArea.getTable().getModel()).addRow(new String[]{
+                        th.getStep()+"",
+                        th.getTactic(),
+                        th.getTactic()
+                    });
+                }
             }
 
             @Override
             public void ancestorRemoved(AncestorEvent event) {
                 // TODO Auto-generated method stub
                 System.out.println("as removed");
+
+                // ArrayList<Threat> threatList=new ArrayList<Threat>();
+                // ProcessedData.setThreatList(threatList);
+                ArrayList<Threat> threatList=ProcessedData.getThreatList();
+                Vector vector = ((DefaultTableModel)(detailArea.getTable().getModel())).getDataVector();
+                Threat threat;
+                Object[] rowData;
+                SecReq sr;
+                for (Object row:vector){
+                    rowData=(Object[])(((Vector)row).toArray());
+                    threat = new Threat();
+                    threat.setStep(Integer.parseInt((String)rowData[0]));
+                    threat.setTactic((String)rowData[1]);
+                    threat.setTechnique((String)rowData[2]);
+                    threat.setMitigationList(new ArrayList<String>());
+                    threat.setMitigationList(ProcessedData.ontologyFunc.LoadMitigationFromTech(threat.getTechnique()));
+                    sr=new SecReq(SecReq.DT,threat.getId()+"-SRDT","");
+                    sr.setThreat(threat);
+                    threat.getSrList().add(sr);
+                    ProcessedData.getSrList().add(sr);
+                    sr=new SecReq(SecReq.PD,threat.getId()+"-SRPD","");
+                    sr.setThreat(threat);
+                    threat.getSrList().add(sr);
+                    ProcessedData.getSrList().add(sr);
+                    sr=new SecReq(SecReq.PV,threat.getId()+"-SRPV","");
+                    sr.setThreat(threat);
+                    threat.getSrList().add(sr);
+                    ProcessedData.getSrList().add(sr);
+                    sr=new SecReq(SecReq.RP,threat.getId()+"-SRRP","");
+                    sr.setThreat(threat);
+                    threat.getSrList().add(sr);
+                    ProcessedData.getSrList().add(sr);
+
+                    
+                    threatList.add(threat);
+                }
 
             }
 

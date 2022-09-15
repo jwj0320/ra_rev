@@ -4,6 +4,7 @@ import java.awt.Container;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.Insets;
@@ -20,11 +21,13 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import javax.swing.event.AncestorListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -169,20 +172,30 @@ public class MainFrame extends JFrame{
         loadDataItem.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFileChooser chooser=new JFileChooser();
-                FileNameExtensionFilter filter=new FileNameExtensionFilter(".json", "json");
-                chooser.setFileFilter(filter);
-
-                int ret=chooser.showOpenDialog(null);
-                if(ret==JFileChooser.APPROVE_OPTION){
-                    String filePath=chooser.getSelectedFile().getPath();
-                    if (filePath.lastIndexOf(".")==-1&&
-                    !filePath.substring(filePath.lastIndexOf(".")+1).equalsIgnoreCase("json")){
-                    filePath=filePath+".json";
+                int result = JOptionPane.showConfirmDialog(null, 
+                    "All unsaved data will be deleted. Are you sure you want to continue?", "Load Data", JOptionPane.YES_NO_OPTION);
+                if(result==JOptionPane.YES_OPTION){
+                    JFileChooser chooser=new JFileChooser();
+                    FileNameExtensionFilter filter=new FileNameExtensionFilter(".json", "json");
+                    chooser.setFileFilter(filter);
+    
+                    int ret=chooser.showOpenDialog(null);
+                    if(ret==JFileChooser.APPROVE_OPTION){
+                        String filePath=chooser.getSelectedFile().getPath();
+                        if (filePath.lastIndexOf(".")==-1&&
+                        !filePath.substring(filePath.lastIndexOf(".")+1).equalsIgnoreCase("json")){
+                        filePath=filePath+".json";
+                        }
+                        ProcessedData.loadDataFromJSON(filePath);
+                        
+                        AncestorListener[] als=((GridBagPanel)tPane.getSelectedComponent()).getAncestorListeners();
+                        for(AncestorListener al:als){
+                            al.ancestorAdded(null);
+                        }
                     }
-                    ProcessedData.loadDataFromJSON(filePath);
 
                 }
+
             }
         });
 

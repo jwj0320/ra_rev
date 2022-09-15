@@ -87,40 +87,40 @@ public class Progress extends JDialog{
         confirmButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ArrayList<Threat> threatList=new ArrayList<Threat>();
-                ProcessedData.setThreatList(threatList);
-                Vector vector = ((DefaultTableModel)(upper.getDetailArea().getTable().getModel())).getDataVector();
-                Threat threat;
-                Object[] rowData;
-                SecReq sr;
-                for (Object row:vector){
-                    rowData=(Object[])(((Vector)row).toArray());
-                    threat = new Threat();
-                    threat.setStep(Integer.parseInt((String)rowData[0]));
-                    threat.setTactic((String)rowData[1]);
-                    threat.setTechnique((String)rowData[2]);
-                    threat.setMitigationList(new ArrayList<String>());
-                    threat.setMitigationList(ProcessedData.ontologyFunc.LoadMitigationFromTech(threat.getTechnique()));
-                    sr=new SecReq(SecReq.DT,threat.getId()+"-SRDT","");
-                    sr.setThreat(threat);
-                    threat.getSrList().add(sr);
-                    ProcessedData.getSrList().add(sr);
-                    sr=new SecReq(SecReq.PD,threat.getId()+"-SRPD","");
-                    sr.setThreat(threat);
-                    threat.getSrList().add(sr);
-                    ProcessedData.getSrList().add(sr);
-                    sr=new SecReq(SecReq.PV,threat.getId()+"-SRPV","");
-                    sr.setThreat(threat);
-                    threat.getSrList().add(sr);
-                    ProcessedData.getSrList().add(sr);
-                    sr=new SecReq(SecReq.RP,threat.getId()+"-SRRP","");
-                    sr.setThreat(threat);
-                    threat.getSrList().add(sr);
-                    ProcessedData.getSrList().add(sr);
+                // ArrayList<Threat> threatList=new ArrayList<Threat>();
+                // ProcessedData.setThreatList(threatList);
+                // Vector vector = ((DefaultTableModel)(upper.getDetailArea().getTable().getModel())).getDataVector();
+                // Threat threat;
+                // Object[] rowData;
+                // SecReq sr;
+                // for (Object row:vector){
+                //     rowData=(Object[])(((Vector)row).toArray());
+                //     threat = new Threat();
+                //     threat.setStep(Integer.parseInt((String)rowData[0]));
+                //     threat.setTactic((String)rowData[1]);
+                //     threat.setTechnique((String)rowData[2]);
+                //     threat.setMitigationList(new ArrayList<String>());
+                //     threat.setMitigationList(ProcessedData.ontologyFunc.LoadMitigationFromTech(threat.getTechnique()));
+                //     sr=new SecReq(SecReq.DT,threat.getId()+"-SRDT","");
+                //     sr.setThreat(threat);
+                //     threat.getSrList().add(sr);
+                //     ProcessedData.getSrList().add(sr);
+                //     sr=new SecReq(SecReq.PD,threat.getId()+"-SRPD","");
+                //     sr.setThreat(threat);
+                //     threat.getSrList().add(sr);
+                //     ProcessedData.getSrList().add(sr);
+                //     sr=new SecReq(SecReq.PV,threat.getId()+"-SRPV","");
+                //     sr.setThreat(threat);
+                //     threat.getSrList().add(sr);
+                //     ProcessedData.getSrList().add(sr);
+                //     sr=new SecReq(SecReq.RP,threat.getId()+"-SRRP","");
+                //     sr.setThreat(threat);
+                //     threat.getSrList().add(sr);
+                //     ProcessedData.getSrList().add(sr);
 
                     
-                    threatList.add(threat);
-                }
+                //     threatList.add(threat);
+                // }
 
 
 
