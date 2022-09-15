@@ -101,7 +101,7 @@ public class Evaluation extends GridBagPanel{
                 for (Asset asset:assetList){
                     for(Evidence ev:asset.getEvidenceList()){
                         model.addRow(new String[]{
-                            asset.getName(),
+                            asset.getId(),
                             ev.getSr().getId(),
                             ev.getId(),
                             ev.isEvaluated() ? ""+ev.getScore() : ""
@@ -196,7 +196,7 @@ public class Evaluation extends GridBagPanel{
             editButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    String assetName=(String)setTable.getValueAt(setTable.getSelectedRow(), 0);
+                    String assetId=(String)setTable.getValueAt(setTable.getSelectedRow(), 0);
                     String srName=(String)setTable.getValueAt(setTable.getSelectedRow(), 1);
                     String evName=(String)setTable.getValueAt(setTable.getSelectedRow(), 2);
 
@@ -238,7 +238,7 @@ public class Evaluation extends GridBagPanel{
                     pane.addGBLComponent(evHeader, 2, 0,2,1,"HORIZONTAL");
                     pane.addGBLComponent(evTextSc, 2, 1,2,1);
 
-                    evText.setText(ProcessedData.getAsset(assetName).getEvidence(evName).getContent());
+                    evText.setText(ProcessedData.getAsset(assetId).getEvidence(evName).getContent());
                     evText.setEditable(false);
 
                     JLabel blankLabel = new JLabel();
@@ -264,8 +264,8 @@ public class Evaluation extends GridBagPanel{
                         public void actionPerformed(ActionEvent e){
                             DefaultTableModel model = (DefaultTableModel)(setTable.getModel());
                             double score=Double.parseDouble(scoreText.getText());
-                            ProcessedData.getAsset(assetName).getEvidence(evName).setScore(score);
-                            ProcessedData.getAsset(assetName).getEvidence(evName).setEvaluated(true);
+                            ProcessedData.getAsset(assetId).getEvidence(evName).setScore(score);
+                            ProcessedData.getAsset(assetId).getEvidence(evName).setEvaluated(true);
                             model.setValueAt(scoreText.getText(), setTable.getSelectedRow(), 3);
                             
                             dialog.dispose();

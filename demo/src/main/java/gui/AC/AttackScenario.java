@@ -16,6 +16,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 import javax.swing.table.DefaultTableModel;
 
 import gui.GridBagPanel;
@@ -29,6 +31,28 @@ public class AttackScenario extends GridBagPanel{
         super(tPane);
         
         // setPreferredSize(new Dimension(1060,620));
+
+        addAncestorListener(new AncestorListener() {
+            @Override
+            public void ancestorAdded(AncestorEvent event) {
+                // TODO Auto-generated method stub
+                System.out.println("as added");
+            }
+
+            @Override
+            public void ancestorRemoved(AncestorEvent event) {
+                // TODO Auto-generated method stub
+                System.out.println("as removed");
+
+            }
+
+            @Override
+            public void ancestorMoved(AncestorEvent event) {
+                // TODO Auto-generated method stub
+                System.out.println("as moved");
+
+            }
+        });
         
         init();
         

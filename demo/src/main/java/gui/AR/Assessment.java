@@ -76,7 +76,7 @@ public class Assessment extends GridBagPanel {
                         ));
                         System.out.println(ev.getSr().getThreat().getTactic());
                         srDataList.add(new RadarChartData(
-                            as.getName(),
+                            as.getId(),
                             ev.getSr().getType(),
                             ev.getScore()
                         ));

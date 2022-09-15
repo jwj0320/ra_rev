@@ -90,7 +90,7 @@ public class CollectionOfEvidence extends GridBagPanel {
                     for(Asset as: ProcessedData.getThreatAffectedAssets()){
                         for(Evidence ev:as.getEvidenceList()){
                             sr=ev.getSr();
-                            data.add(new String[]{as.getName(), threatString+"-SRDT",sr.getText(),ev.getId()});
+                            data.add(new String[]{as.getId(), threatString+"-SRDT",sr.getText(),ev.getId()});
 
                         }
                     }
@@ -108,7 +108,7 @@ public class CollectionOfEvidence extends GridBagPanel {
                 assetTableModel.setRowCount(0);
                 for (Asset as: ProcessedData.getThreatAffectedAssets()){
                     assetTableModel.addRow(new String[]{
-                        as.getName()
+                        as.getId()
                     });
                 }
             }
@@ -179,8 +179,8 @@ public class CollectionOfEvidence extends GridBagPanel {
                 @Override
                 public void valueChanged(ListSelectionEvent e) {
                     DefaultTableModel srTableModel=(DefaultTableModel) srTable.getModel();
-                    String assetName = (String)assetTable.getValueAt(assetTable.getSelectedRow(), 0);
-                    Asset asset = ProcessedData.getAsset(assetName);
+                    String assetId = (String)assetTable.getValueAt(assetTable.getSelectedRow(), 0);
+                    Asset asset = ProcessedData.getAsset(assetId);
                     srTableModel.setRowCount(0);
                     for (Threat th: asset.getThreatList()){
                         srTableModel.addRow(new String[]{
@@ -199,6 +199,21 @@ public class CollectionOfEvidence extends GridBagPanel {
                 }
             });
 
+            assetTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+                @Override
+                public void valueChanged(ListSelectionEvent e) {
+                    String assetId=(String)assetTable.getValueAt(assetTable.getSelectedRow(), 0);
+                    Asset asset = ProcessedData.getAsset(assetId);
+                    
+                    assetInfo.getIDContent().setText(assetId);
+                    assetInfo.getNameContent().setText(asset.getName());
+                    assetInfo.getDescContent().setText(asset.getDescription());
+                    assetInfo.getTypeContent().setText(asset.getTypeName());
+                    // related asset 필요
+
+                }
+            });
+
             srTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
                 @Override
                 public void valueChanged(ListSelectionEvent e) {
@@ -208,11 +223,11 @@ public class CollectionOfEvidence extends GridBagPanel {
                     srInfo.getSrHeader().setText(srName);
                     srInfo.getSrText().setText(srText);
                     DefaultTableModel srTableModel=(DefaultTableModel) srTable.getModel();
-                    String assetName = (String)assetTable.getValueAt(assetTable.getSelectedRow(), 0);
-                    Asset asset = ProcessedData.getAsset(assetName);
+                    String assetId = (String)assetTable.getValueAt(assetTable.getSelectedRow(), 0);
+                    Asset asset = ProcessedData.getAsset(assetId);
                     
                     Evidence evidence = asset.getEvidence(
-                        String.format("%s-%s-EV",assetName,srName));
+                        String.format("%s-%s-EV",assetId,srName));
                     System.out.println(evidence);
                     assetInput.getAssetArea().getEvHeader().setText(
                         evidence.getId()
@@ -294,25 +309,116 @@ public class CollectionOfEvidence extends GridBagPanel {
             }
         }
     }
-    private class AssetInfo extends GridBagPanel{
-         // private JLabel label = new JLabel("Asset INFO");
+    // private class AssetInfo extends GridBagPanel{
+    //      // private JLabel label = new JLabel("Asset INFO");
 
-         public AssetInfo(){
-            // setPreferredSize(new Dimension(300,300));
-            // label.setBackground(AjouBlue);
-            // label.setForeground(Color.white);
-            // label.setOpaque(true);
-            // label.setPreferredSize(new Dimension(280,280));
-            // addGBLComponent(label, 0, 0,0,0,0,0,"BOTH");
+    //      public AssetInfo(){
+    //         // setPreferredSize(new Dimension(300,300));
+    //         // label.setBackground(AjouBlue);
+    //         // label.setForeground(Color.white);
+    //         // label.setOpaque(true);
+    //         // label.setPreferredSize(new Dimension(280,280));
+    //         // addGBLComponent(label, 0, 0,0,0,0,0,"BOTH");
+
+    //         setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(AjouBlue),"Asset Info"));
+    //         JLabel IDHeader=makeHeader("Asset ID");
+    //         JLabel nameHeader=makeHeader("Name");
+    //         JLabel descHeader=makeHeader("Description");
+    //         JLabel typeHeader=makeHeader("Type");
+    //         JLabel raHeader=makeHeader("Related Assets");
+            
+    //         System.out.println(raHeader.getPreferredSize());
+
+    //         addGBLComponent(IDHeader, 0, 0,1,1,"BOTH");
+    //         addGBLComponent(nameHeader, 0, 1,1,1,"BOTH");
+    //         addGBLComponent(typeHeader,0, 2,1,1,"BOTH");
+    //         addGBLComponent(descHeader, 0, 3,1,1,"BOTH");
+    //         addGBLComponent(raHeader, 0, 4,1,1,"BOTH");
+
+    //         JLabel IDContent=makeContent("");
+    //         JLabel nameContent=makeContent("");
+    //         JLabel descContent=makeContent("");
+    //         JLabel typeContent=makeContent("");
+    //         JLabel raContent=makeContent("");
+
+    //         System.out.println(raHeader.getPreferredSize());
+    //         IDContent.setPreferredSize(new Dimension(150,18));
+    //         nameContent.setPreferredSize(new Dimension(150,18));
+    //         descContent.setPreferredSize(new Dimension(150,150));
+    //         typeContent.setPreferredSize(new Dimension(150,18));
+    //         raContent.setPreferredSize(new Dimension(150,18));
+            
+    //         addGBLComponent(IDContent, 1, 0);
+    //         addGBLComponent(nameContent, 1, 1);
+    //         addGBLComponent(typeContent,1, 2);
+    //         addGBLComponent(descContent, 1, 3);
+    //         addGBLComponent(raContent, 1, 4);
+
+            
+
+    //     }
+    // }
+    
+    
+    private class AssetInfo extends GridBagPanel{
+        private JLabel IDHeader=makeHeader("Asset ID");
+        private JLabel nameHeader=makeHeader("Name");
+        private JLabel descHeader=makeHeader("Description");
+        private JLabel typeHeader=makeHeader("Type");
+        private JLabel raHeader=makeHeader("Related Assets");
+
+        private JLabel IDContent=makeContent("");
+        private JLabel nameContent=makeContent("");
+        // private JLabel descContent=makeContent("");
+        private JTextArea descContent=makeTextArea("",false);
+        private JLabel typeContent=makeContent("");
+        private JLabel raContent=makeContent("");
+
+        public JLabel getIDContent() {
+            return IDContent;
+        }
+
+        public void setIDContent(JLabel iDContent) {
+            IDContent = iDContent;
+        }
+
+        public JLabel getNameContent() {
+            return nameContent;
+        }
+
+        public void setNameContent(JLabel nameContent) {
+            this.nameContent = nameContent;
+        }
+
+        public JTextArea getDescContent() {
+            return descContent;
+        }
+
+        public void setDescContent(JTextArea descContent) {
+            this.descContent = descContent;
+        }
+
+        public JLabel getTypeContent() {
+            return typeContent;
+        }
+
+        public void setTypeContent(JLabel typeContent) {
+            this.typeContent = typeContent;
+        }
+
+
+        public JLabel getRaContent() {
+            return raContent;
+        }
+
+        public void setRaContent(JLabel raContent) {
+            this.raContent = raContent;
+        }
+
+        public AssetInfo(){
 
             setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(AjouBlue),"Asset Info"));
-            JLabel IDHeader=makeHeader("Asset ID");
-            JLabel nameHeader=makeHeader("Name");
-            JLabel descHeader=makeHeader("Description");
-            JLabel typeHeader=makeHeader("Type");
-            JLabel raHeader=makeHeader("Related Assets");
             
-            System.out.println(raHeader.getPreferredSize());
 
             addGBLComponent(IDHeader, 0, 0,1,1,"BOTH");
             addGBLComponent(nameHeader, 0, 1,1,1,"BOTH");
@@ -320,18 +426,12 @@ public class CollectionOfEvidence extends GridBagPanel {
             addGBLComponent(descHeader, 0, 3,1,1,"BOTH");
             addGBLComponent(raHeader, 0, 4,1,1,"BOTH");
 
-            JLabel IDContent=makeContent("");
-            JLabel nameContent=makeContent("");
-            JLabel descContent=makeContent("");
-            JLabel typeContent=makeContent("");
-            JLabel raContent=makeContent("");
 
-            System.out.println(raHeader.getPreferredSize());
-            IDContent.setPreferredSize(new Dimension(150,18));
-            nameContent.setPreferredSize(new Dimension(150,18));
-            descContent.setPreferredSize(new Dimension(150,150));
-            typeContent.setPreferredSize(new Dimension(150,18));
-            raContent.setPreferredSize(new Dimension(150,18));
+            IDContent.setPreferredSize(new Dimension(180,18));
+            nameContent.setPreferredSize(new Dimension(180,18));
+            descContent.setPreferredSize(new Dimension(180,170));
+            typeContent.setPreferredSize(new Dimension(180,18));
+            raContent.setPreferredSize(new Dimension(180,18));
             
             addGBLComponent(IDContent, 1, 0);
             addGBLComponent(nameContent, 1, 1);

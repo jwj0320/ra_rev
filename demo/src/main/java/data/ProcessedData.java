@@ -89,9 +89,9 @@ public class ProcessedData {
         return null;
     }
 
-    public static Asset getAsset(String name){
+    public static Asset getAsset(String id){
         for (Asset a: assetList){
-            if(a.getName().equals(name)){
+            if(a.getId().equals(id)){
                 return a;
             }
         }
@@ -157,6 +157,7 @@ public class ProcessedData {
 
     private static JSONObject assetToJSON(Asset asset){
         JSONObject assetObject=new JSONObject();
+        String id=asset.getId();
         String name= asset.getName();
         int type=asset.getType();
         String typeName=asset.getTypeName();
@@ -165,6 +166,7 @@ public class ProcessedData {
         JSONArray threatArray=new JSONArray();
         JSONArray evidenceArray=new JSONArray();
 
+        assetObject.put("id",id);
         assetObject.put("name",name);
         assetObject.put("type",type);
         assetObject.put("typeName",typeName);
@@ -280,7 +282,7 @@ public class ProcessedData {
         JSONObject assetObject=null;
         for(Object obj:assetArray){
             assetObject=(JSONObject)obj;
-            asset=ProcessedData.getAsset((String)assetObject.get("name"));
+            asset=ProcessedData.getAsset((String)assetObject.get("id"));
             JSONToAsset(asset, assetObject);
             
         }

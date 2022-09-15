@@ -9,12 +9,20 @@ public class Asset {
     public static final int HARDWARE=3;
     
     private int type;
-    private String name;
+    private String id="";
+    private String name="";
+    private String description="";
     private ArrayList<Threat> threatList=new ArrayList<Threat>();
-    
     private ArrayList<Evidence> evidenceList=new ArrayList<Evidence>();
     
+    
+    public String getDescription() {
+        return description;
+    }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
     public ArrayList<Evidence> getEvidenceList() {
         return evidenceList;
     }
@@ -44,7 +52,7 @@ public class Asset {
 
     }
 
-    public Asset(String type, String name){
+    public Asset(String type, String id){
         switch (type.toUpperCase()) {
             case "SOFTWARE":
                 this.type=SOFTWARE;
@@ -62,7 +70,12 @@ public class Asset {
                 this.type=-1;
                 break;
         }
-        this.name=name;
+        this.id=id;
+        ArrayList<String[]> info=ProcessedData.ontologyFunc.LoadAssetInfo(id);
+        if(info.size()!=0){
+            this.name=info.get(0)[1];
+            this.description=info.get(0)[2];
+        }
     }
 
     public String getTypeName(){
@@ -93,6 +106,12 @@ public class Asset {
         this.name = name;
     }
     
+    public String getId() {
+        return id;
+    }
 
+    public void setId(String id) {
+        this.id = id;
+    }
     
 }

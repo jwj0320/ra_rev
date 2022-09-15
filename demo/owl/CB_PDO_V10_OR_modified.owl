@@ -6034,6 +6034,7 @@ References</rdfs:comment>
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Platforms"/>
         <have_type rdf:resource="http://www.semanticweb.org/PDO#Windows"/>
         <owd:ID>PF_01</owd:ID>
+        <rdfs:label>PF_01</rdfs:label>
         <owl:description></owl:description>
         <owl:name>Windows 11 Pro</owl:name>
         <owl:type>Windows</owl:type>
@@ -6047,6 +6048,7 @@ References</rdfs:comment>
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Platforms"/>
         <have_type rdf:resource="http://www.semanticweb.org/PDO#Linux"/>
         <owd:ID>PF_02</owd:ID>
+        <rdfs:label>PF_02</rdfs:label>
         <owl:description></owl:description>
         <owl:name>CenOS Linux 7</owl:name>
         <owl:type>Linux</owl:type>
@@ -6060,6 +6062,7 @@ References</rdfs:comment>
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Platforms"/>
         <have_type rdf:resource="http://www.semanticweb.org/PDO#IaaS"/>
         <owd:ID>PF_03</owd:ID>
+        <rdfs:label>PF_03</rdfs:label>
         <owl:description></owl:description>
         <owl:name></owl:name>
         <owl:type>IaaS</owl:type>
@@ -6073,6 +6076,7 @@ References</rdfs:comment>
         <rdf:type rdf:resource="http://www.semanticweb.org/PDO#Platforms"/>
         <have_type rdf:resource="http://www.semanticweb.org/PDO#SaaS"/>
         <owd:ID>PF_04</owd:ID>
+        <rdfs:label>PF_04</rdfs:label>
         <owl:description></owl:description>
         <owl:name></owl:name>
         <owl:type>SaaS</owl:type>

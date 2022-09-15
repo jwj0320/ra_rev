@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 
 public class GridBagPanel extends JPanel {
@@ -269,6 +270,18 @@ public class GridBagPanel extends JPanel {
         table.setOpaque(true);
         table.setBackground(Color.white);
         return table;
+    }
+
+    public JTextArea makeTextArea(String text, boolean editable){
+        JTextArea textArea=new JTextArea(text);
+        textArea.setEditable(editable);
+        textArea.setLineWrap(true);
+        textArea.setBorder(BorderFactory.createLineBorder(Color.gray));
+        textArea.setPreferredSize(new Dimension(300,20));
+        textArea.setOpaque(true);
+        textArea.setBackground(Color.white);
+
+        return textArea;
     }
 
     public ArrayList<Object[]> getDataFromTable(JTable table){

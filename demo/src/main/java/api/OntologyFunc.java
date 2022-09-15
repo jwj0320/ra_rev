@@ -22,7 +22,8 @@ import ru.avicomp.ontapi.OntologyModel;
 public class OntologyFunc {
     OWLOntologyManager manager = OntManagers.createONT();
 	OWLDataFactory factory = manager.getOWLDataFactory();
-	File file = new File(this.getClass().getResource("").getPath(),"../../../owl/CB_PDO_V7 (1).owl");
+	File file = new File(this.getClass().getResource("").getPath(),"../../../owl/CB_PDO_V10_OR_modified.owl");
+	// File file = new File(this.getClass().getResource("").getPath(),"../../../owl/CB_PDO_V7 (1).owl");
 	File file2 = new File(this.getClass().getResource("").getPath(),"../../../owl/CB_PDO_V7.owl");
 	
 	OWLOntology ontology;
@@ -691,6 +692,37 @@ public class OntologyFunc {
 		}	
 		System.out.println(listvector.size());
 		return listvector;
+	}
+
+	
+	public ArrayList<String[]> LoadAssetInfo(String assetId){
+		ArrayList<String[]> list = new ArrayList<String[]>();
+		String queryString = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
+				+ "PREFIX owl: <http://www.w3.org/2002/07/owl#>\n"
+				+ "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
+				+ "PREFIX PDO: <http://www.semanticweb.org/PDO#>\n"
+				+ "PREFIX CBSAO: <http://www.semanticweb.org/CBSAO#>\n"
+				+ "SELECT ?type ?name ?desc\n"
+				+ "WHERE { \n"
+				+ "  ?asset rdfs:label \""+ assetId +"\".\n"
+				+ "  ?asset owl:type ?type.\n"
+				+ "  ?asset owl:name ?name.\n"
+				+ "  ?asset owl:description ?desc.\n"
+				+ "}"
+				+ "ORDER BY ASC(?type)";
+		Query query = QueryFactory.create(queryString);
+		QueryExecution qe = QueryExecutionFactory.create(query, o.asGraphModel());
+		ResultSet res = qe.execSelect();
+		while (res.hasNext()) {
+			QuerySolution qs = res.next();
+			list.add(new String[]{
+				qs.get("type").toString(),
+				qs.get("name").toString(),
+				qs.get("desc").toString()
+			});
+		}
+		
+		return list;
 	}
    
 }
