@@ -60,6 +60,7 @@ public class SecurityRequirement extends GridBagPanel {
                 System.out.println("added");
                 DefaultTableModel threatTableModel=(DefaultTableModel)detailArea.getThreatTable().getModel();
                 
+                detailArea.getThreatTable().clearSelection();
                 threatTableModel.setRowCount(0);
                 for(Threat th:ProcessedData.getThreatList()){
                     threatTableModel.addRow(new String[]{th.getId()});
@@ -182,10 +183,14 @@ public class SecurityRequirement extends GridBagPanel {
                 public void valueChanged(ListSelectionEvent e) {
                     // TODO Auto-generated method stub
                     srInput.getSrArea().getInputArea().setText("");
-
-                    String selectedValue=(String)threatTable.getModel().getValueAt(threatTable.getSelectedRow(), 0);
                     DefaultTableModel model = (DefaultTableModel)srInput.getSrArea().getSrTable().getModel();
                     model.setRowCount(0);
+
+                    if(threatTable.getSelectedRow()==-1){
+                        return;
+                    }
+
+                    String selectedValue=(String)threatTable.getModel().getValueAt(threatTable.getSelectedRow(), 0);
                     model.addRow(new String[]{selectedValue+"-SRDT"});
                     model.addRow(new String[]{selectedValue+"-SRRP"});
                     model.addRow(new String[]{selectedValue+"-SRPD"});
@@ -196,6 +201,11 @@ public class SecurityRequirement extends GridBagPanel {
             srInput.getSrArea().getSrTable().getSelectionModel().addListSelectionListener(new ListSelectionListener() {
                 @Override
                 public void valueChanged(ListSelectionEvent e) {
+                    if(threatTable.getSelectedRow()==-1||srInput.getSrArea().getSrTable().getSelectedRow()==-1){
+                        srInput.getSrArea().getInputArea().setText("");
+                        return;
+                    }
+
                     String threatName = (String)threatTable.getValueAt(threatTable.getSelectedRow(),0);
                     int index = srInput.getSrArea().getSrTable().getSelectedRow();
                     SecReq sr =ProcessedData.getSr((String)srInput.getSrArea().getSrTable().getValueAt(index, 0));
@@ -246,6 +256,15 @@ public class SecurityRequirement extends GridBagPanel {
                 threatTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
                     @Override
                     public void valueChanged(ListSelectionEvent e) {
+                        DefaultTableModel mitiModel =(DefaultTableModel)(((JTable)(mitiTabSc.getViewport().getView())).getModel());
+                        mitiModel.setRowCount(0);
+
+                        if(threatTable.getSelectedRow()==-1){
+                            techContent.setText("");
+                            tacticContent.setText("");
+                            return;
+                        }
+
                         String threatID = (String)threatTable.getValueAt(threatTable.getSelectedRow(), 0);
                         Threat threat = ProcessedData.getThreat(threatID);
                         techContent.setText(threat.getTechnique());
@@ -253,8 +272,6 @@ public class SecurityRequirement extends GridBagPanel {
 
                         // CAPEC 등 데이터 추가시
                         // ((DefaultTableModel)(((JTable)(CAPECTabSc.getViewport().getView())).getModel())).addRow(rowData);
-                        DefaultTableModel mitiModel =(DefaultTableModel)(((JTable)(mitiTabSc.getViewport().getView())).getModel());
-                        mitiModel.setRowCount(0);
                         for (String miti:threat.getMitigationList()){
                             System.out.println(miti);
                             mitiModel.addRow(new String[]{miti});

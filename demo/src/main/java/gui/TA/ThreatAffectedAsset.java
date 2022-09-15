@@ -60,6 +60,7 @@ public class ThreatAffectedAsset extends GridBagPanel {
                 System.out.println("added");
                 DefaultTableModel threatTableModel=(DefaultTableModel)detailArea.getThreatTable().getModel();
                 
+                detailArea.getThreatTable().clearSelection();
                 threatTableModel.setRowCount(0);
                 for(Threat th:ProcessedData.getThreatList()){
                     threatTableModel.addRow(new String[]{th.getId()});
@@ -173,9 +174,13 @@ public class ThreatAffectedAsset extends GridBagPanel {
             threatTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
                 @Override
                 public void valueChanged(ListSelectionEvent e) {
+                    
                     DefaultTableModel srModel =((DefaultTableModel)(srInput.getSrArea().getAssetTable().getModel()));
                     srInput.getSrArea().getAssetTable().clearSelection();
                     srModel.setRowCount(0);
+                    if(threatTable.getSelectedRow()==-1){
+                        return;
+                    }
                     String selectedThreat=(String)threatTable.getValueAt(threatTable.getSelectedRow(), 0);
                     for (Asset asset:ProcessedData.getAssetList()){
                         if (ProcessedData.getThreat(selectedThreat).getAssetList().contains(asset)){
@@ -238,6 +243,15 @@ public class ThreatAffectedAsset extends GridBagPanel {
                 threatTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
                     @Override
                     public void valueChanged(ListSelectionEvent e) {
+                        DefaultTableModel mitiModel =(DefaultTableModel)(((JTable)(mitiTabSc.getViewport().getView())).getModel());
+                        mitiModel.setRowCount(0);
+
+                        if(threatTable.getSelectedRow()==-1){
+                            techContent.setText("");
+                            tacticContent.setText("");
+
+                            return;
+                        }
                         String threatID = (String)threatTable.getValueAt(threatTable.getSelectedRow(), 0);
                         Threat threat = ProcessedData.getThreat(threatID);
                         techContent.setText(threat.getTechnique());
@@ -245,8 +259,6 @@ public class ThreatAffectedAsset extends GridBagPanel {
 
                         // CAPEC 등 데이터 추가시
                         // ((DefaultTableModel)(((JTable)(CAPECTabSc.getViewport().getView())).getModel())).addRow(rowData);
-                        DefaultTableModel mitiModel =(DefaultTableModel)(((JTable)(mitiTabSc.getViewport().getView())).getModel());
-                        mitiModel.setRowCount(0);
                         for (String miti:threat.getMitigationList()){
                             System.out.println(miti);
                             mitiModel.addRow(new String[]{miti});
@@ -468,6 +480,10 @@ public class ThreatAffectedAsset extends GridBagPanel {
                         @Override
                         public void valueChanged(ListSelectionEvent e) {
                             if(assetTable.getSelectedRow()==-1){
+                                assetInfo.getIDContent().setText("");
+                                assetInfo.getNameContent().setText("");
+                                assetInfo.getDescContent().setText("");
+                                assetInfo.getTypeContent().setText("");
                                 return;
                             }
                             String assetId=(String)assetTable.getValueAt(assetTable.getSelectedRow(), 1);

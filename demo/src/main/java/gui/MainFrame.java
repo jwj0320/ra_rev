@@ -45,8 +45,9 @@ import gui.TA.ThreatAffectedAsset;
 
 
 public class MainFrame extends JFrame{
-    OntologyFunc ontologyFunc = ProcessedData.ontologyFunc;
-    Container contentPane;
+    private OntologyFunc ontologyFunc = ProcessedData.ontologyFunc;
+    private Container contentPane;
+    private MainFrame self=this;
 
     public MainFrame(){
         super("Threat-driven Risk Assessment");
@@ -145,17 +146,17 @@ public class MainFrame extends JFrame{
 
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
-        JMenuItem newWindowItem=new JMenuItem("Open New window");
+        // JMenuItem newWindowItem=new JMenuItem("Open New window");
         JMenuItem saveDataItem= new JMenuItem("Save data");
         JMenuItem loadDataItem=new JMenuItem("Load data");
 
-        newWindowItem.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new MainFrame();
-                // 하나 종료할 때 같이 종료되는 현상
-            }
-        });
+        // newWindowItem.addActionListener(new ActionListener(){
+        //     @Override
+        //     public void actionPerformed(ActionEvent e) {
+        //         new MainFrame();
+        //         // 하나 종료할 때 같이 종료되는 현상
+        //     }
+        // });
 
         saveDataItem.addActionListener(new ActionListener(){
             @Override
@@ -179,7 +180,7 @@ public class MainFrame extends JFrame{
                         }
                     }
                     ProcessedData.saveDataToJSON(filePath, tabCount);
-
+                    self.setTitle(self.getTitle()+String.format(" (%s)",chooser.getSelectedFile().getName()));
                 }
             }
         });
@@ -209,6 +210,7 @@ public class MainFrame extends JFrame{
                                 al.ancestorAdded(null);
                             }
                         }
+                        self.setTitle(self.getTitle()+String.format(" (%s)",chooser.getSelectedFile().getName()));
 
                         // for(Component comp:tPane.getComponents()){
                         //     AncestorListener[] als=((GridBagPanel)comp).getAncestorListeners();
@@ -224,7 +226,7 @@ public class MainFrame extends JFrame{
             }
         });
 
-        fileMenu.add(newWindowItem);
+        // fileMenu.add(newWindowItem);
         fileMenu.add(saveDataItem);
         fileMenu.add(loadDataItem);
 

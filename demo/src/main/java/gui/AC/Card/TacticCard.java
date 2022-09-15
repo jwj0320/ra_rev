@@ -42,6 +42,7 @@ import javax.swing.table.TableRowSorter;
 import api.OntologyFunc;
 import data.Asset;
 import data.ProcessedData;
+import data.Threat;
 import gui.GridBagPanel;
 import gui.AC.MakeScenario;
 
@@ -85,6 +86,47 @@ public class TacticCard extends GridBagPanel {
         JTable step4Table = new JTable(new DefaultTableModel(new String[] { "Step 4" }, 0));
         JScrollPane step4TableScPane = new JScrollPane(step4Table);
         step4TableScPane.setPreferredSize(new Dimension(190, 300));
+
+
+        addAncestorListener(new AncestorListener() {
+            @Override
+            public void ancestorAdded(AncestorEvent event) {
+                // TODO Auto-generated method stub
+                // ArrayList<Threat> threatList=ProcessedData.getThreatList();
+                // DefaultTableModel tableModel=null;
+                // for(Threat th:threatList){
+                //     switch (th.getStep()) {
+                //         case 1:
+                //             tableModel=(DefaultTableModel)step1Table.getModel();
+                //             break;
+                //         case 2:
+                //             tableModel=(DefaultTableModel)step2Table.getModel();
+                //             break;
+                //         case 3:
+                //             tableModel=(DefaultTableModel)step3Table.getModel();
+                //             break;
+                //         case 4:
+                //             tableModel=(DefaultTableModel)step4Table.getModel();
+                //             break;
+                //         default:
+                //             break;
+                //     }
+                //     tableModel.addRow(new String[]{
+                //         th.getTactic()
+                //     });
+                // }
+            } 
+            @Override
+            public void ancestorMoved(AncestorEvent event) {
+                // TODO Auto-generated method stub
+                
+            }
+            @Override
+            public void ancestorRemoved(AncestorEvent event) {
+                // TODO Auto-generated method stub
+                
+            }
+        });
 
         addGBLComponent(step1TableScPane, 0, 2, 2, 1);
         addGBLComponent(step2TableScPane, 2, 2);

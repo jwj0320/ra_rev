@@ -106,6 +106,7 @@ public class CollectionOfEvidence extends GridBagPanel {
                 tPane.setEnabledAt(3, true);
                 // TODO Auto-generated method stub
                 DefaultTableModel assetTableModel=(DefaultTableModel) detailArea.getAssetTable().getModel();
+                detailArea.getAssetTable().clearSelection();
                 assetTableModel.setRowCount(0);
                 for (Asset as: ProcessedData.getThreatAffectedAssets()){
                     assetTableModel.addRow(new String[]{
@@ -181,10 +182,14 @@ public class CollectionOfEvidence extends GridBagPanel {
                 @Override
                 public void valueChanged(ListSelectionEvent e) {
                     DefaultTableModel srTableModel=(DefaultTableModel) srTable.getModel();
-                    String assetId = (String)assetTable.getValueAt(assetTable.getSelectedRow(), 0);
-                    Asset asset = ProcessedData.getAsset(assetId);
                     srTable.clearSelection();
                     srTableModel.setRowCount(0);
+                    if(assetTable.getSelectedRow()==-1){
+                        return;
+                    }
+
+                    String assetId = (String)assetTable.getValueAt(assetTable.getSelectedRow(), 0);
+                    Asset asset = ProcessedData.getAsset(assetId);
                     // for (Threat th: asset.getThreatList()){
                     //     srTableModel.addRow(new String[]{
                     //         String.format("%s-SRDT",th.getId())
@@ -211,6 +216,14 @@ public class CollectionOfEvidence extends GridBagPanel {
             assetTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
                 @Override
                 public void valueChanged(ListSelectionEvent e) {
+                    if(assetTable.getSelectedRow()==-1){
+                        assetInfo.getIDContent().setText("");
+                        assetInfo.getNameContent().setText("");
+                        assetInfo.getDescContent().setText("");
+                        assetInfo.getTypeContent().setText("");
+                        return;
+                    }
+
                     String assetId=(String)assetTable.getValueAt(assetTable.getSelectedRow(), 0);
                     Asset asset = ProcessedData.getAsset(assetId);
                     
@@ -227,6 +240,14 @@ public class CollectionOfEvidence extends GridBagPanel {
                 @Override
                 public void valueChanged(ListSelectionEvent e) {
                     if(srTable.getSelectedRow()==-1){
+                        srInfo.getSrHeader().setText("");
+                        srInfo.getSrText().setText("");
+
+                        
+                        assetInput.getAssetArea().getEvHeader().setText(
+                            "Evidence"
+                        );
+                        assetInput.getAssetArea().getInputArea().setText("");
                         return;
                     }
                     String srName = (String)srTable.getValueAt(srTable.getSelectedRow(), 0);
@@ -240,7 +261,6 @@ public class CollectionOfEvidence extends GridBagPanel {
                     
                     Evidence evidence = asset.getEvidence(
                         String.format("%s-%s-EV",assetId,srName));
-                    System.out.println(evidence);
                     assetInput.getAssetArea().getEvHeader().setText(
                         evidence.getId()
                     );

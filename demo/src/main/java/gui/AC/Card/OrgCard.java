@@ -77,6 +77,29 @@ public class OrgCard extends GridBagPanel {
 
         addGBLComponent(orgComboBox, 1, 1, 4, 1, 0, 0, "NONE", GridBagConstraints.LINE_START);
 
+
+        addAncestorListener(new AncestorListener() {
+            @Override
+            public void ancestorAdded(AncestorEvent event) {
+                // TODO Auto-generated method stub
+                String orgName=ProcessedData.getOrganization();
+                if(!orgName.equals("")&&upperDialog.getScenarioTable().getRowCount()!=0){
+                    orgComboBox.getModel().setSelectedItem(orgName);
+                    orgComboBox.setEnabled(false);
+                }
+            } 
+            @Override
+            public void ancestorMoved(AncestorEvent event) {
+                // TODO Auto-generated method stub
+                
+            }
+            @Override
+            public void ancestorRemoved(AncestorEvent event) {
+                // TODO Auto-generated method stub
+                
+            }
+        });
+
         JTable bpTable = new JTable(new DefaultTableModel(new String[] { "Business Process" }, 0));
         JScrollPane bpTableScPane = new JScrollPane(bpTable);
         bpTableScPane.setPreferredSize(new Dimension(130, 300));
@@ -122,29 +145,7 @@ public class OrgCard extends GridBagPanel {
                 }
             }
         });
-        // 수정작업 하자
-        // 수정작업 하자
-        // 수정작업 하자
-        // 수정작업 하자
-        // 수정작업 하자
-        // 수정작업 하자
-
-        // itsTable.getSelectionModel().addListSelectionListener(new
-        // ListSelectionListener(){
-        // @Override
-        // public void valueChanged(ListSelectionEvent e){
-        // if (e.getValueIsAdjusting() || itsTable.getSelectedRowCount()==0){
-        // return;
-        // }
-        // dataTable.clearSelection();
-        // for (String data :
-        // ontologyFunc2.LoadDataFromSW(softwareTable.getValueAt(roleTable.getSelectedRow(),0).toString()))
-        // {
-        // int index = findRow(dataTable, data);
-        // dataTable.addRowSelectionInterval(index,index);
-        // }
-        // }
-        // });
+        
 
         JTabbedPane tabbedPane = new JTabbedPane();
         addGBLComponent(tabbedPane, 0, 2,5,1);

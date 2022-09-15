@@ -144,7 +144,7 @@ public class AttackScenario extends GridBagPanel{
     public class DetailArea extends GridBagPanel{
         private JTable table;
         private JScrollPane tableScPane;
-        private JButton button=new JButton("Make attack scenario");
+        private JButton button=new JButton("Add attack scenario");
     
         public DetailArea(){
             setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.decode("#005BAC")),"Attack Scenario"));
