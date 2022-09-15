@@ -67,10 +67,10 @@ public class Evaluation extends GridBagPanel{
     private DetailArea detailArea;
     public Evaluation(JTabbedPane tPane){
         super(tPane);
-        init();
+        init(tPane);
     }
 
-    private void init() {
+    private void init(JTabbedPane tPane) {
         label = new JLabel("");
         addGBLComponent(label, 0, 0);
 
@@ -94,6 +94,7 @@ public class Evaluation extends GridBagPanel{
         addAncestorListener(new AncestorListener() {
             @Override
             public void ancestorAdded(AncestorEvent event) {
+                tPane.setEnabledAt(4, true);
                 // TODO Auto-generated method stub
                 ArrayList<Asset> assetList=ProcessedData.getThreatAffectedAssets();
                 DefaultTableModel model=(DefaultTableModel) setTable.getModel();
@@ -108,10 +109,6 @@ public class Evaluation extends GridBagPanel{
                         });
                     }
                 }
-                System.out.println("eval added");
-                System.out.println(assetList.size());
-                System.out.println(ProcessedData.getThreatList().size());
-                System.out.println(ProcessedData.getAssetList().size());
             }
 
             @Override

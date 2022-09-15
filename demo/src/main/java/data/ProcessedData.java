@@ -23,6 +23,8 @@ public class ProcessedData {
     private static Step step4=new Step();
     
     public static OntologyFunc ontologyFunc = new OntologyFunc();
+
+    public static int tabCount=0;
     
     public static String getOrganization() {
         return organization;
@@ -118,20 +120,34 @@ public class ProcessedData {
     //     }
     // }
 
-    public static void saveDataToJSON(String filePath){
+    public static void saveDataToJSON(String filePath,int tabCount){
         JSONFunc jsonFunc=new JSONFunc();
         JSONObject jsonObject=(JSONObject)jsonFunc.getJSONAware();
         JSONArray assetArray = getJSONArrayFromAsset();
         JSONArray threatArray = getJSONArrayFromThreat();
+        JSONArray srArray = getJSONArrayFromSR();
         
         String orgName=ProcessedData.getOrganization();
 
+        jsonObject.put("count",tabCount);
         jsonObject.put("organization",orgName);
         jsonObject.put("asset",assetArray);
         jsonObject.put("threat",threatArray);
+        jsonObject.put("sr",srArray);
 
         jsonFunc.saveToFile(filePath);
 
+    }
+
+    private static JSONArray getJSONArrayFromSR(){
+        JSONArray srArray=new JSONArray();
+        ArrayList<SecReq> srList=ProcessedData.getSrList();
+
+        for(SecReq sr:srList){
+            srArray.add(srToJSON(sr));
+        }
+
+        return srArray;
     }
 
     private static JSONArray getJSONArrayFromAsset(){
@@ -264,20 +280,28 @@ public class ProcessedData {
         jsonFunc.loadFromFile(filePath);
         JSONObject jsonObject=(JSONObject)jsonFunc.getJSONAware();
         
+        long count=(Long)jsonObject.get("count");
+        tabCount=(int)count;
         String orgName=(String)jsonObject.get("organization");
         JSONArray assetArray=(JSONArray)jsonObject.get("asset");
         // ArrayList<Asset> assetList= setAssetListFromJSONArray(assetArray);
 
         JSONArray threatArray = (JSONArray)jsonObject.get("threat");
         ArrayList<Threat> threatList= getThreatListFromJSONArray(threatArray);
-
+        
         ProcessedData.setOrganization(orgName);
         ProcessedData.setAssetListFromOrg(orgName);
         ProcessedData.setThreatList(threatList);
+
+        JSONArray srArray=(JSONArray)jsonObject.get("sr");
+        ArrayList<SecReq> srList=getSrListFromJSONArray(srArray);
+        ProcessedData.setSrList(srList);
         ProcessedData.setAssetListFromJSONArray(assetArray);
         // ProcessedData.setThreatAffectedAssets(assetList);
         
     }
+
+    
 
     private static void setAssetListFromJSONArray(JSONArray assetArray){
         Asset asset=null;
@@ -306,6 +330,16 @@ public class ProcessedData {
 
     //     return assetList;
     // }
+
+    private static ArrayList<SecReq> getSrListFromJSONArray(JSONArray srArray){
+        ArrayList<SecReq> srList=new ArrayList<SecReq>();
+
+        for(Object obj:srArray){
+            srList.add(JSONToSR((JSONObject)obj));
+        }
+
+        return srList;
+    }
 
     private static ArrayList<Threat> getThreatListFromJSONArray(JSONArray threatArray){
         ArrayList<Threat> threatList=new ArrayList<Threat>();
@@ -414,7 +448,9 @@ public class ProcessedData {
         evidence.setScore(score);
 
         JSONObject srObject = (JSONObject)evidenceObject.get("sr");
-        SecReq sr=JSONToSR((JSONObject)srObject);
+        // SecReq sr=JSONToSR((JSONObject)srObject);        
+        SecReq sr=ProcessedData.getSr((String)srObject.get("id"));     
+
         evidence.setSr(sr);
 
 
@@ -430,11 +466,12 @@ public class ProcessedData {
         sr.setType(type);
 
         JSONObject threatObject=(JSONObject)srObject.get("threat");
-        // Threat threat=JSONToThreat(threatObject); // threat을 미리 저장한 후에 나중에 찾자
-        // sr.setThreat(threat);
+        
 
         String threatId=(String)threatObject.get("id");
         Threat threat=ProcessedData.getThreat(threatId);
+        System.out.println(threat);
+        System.out.println(ProcessedData.getThreatList().size());
         sr.setThreat(threat);
 
 

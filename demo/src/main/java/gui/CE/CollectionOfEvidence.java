@@ -103,6 +103,7 @@ public class CollectionOfEvidence extends GridBagPanel {
         addAncestorListener(new AncestorListener() {
             @Override
             public void ancestorAdded(AncestorEvent event) {
+                tPane.setEnabledAt(3, true);
                 // TODO Auto-generated method stub
                 DefaultTableModel assetTableModel=(DefaultTableModel) detailArea.getAssetTable().getModel();
                 assetTableModel.setRowCount(0);
@@ -154,6 +155,7 @@ public class CollectionOfEvidence extends GridBagPanel {
 
             srTable=new JTable(new DefaultTableModel(new String[]{"SR ID"},0));
             srTabScPane=new JScrollPane(srTable);
+            srTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             srTabScPane.setPreferredSize(new Dimension(150,273));
             addGBLComponent(srTabScPane, 1, 0,1,1,0,0,"BOTH");
             
@@ -181,19 +183,26 @@ public class CollectionOfEvidence extends GridBagPanel {
                     DefaultTableModel srTableModel=(DefaultTableModel) srTable.getModel();
                     String assetId = (String)assetTable.getValueAt(assetTable.getSelectedRow(), 0);
                     Asset asset = ProcessedData.getAsset(assetId);
+                    srTable.clearSelection();
                     srTableModel.setRowCount(0);
-                    for (Threat th: asset.getThreatList()){
+                    // for (Threat th: asset.getThreatList()){
+                    //     srTableModel.addRow(new String[]{
+                    //         String.format("%s-SRDT",th.getId())
+                    //     });
+                    //     srTableModel.addRow(new String[]{
+                    //         String.format("%s-SRRP",th.getId())
+                    //     });
+                    //     srTableModel.addRow(new String[]{
+                    //         String.format("%s-SRPD",th.getId())
+                    //     });
+                    //     srTableModel.addRow(new String[]{
+                    //         String.format("%s-SRPV",th.getId())
+                    //     });
+                    // }
+
+                    for (Evidence ev: asset.getEvidenceList()){
                         srTableModel.addRow(new String[]{
-                            String.format("%s-SRDT",th.getId())
-                        });
-                        srTableModel.addRow(new String[]{
-                            String.format("%s-SRRP",th.getId())
-                        });
-                        srTableModel.addRow(new String[]{
-                            String.format("%s-SRPD",th.getId())
-                        });
-                        srTableModel.addRow(new String[]{
-                            String.format("%s-SRPV",th.getId())
+                            ev.getSr().getId()
                         });
                     }
                 }
@@ -217,6 +226,9 @@ public class CollectionOfEvidence extends GridBagPanel {
             srTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
                 @Override
                 public void valueChanged(ListSelectionEvent e) {
+                    if(srTable.getSelectedRow()==-1){
+                        return;
+                    }
                     String srName = (String)srTable.getValueAt(srTable.getSelectedRow(), 0);
                     String[] splited= srName.split("-");
                     String srText=ProcessedData.getSr(srName).getText();

@@ -20,6 +20,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.event.AncestorEvent;
@@ -54,6 +55,7 @@ public class ThreatAffectedAsset extends GridBagPanel {
         addAncestorListener(new AncestorListener() {
             @Override
             public void ancestorAdded(AncestorEvent event) {
+                tPane.setEnabledAt(2, true);
                 // TODO Auto-generated method stub
                 System.out.println("added");
                 DefaultTableModel threatTableModel=(DefaultTableModel)detailArea.getThreatTable().getModel();
@@ -157,6 +159,7 @@ public class ThreatAffectedAsset extends GridBagPanel {
 
             threatTable=new JTable(new DefaultTableModel(new String[]{"Threat ID"},0));
             threatTabScPane=new JScrollPane(threatTable);
+            threatTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             threatTabScPane.setPreferredSize(new Dimension(150,160));
             addGBLComponent(threatTabScPane, 0, 0,1,1,0,0,"BOTH");
             
@@ -171,6 +174,7 @@ public class ThreatAffectedAsset extends GridBagPanel {
                 @Override
                 public void valueChanged(ListSelectionEvent e) {
                     DefaultTableModel srModel =((DefaultTableModel)(srInput.getSrArea().getAssetTable().getModel()));
+                    srInput.getSrArea().getAssetTable().clearSelection();
                     srModel.setRowCount(0);
                     String selectedThreat=(String)threatTable.getValueAt(threatTable.getSelectedRow(), 0);
                     for (Asset asset:ProcessedData.getAssetList()){
@@ -463,6 +467,9 @@ public class ThreatAffectedAsset extends GridBagPanel {
                     assetTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
                         @Override
                         public void valueChanged(ListSelectionEvent e) {
+                            if(assetTable.getSelectedRow()==-1){
+                                return;
+                            }
                             String assetId=(String)assetTable.getValueAt(assetTable.getSelectedRow(), 1);
                             Asset asset = ProcessedData.getAsset(assetId);
                             

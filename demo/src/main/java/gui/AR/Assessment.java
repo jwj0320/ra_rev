@@ -58,6 +58,7 @@ public class Assessment extends GridBagPanel {
 
             @Override
             public void ancestorAdded(AncestorEvent event) {
+                tPane.setEnabledAt(5, true);
                 // TODO Auto-generated method stub
                 RadarChart radarChart = new RadarChart();
                 ArrayList<RadarChartData> tacticDataList=new ArrayList<RadarChartData>();

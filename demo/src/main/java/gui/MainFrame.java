@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.Insets;
 import java.awt.Image;
+import java.awt.Component;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -117,6 +118,13 @@ public class MainFrame extends JFrame{
         tPane.addTab("Risk Assessment", new Assessment(tPane));
         
         tPane.validate();
+
+        tPane.setEnabledAt(0, false);
+        tPane.setEnabledAt(1, false);
+        tPane.setEnabledAt(2, false);
+        tPane.setEnabledAt(3, false);
+        tPane.setEnabledAt(4, false);
+        tPane.setEnabledAt(5, false);
         
         add(tPane);
 
@@ -163,7 +171,14 @@ public class MainFrame extends JFrame{
                     !filePath.substring(filePath.lastIndexOf(".")+1).equalsIgnoreCase("json")){
                     filePath=filePath+".json";
                     }
-                    ProcessedData.saveDataToJSON(filePath);
+
+                    int tabCount=0;
+                    for(int i=0;i<tPane.getTabCount();i++){
+                        if(tPane.isEnabledAt(i)){
+                            tabCount++;
+                        }
+                    }
+                    ProcessedData.saveDataToJSON(filePath, tabCount);
 
                 }
             }
@@ -188,10 +203,20 @@ public class MainFrame extends JFrame{
                         }
                         ProcessedData.loadDataFromJSON(filePath);
                         
-                        AncestorListener[] als=((GridBagPanel)tPane.getSelectedComponent()).getAncestorListeners();
-                        for(AncestorListener al:als){
-                            al.ancestorAdded(null);
+                        for(int i=0;i<ProcessedData.tabCount;i++){
+                            AncestorListener[] als=((GridBagPanel)tPane.getComponentAt(i)).getAncestorListeners();
+                            for(AncestorListener al:als){
+                                al.ancestorAdded(null);
+                            }
                         }
+
+                        // for(Component comp:tPane.getComponents()){
+                        //     AncestorListener[] als=((GridBagPanel)comp).getAncestorListeners();
+                        //     for(AncestorListener al:als){
+                        //         al.ancestorAdded(null);
+                        //     }
+
+                        // }
                     }
 
                 }

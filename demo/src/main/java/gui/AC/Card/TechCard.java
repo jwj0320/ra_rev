@@ -169,7 +169,13 @@ public class TechCard extends GridBagPanel {
                 System.out.println("tech Removed");
                 for (TechData td:techDataList){
                     for (String tech:td.getDataList()){
-                        ((DefaultTableModel)(upperDialog.getScenarioTable().getModel())).addRow(new String[]{""+step,td.gettacticName(),tech});
+                        ((DefaultTableModel)(upperDialog.getScenarioTable().getModel())).addRow(
+                            new Object[]{
+                                ""+step,
+                                td.gettacticName(),
+                                tech,
+                                false
+                            });
                     }
                 }
 

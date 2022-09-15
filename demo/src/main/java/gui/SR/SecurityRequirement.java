@@ -55,6 +55,7 @@ public class SecurityRequirement extends GridBagPanel {
         addAncestorListener(new AncestorListener() {
             @Override
             public void ancestorAdded(AncestorEvent event) {
+                tPane.setEnabledAt(1, true);
                 // TODO Auto-generated method stub
                 System.out.println("added");
                 DefaultTableModel threatTableModel=(DefaultTableModel)detailArea.getThreatTable().getModel();
@@ -63,7 +64,7 @@ public class SecurityRequirement extends GridBagPanel {
                 for(Threat th:ProcessedData.getThreatList()){
                     threatTableModel.addRow(new String[]{th.getId()});
                 }
-                detailArea.getThreatTable().setRowSelectionInterval(0, 0);
+                // detailArea.getThreatTable().setRowSelectionInterval(0, 0);
                 // 리스너가 왜 하나만 작동할까????
                 DefaultTableModel model = (DefaultTableModel)detailArea.getSrInput().getSrArea().getSrTable().getModel();
                 model.setRowCount(0);

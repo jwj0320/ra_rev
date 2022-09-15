@@ -40,15 +40,19 @@ public class AttackScenario extends GridBagPanel{
         addAncestorListener(new AncestorListener() {
             @Override
             public void ancestorAdded(AncestorEvent event) {
-
+                tPane.setEnabledAt(0, true);
                 // TODO Auto-generated method stub
                 System.out.println("as added");
 
+                DefaultTableModel tableModel=(DefaultTableModel)detailArea.getTable().getModel();
+                tableModel.setRowCount(0);
+
                 for(Threat th:ProcessedData.getThreatList()){
-                    ((DefaultTableModel)detailArea.getTable().getModel()).addRow(new String[]{
+                    tableModel.addRow(new Object[]{
                         th.getStep()+"",
                         th.getTactic(),
-                        th.getTactic()
+                        th.getTechnique(),
+                        true
                     });
                 }
             }
@@ -67,6 +71,9 @@ public class AttackScenario extends GridBagPanel{
                 SecReq sr;
                 for (Object row:vector){
                     rowData=(Object[])(((Vector)row).toArray());
+                    if((Boolean)rowData[3]==true){
+                        continue;
+                    }
                     threat = new Threat();
                     threat.setStep(Integer.parseInt((String)rowData[0]));
                     threat.setTactic((String)rowData[1]);
@@ -143,10 +150,22 @@ public class AttackScenario extends GridBagPanel{
             setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.decode("#005BAC")),"Attack Scenario"));
             setPreferredSize(new Dimension(1060,580));
 
-            table = new JTable(new DefaultTableModel(new String[]{"Step","Tactic","Technique"},0));
+            table = new JTable(new DefaultTableModel(new String[]{"Step","Tactic","Technique", "hidden"},0)){
+                @Override
+                public Class<?> getColumnClass(int column) {
+                    switch (column){
+                        case 3:
+                            return Boolean.class;
+                        default:
+                            return String.class;
+                    }
+                }
+            };
             table.getColumnModel().getColumn(0).setPreferredWidth(50);
             table.getColumnModel().getColumn(1).setPreferredWidth(300);
             table.getColumnModel().getColumn(2).setPreferredWidth(700);
+            table.getColumnModel().getColumn(3).setMinWidth(0);
+            table.getColumnModel().getColumn(3).setMaxWidth(0);
             
             tableScPane = new JScrollPane(table);
             tableScPane.setPreferredSize(new Dimension(1050,500));
