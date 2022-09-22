@@ -207,17 +207,26 @@ public class TacticCard extends GridBagPanel {
             @Override
             public void ancestorRemoved(AncestorEvent event) {
                 // TODO Auto-generated method stub
+                ArrayList<String> tacticList;
                 for(Object[] obj:getDataFromTable(step1Table)){
-                    ProcessedData.getStep(1).getTacticList().add((String)obj[0]);
+                    tacticList = new ArrayList<String>();
+                    tacticList.add((String)obj[0]);
+                    ProcessedData.getStep(1).setTacticList(tacticList);
                 }
                 for(Object[] obj:getDataFromTable(step2Table)){
-                    ProcessedData.getStep(2).getTacticList().add((String)obj[0]);
+                    tacticList = new ArrayList<String>();
+                    tacticList.add((String)obj[0]);
+                    ProcessedData.getStep(2).setTacticList(tacticList);
                 }
                 for(Object[] obj:getDataFromTable(step3Table)){
-                    ProcessedData.getStep(3).getTacticList().add((String)obj[0]);
+                    tacticList = new ArrayList<String>();
+                    tacticList.add((String)obj[0]);
+                    ProcessedData.getStep(3).setTacticList(tacticList);
                 }
                 for(Object[] obj:getDataFromTable(step4Table)){
-                    ProcessedData.getStep(4).getTacticList().add((String)obj[0]);
+                    tacticList = new ArrayList<String>();
+                    tacticList.add((String)obj[0]);
+                    ProcessedData.getStep(4).setTacticList(tacticList);
                 }
                 System.out.println("tacticcard Removed");
 
