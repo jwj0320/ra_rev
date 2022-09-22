@@ -71,19 +71,19 @@ public class TacticCard extends GridBagPanel {
 
         addGBLComponent(labelPanel, 0, 0, 5, 1, 0, 0, "NONE", GridBagConstraints.LINE_START);
 
-        JTable step1Table = new JTable(new DefaultTableModel(new String[] { "Step 1" }, 0));
+        JTable step1Table = new JTable(new DefaultTableModel(new String[] { "Step 1: Preparation" }, 0));
         JScrollPane step1TableScPane = new JScrollPane(step1Table);
         step1TableScPane.setPreferredSize(new Dimension(190, 300));
 
-        JTable step2Table = new JTable(new DefaultTableModel(new String[] { "Step 2" }, 0));
+        JTable step2Table = new JTable(new DefaultTableModel(new String[] { "Step 2: Initial Intrusion" }, 0));
         JScrollPane step2TableScPane = new JScrollPane(step2Table);
         step2TableScPane.setPreferredSize(new Dimension(190, 300));
 
-        JTable step3Table = new JTable(new DefaultTableModel(new String[] { "Step 3" }, 0));
+        JTable step3Table = new JTable(new DefaultTableModel(new String[] { "Step 3: Attack Development" }, 0));
         JScrollPane step3TableScPane = new JScrollPane(step3Table);
         step3TableScPane.setPreferredSize(new Dimension(190, 300));
 
-        JTable step4Table = new JTable(new DefaultTableModel(new String[] { "Step 4" }, 0));
+        JTable step4Table = new JTable(new DefaultTableModel(new String[] { "Step 4: Completion" }, 0));
         JScrollPane step4TableScPane = new JScrollPane(step4Table);
         step4TableScPane.setPreferredSize(new Dimension(190, 300));
 
@@ -202,6 +202,10 @@ public class TacticCard extends GridBagPanel {
             public void ancestorAdded(AncestorEvent event) {
                 // TODO Auto-generated method stub
                 System.out.println("tacticcard added");
+                ProcessedData.getStep(1).setTacticList(new ArrayList<String>());
+                ProcessedData.getStep(2).setTacticList(new ArrayList<String>());
+                ProcessedData.getStep(3).setTacticList(new ArrayList<String>());
+                ProcessedData.getStep(4).setTacticList(new ArrayList<String>());
             }
             
             @Override
@@ -209,24 +213,16 @@ public class TacticCard extends GridBagPanel {
                 // TODO Auto-generated method stub
                 ArrayList<String> tacticList;
                 for(Object[] obj:getDataFromTable(step1Table)){
-                    tacticList = new ArrayList<String>();
-                    tacticList.add((String)obj[0]);
-                    ProcessedData.getStep(1).setTacticList(tacticList);
+                    ProcessedData.getStep(1).getTacticList().add((String)obj[0]);
                 }
                 for(Object[] obj:getDataFromTable(step2Table)){
-                    tacticList = new ArrayList<String>();
-                    tacticList.add((String)obj[0]);
-                    ProcessedData.getStep(2).setTacticList(tacticList);
+                    ProcessedData.getStep(2).getTacticList().add((String)obj[0]);
                 }
                 for(Object[] obj:getDataFromTable(step3Table)){
-                    tacticList = new ArrayList<String>();
-                    tacticList.add((String)obj[0]);
-                    ProcessedData.getStep(3).setTacticList(tacticList);
+                    ProcessedData.getStep(3).getTacticList().add((String)obj[0]);
                 }
                 for(Object[] obj:getDataFromTable(step4Table)){
-                    tacticList = new ArrayList<String>();
-                    tacticList.add((String)obj[0]);
-                    ProcessedData.getStep(4).setTacticList(tacticList);
+                    ProcessedData.getStep(4).getTacticList().add((String)obj[0]);
                 }
                 System.out.println("tacticcard Removed");
 

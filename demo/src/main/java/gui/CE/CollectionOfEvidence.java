@@ -204,6 +204,7 @@ public class CollectionOfEvidence extends GridBagPanel {
                     //         String.format("%s-SRPV",th.getId())
                     //     });
                     // }
+                    System.out.println(asset.getEvidenceList());
 
                     for (Evidence ev: asset.getEvidenceList()){
                         srTableModel.addRow(new String[]{

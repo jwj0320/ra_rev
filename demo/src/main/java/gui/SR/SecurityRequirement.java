@@ -191,10 +191,13 @@ public class SecurityRequirement extends GridBagPanel {
                     }
 
                     String selectedValue=(String)threatTable.getModel().getValueAt(threatTable.getSelectedRow(), 0);
-                    model.addRow(new String[]{selectedValue+"-SRDT"});
-                    model.addRow(new String[]{selectedValue+"-SRRP"});
-                    model.addRow(new String[]{selectedValue+"-SRPD"});
-                    model.addRow(new String[]{selectedValue+"-SRPV"});
+                    // model.addRow(new String[]{selectedValue+"-SRDT"});
+                    // model.addRow(new String[]{selectedValue+"-SRRP"});
+                    // model.addRow(new String[]{selectedValue+"-SRPD"});
+                    // model.addRow(new String[]{selectedValue+"-SRPV"});
+                    for(SecReq sr:ProcessedData.getThreat(selectedValue).getSrList()){
+                        model.addRow(new String[]{sr.getId()});
+                    }
 
                 }
             });

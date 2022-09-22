@@ -120,6 +120,10 @@ public class Threat {
 
 
     public void setId(String name) {
+        int i=Integer.parseInt(name.split("Th")[1]);
+        if(i>=this.index){
+            this.index=i+1;
+        }
         this.id = name;
     }
 

@@ -470,8 +470,7 @@ public class ProcessedData {
 
         String threatId=(String)threatObject.get("id");
         Threat threat=ProcessedData.getThreat(threatId);
-        System.out.println(threat);
-        System.out.println(ProcessedData.getThreatList().size());
+        threat.getSrList().add(sr);
         sr.setThreat(threat);
 
 
