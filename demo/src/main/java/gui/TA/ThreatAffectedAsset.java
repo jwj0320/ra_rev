@@ -10,6 +10,10 @@ import java.awt.GridBagConstraints;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Insets;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.Desktop;
+import java.net.URI;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -240,6 +244,44 @@ public class ThreatAffectedAsset extends GridBagPanel {
                 addGBLComponent(CVETabSc, 1, 4,1,1,0,0,"BOTH");
                 addGBLComponent(mitiTabSc, 1, 5,1,1,0,0,"BOTH");
 
+                JTable CAPECTable=(JTable)(CAPECTabSc.getViewport().getView());
+                CAPECTable.addMouseListener(new MouseAdapter(){
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        if(e.getClickCount()==2){
+                            System.out.println("Mouse clicked");
+                            String text=(String)CAPECTable.getValueAt(CAPECTable.getSelectedRow(), 0);
+                            text=text.split("-")[1].split(":")[0];
+                            openBrowser("https://capec.mitre.org/data/definitions/"+text+".html");
+                        }
+                    }
+                });
+
+                JTable CWETable=(JTable)(CWETabSc.getViewport().getView());
+                CWETable.addMouseListener(new MouseAdapter(){
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        if(e.getClickCount()==2){
+                            System.out.println("Mouse clicked");
+                            String text=(String)CWETable.getValueAt(CWETable.getSelectedRow(), 0);
+                            text=text.split("-")[1].split(":")[0];
+                            openBrowser("https://cwe.mitre.org/data/definitions/"+text+".html");
+                        }
+                    }
+                });
+
+                JTable CVETable=(JTable)(CVETabSc.getViewport().getView());
+                CVETable.addMouseListener(new MouseAdapter(){
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        if(e.getClickCount()==2){
+                            System.out.println("Mouse clicked");
+                            String text=(String)CVETable.getValueAt(CVETable.getSelectedRow(), 0);
+                            openBrowser("https://cve.mitre.org/cgi-bin/cvename.cgi?name="+text);
+                        }
+                    }
+                });
+
                 threatTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
                     @Override
                     public void valueChanged(ListSelectionEvent e) {
@@ -262,7 +304,7 @@ public class ThreatAffectedAsset extends GridBagPanel {
                         Threat threat = ProcessedData.getThreat(threatID);
                         techContent.setText(threat.getTechnique());
                         tacticContent.setText(threat.getTactic());
-                        
+
                         // CAPEC 등 데이터 추가시
                         for(String CAPEC:threat.getCAPEC()){
                             CAPECModel.addRow(
@@ -290,6 +332,16 @@ public class ThreatAffectedAsset extends GridBagPanel {
                 });
                 
 
+            }
+            private void openBrowser(String URI){
+                if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                    try {
+                        Desktop.getDesktop().browse(new URI(URI));
+                        
+                    } catch (Exception exc) {
+                        // TODO: handle exception
+                    }
+                }
             }
 
         }

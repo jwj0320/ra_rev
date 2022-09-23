@@ -265,7 +265,11 @@ public class GridBagPanel extends JPanel {
     }
     
     public JTable makeContentTable(){
-        JTable table = new JTable(new DefaultTableModel(new String[]{""},0));
+        JTable table = new JTable(new DefaultTableModel(new String[]{""},0){
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            };
+        });
         table.setTableHeader(null);
         table.setOpaque(true);
         table.setBackground(Color.white);
