@@ -78,8 +78,13 @@ public class AttackScenario extends GridBagPanel{
                     threat.setStep(Integer.parseInt((String)rowData[0]));
                     threat.setTactic((String)rowData[1]);
                     threat.setTechnique((String)rowData[2]);
-                    threat.setMitigationList(new ArrayList<String>());
+                    // threat.setMitigationList(new ArrayList<String>());
                     threat.setMitigationList(ProcessedData.ontologyFunc.LoadMitigationFromTech(threat.getTechnique()));
+                    threat.setCAPEC(ProcessedData.ontologyFunc.LoadCAPECFromTech(threat.getTechnique()));
+                    threat.setCWE(ProcessedData.ontologyFunc.LoadCWEFromCAPECList(threat.getCAPEC()));
+                    threat.setCVE(ProcessedData.ontologyFunc.LoadCVEFromCWEList(threat.getCWE()));
+                    
+                    
                     sr=new SecReq(SecReq.DT,threat.getId()+"-SRDT","");
                     sr.setThreat(threat);
                     threat.getSrList().add(sr);

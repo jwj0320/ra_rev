@@ -260,7 +260,13 @@ public class SecurityRequirement extends GridBagPanel {
                     @Override
                     public void valueChanged(ListSelectionEvent e) {
                         DefaultTableModel mitiModel =(DefaultTableModel)(((JTable)(mitiTabSc.getViewport().getView())).getModel());
+                        DefaultTableModel CAPECModel =(DefaultTableModel)(((JTable)(CAPECTabSc.getViewport().getView())).getModel());
+                        DefaultTableModel CWEModel=(DefaultTableModel)(((JTable)(CWETabSc.getViewport().getView())).getModel());
+                        DefaultTableModel CVEModel=(DefaultTableModel)(((JTable)(CVETabSc.getViewport().getView())).getModel());
                         mitiModel.setRowCount(0);
+                        CAPECModel.setRowCount(0);
+                        CWEModel.setRowCount(0);
+                        CVEModel.setRowCount(0);
 
                         if(threatTable.getSelectedRow()==-1){
                             techContent.setText("");
@@ -273,7 +279,21 @@ public class SecurityRequirement extends GridBagPanel {
                         techContent.setText(threat.getTechnique());
                         tacticContent.setText(threat.getTactic());
 
-                        // CAPEC 등 데이터 추가시
+                        for(String CAPEC:threat.getCAPEC()){
+                            CAPECModel.addRow(
+                                new String[]{ CAPEC }
+                            );
+                        }
+                        for(String CWE:threat.getCWE()){
+                            CWEModel.addRow(
+                                new String[]{ CWE }
+                            );
+                        }
+                        for(String CVE:threat.getCVE()){
+                            CVEModel.addRow(
+                                new String[]{ CVE }
+                            );
+                        }
                         // ((DefaultTableModel)(((JTable)(CAPECTabSc.getViewport().getView())).getModel())).addRow(rowData);
                         for (String miti:threat.getMitigationList()){
                             System.out.println(miti);

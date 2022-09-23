@@ -4,6 +4,8 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
@@ -22,7 +24,7 @@ import ru.avicomp.ontapi.OntologyModel;
 public class OntologyFunc {
     OWLOntologyManager manager = OntManagers.createONT();
 	OWLDataFactory factory = manager.getOWLDataFactory();
-	File file = new File(this.getClass().getResource("").getPath(),"../../../owl/CB_PDO_V10_OR_modified.owl");
+	File file = new File(this.getClass().getResource("").getPath(),"../../../owl/CB_PDO_V11_OR.owl");
 	// File file = new File(this.getClass().getResource("").getPath(),"../../../owl/CB_PDO_V7 (1).owl");
 	File file2 = new File(this.getClass().getResource("").getPath(),"../../../owl/CB_PDO_V7.owl");
 	
@@ -146,6 +148,101 @@ public class OntologyFunc {
 		
 		return list;
 	}
+
+	public ArrayList<String> LoadCAPECFromTech(String tech){
+		ArrayList<String> list = new ArrayList<String>();
+		String queryString = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
+				+ "PREFIX owl: <http://www.w3.org/2002/07/owl#>\n"
+				+ "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
+				+ "PREFIX PDO: <http://www.semanticweb.org/PDO#>\n"
+				+ "PREFIX CBSAO: <http://www.semanticweb.org/CBSAO#>\n"
+				+ "SELECT ?CAPEC_l\n"
+				+ "WHERE { \n"
+				+ "  ?tech rdfs:label \""+ tech +"\".\n"
+				+ "  ?tech PDO:have_CAPEC ?CAPEC.\n"
+				+ "  ?CAPEC rdfs:label ?CAPEC_l.\n"
+				+ "}"
+				+ "ORDER BY ASC(?CAPEC_l)";
+		Query query = QueryFactory.create(queryString);
+		QueryExecution qe = QueryExecutionFactory.create(query, o.asGraphModel());
+		ResultSet res = qe.execSelect();
+		while (res.hasNext()) {
+			QuerySolution qs = res.next();
+			String s1 = qs.get("CAPEC_l").toString();
+			list.add(s1);
+		}
+		
+		return list;
+	}
+
+	public ArrayList<String> LoadCVEFromCWEList(ArrayList<String> CWEList){
+		Set<String> set = new LinkedHashSet<>();
+		for(String CWE:CWEList){
+			set.addAll(LoadCVEFromCWE(CWE));
+		}
+		return new ArrayList<String>(set);
+	}
+
+	public ArrayList<String> LoadCVEFromCWE(String CWE){
+		ArrayList<String> list = new ArrayList<String>();
+		String queryString = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
+				+ "PREFIX owl: <http://www.w3.org/2002/07/owl#>\n"
+				+ "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
+				+ "PREFIX PDO: <http://www.semanticweb.org/PDO#>\n"
+				+ "PREFIX CBSAO: <http://www.semanticweb.org/CBSAO#>\n"
+				+ "SELECT ?CVE_l\n"
+				+ "WHERE { \n"
+				+ "  ?CWE rdfs:label \""+ CWE +"\".\n"
+				+ "  ?CWE PDO:have_CVE ?CVE.\n"
+				+ "  ?CVE rdfs:label ?CVE_l.\n"
+				+ "}"
+				+ "ORDER BY ASC(?CVE_l)";
+		Query query = QueryFactory.create(queryString);
+		QueryExecution qe = QueryExecutionFactory.create(query, o.asGraphModel());
+		ResultSet res = qe.execSelect();
+		while (res.hasNext()) {
+			QuerySolution qs = res.next();
+			String s1 = qs.get("CVE_l").toString();
+			list.add(s1);
+		}
+		
+		return list;
+	}
+
+	public ArrayList<String> LoadCWEFromCAPECList(ArrayList<String> CAPECList){
+		Set<String> set = new LinkedHashSet<>();
+		for(String CAPEC:CAPECList){
+			set.addAll(LoadCWEFromCAPEC(CAPEC));
+		}
+		return new ArrayList<String>(set);
+	}
+
+	public ArrayList<String> LoadCWEFromCAPEC(String CAPEC){
+		ArrayList<String> list = new ArrayList<String>();
+		String queryString = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
+				+ "PREFIX owl: <http://www.w3.org/2002/07/owl#>\n"
+				+ "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
+				+ "PREFIX PDO: <http://www.semanticweb.org/PDO#>\n"
+				+ "PREFIX CBSAO: <http://www.semanticweb.org/CBSAO#>\n"
+				+ "SELECT ?CWE_l\n"
+				+ "WHERE { \n"
+				+ "  ?CAPEC rdfs:label \""+ CAPEC +"\".\n"
+				+ "  ?CAPEC PDO:have_CWE ?CWE.\n"
+				+ "  ?CWE rdfs:label ?CWE_l.\n"
+				+ "}"
+				+ "ORDER BY ASC(?CWE_l)";
+		Query query = QueryFactory.create(queryString);
+		QueryExecution qe = QueryExecutionFactory.create(query, o.asGraphModel());
+		ResultSet res = qe.execSelect();
+		while (res.hasNext()) {
+			QuerySolution qs = res.next();
+			String s1 = qs.get("CWE_l").toString();
+			list.add(s1);
+		}
+		
+		return list;
+	}
+
 
 	public ArrayList<String> LoadMitigationFromTech(String tech){
 		ArrayList<String> list = new ArrayList<String>();

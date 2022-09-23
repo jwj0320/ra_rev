@@ -211,7 +211,6 @@ public class TacticCard extends GridBagPanel {
             @Override
             public void ancestorRemoved(AncestorEvent event) {
                 // TODO Auto-generated method stub
-                ArrayList<String> tacticList;
                 for(Object[] obj:getDataFromTable(step1Table)){
                     ProcessedData.getStep(1).getTacticList().add((String)obj[0]);
                 }
