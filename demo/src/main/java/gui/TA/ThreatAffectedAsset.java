@@ -63,6 +63,7 @@ public class ThreatAffectedAsset extends GridBagPanel {
                 // TODO Auto-generated method stub
                 System.out.println("added");
                 DefaultTableModel threatTableModel=(DefaultTableModel)detailArea.getThreatTable().getModel();
+                System.out.println(this.getClass() +" size "+getPreferredSize());
                 
                 detailArea.getThreatTable().clearSelection();
                 threatTableModel.setRowCount(0);
@@ -91,11 +92,11 @@ public class ThreatAffectedAsset extends GridBagPanel {
 
     private void init() {
         label = new JLabel("Threat-affected Asset");
-        addGBLComponent(label, 0, 0);
+        addGBLComponent(label, 0, 0,0,0,"NONE",GridBagConstraints.LAST_LINE_START);
 
         detailArea = new DetailArea();
 
-        addGBLComponent(detailArea, 0, 1, 2, 1);
+        addGBLComponent(detailArea, 0, 1, 4, 1);
 
         JButton button = new JButton("Next");
         button.addActionListener(new ActionListener() {
@@ -106,11 +107,11 @@ public class ThreatAffectedAsset extends GridBagPanel {
         });
         JLabel blankLabel1 = new JLabel();
         blankLabel1.setPreferredSize(new Dimension(10, 10));
-        addGBLComponent(blankLabel1, 0, 2);
-        addGBLComponent(button, 2, 3, 0, 0, "NONE", GridBagConstraints.LINE_END);
+        addGBLComponent(blankLabel1, 0, 2,1,1,0.1,0);
+        addGBLComponent(button, 3, 3, 0, 0, "NONE", GridBagConstraints.LINE_END);
 
         JButton downLoadButton=new JButton("Download");
-        addGBLComponent(downLoadButton, 1, 3,0,0,"NONE",GridBagConstraints.LINE_END);
+        addGBLComponent(downLoadButton, 2, 3,0,0,"NONE",GridBagConstraints.LINE_END);
         downLoadButton.addActionListener(new ActionListener(){
             JFileChooser chooser=new JFileChooser();
         

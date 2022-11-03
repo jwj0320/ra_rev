@@ -106,6 +106,7 @@ public class CollectionOfEvidence extends GridBagPanel {
                 tPane.setEnabledAt(3, true);
                 // TODO Auto-generated method stub
                 DefaultTableModel assetTableModel=(DefaultTableModel) detailArea.getAssetTable().getModel();
+                System.out.println(this.getClass() +" size "+getPreferredSize());
                 detailArea.getAssetTable().clearSelection();
                 assetTableModel.setRowCount(0);
                 for (Asset as: ProcessedData.getThreatAffectedAssets()){

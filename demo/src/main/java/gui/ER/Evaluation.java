@@ -95,6 +95,7 @@ public class Evaluation extends GridBagPanel{
             @Override
             public void ancestorAdded(AncestorEvent event) {
                 tPane.setEnabledAt(4, true);
+                System.out.println(this.getClass() +" size "+getPreferredSize());
                 // TODO Auto-generated method stub
                 ArrayList<Asset> assetList=ProcessedData.getThreatAffectedAssets();
                 DefaultTableModel model=(DefaultTableModel) setTable.getModel();

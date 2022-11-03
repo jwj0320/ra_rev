@@ -45,6 +45,7 @@ public class AttackScenario extends GridBagPanel{
                 System.out.println("as added");
 
                 DefaultTableModel tableModel=(DefaultTableModel)detailArea.getTable().getModel();
+                System.out.println(this.getClass() +" size "+getPreferredSize());
                 tableModel.setRowCount(0);
 
                 for(Threat th:ProcessedData.getThreatList()){
